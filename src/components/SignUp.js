@@ -1,17 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {Link} from "react-router-dom";
-import CertForm from "./CertForm";
 
 const SignUp = () => {
     const [Proceeding, setProceeding] = useState(0);
     const [error, seterror] = useState();
-
-    const toggleProceeding = () => setProceeding(Proceeding + 1);
+    const [counter, setcounter] = useState(0);
+    useEffect( () => {
+        const timer = (counter > 0) && setInterval(() => setcounter(counter - 1), 1000);
+        return () => clearInterval(timer);
+    }, [counter]);
+    const decresProceeding = () => setProceeding(Proceeding - 1);
+    const incresProceeding = () => setProceeding(Proceeding + 1);
+    const toggleCertProceeding = () => {
+        setProceeding(Proceeding + 1);
+        setcounter(180);
+    }
     return(
         <>
             <div id="wrap">
                 <header id="header">
-                    <button><img src={process.env.PUBLIC_URL + '02-icon-01-outline-chevron-left.svg'} alt="이전"></img></button>
+                    { Proceeding > 0 ? (
+                        <button onClick={decresProceeding}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-chevron-left.svg'} alt="이전"></img></button>
+                    ) : (
+                        <>
+                            <Link to="/">
+                                <button onClick={decresProceeding}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-chevron-left.svg'} alt="이전"></img></button>
+                            </Link> 
+                        </>
+                    )}
                 </header>
                 <div id="content" className="content">
                     <div className="logo-wrap">
@@ -36,21 +52,43 @@ const SignUp = () => {
                                                 <label for="ph-number">휴대폰 번호</label>
                                                 <input type="text" className="input-basic" placeholder="휴대폰 번호를 입력하세요"/>
                                                 <button type="button"></button>
-                                                <div class="message">다음 버튼을 누르면 인증번호가 발송됩니다.</div>
+                                                <div className="message">다음 버튼을 누르면 인증번호가 발송됩니다.</div>
                                             </form>
-                                            <div class="btn-wrap">
-                                                <button class="btn-basic next" onClick={toggleProceeding}>다음</button>
+                                            <div className="btn-wrap">
+                                                <button className="btn-basic next" onClick={toggleCertProceeding}>다음</button>
                                             </div>
                                         </div>
                                         <Link to="/">
-                                            <button class="btn-purple fix-bottom">로그인 하기</button>
+                                            <button className="btn-purple fix-bottom">로그인 하기</button>
                                         </Link>
                                     </>
                                 );
                             }
                             else if (Proceeding === 1){
                                 return (
-                                    <CertForm toggleProceeding={toggleProceeding}/>
+                                    <>
+                                        <p>인증번호가 발송되었습니다 💌<br/>
+                                            오지 않았다면, 입력하신 번호를 다시 확인해주세요</p>
+                                        <div className="form-box">
+                                            <div className="certification-number">
+                                                <form action="">
+                                                    <label for="name">인증번호</label>
+                                                    <input type="text" className="input-basic" placeholder=""/>
+                                                    <button type="button"></button>
+                                                    <div className="message">{error}</div>
+                                                </form>
+                                                <form action="">
+                                                    <label for="name"></label>
+                                                    <input type="submit" className="input-basic" value="인증하기"/>
+                                                    <button type="button"></button>
+                                                    <div className="message">입력시간 {Math.floor(counter/60)} : {counter%60}</div>
+                                                </form>
+                                            </div>
+                                            <div className="btn-wrap">
+                                                <button className="btn-basic next" onClick={incresProceeding}>다음</button>
+                                            </div>
+                                        </div>
+                                    </>
                                 );
                             }
                             else if (Proceeding === 2){
@@ -67,7 +105,7 @@ const SignUp = () => {
                                             </form>
 
                                             <div className="btn-wrap">
-                                                <button className="btn-basic next" onClick={toggleProceeding}>다음</button>
+                                                <button className="btn-basic next" onClick={incresProceeding}>다음</button>
                                             </div>
                                         </div>
                                     </>
@@ -85,7 +123,7 @@ const SignUp = () => {
                                                 <div className="message">🤫소문자, 숫자 포함 8자리 이상</div>
                                             </form>
                                             <div className="btn-wrap">
-                                                <button className="btn-basic next" onClick={toggleProceeding}>다음</button>
+                                                <button className="btn-basic next" onClick={incresProceeding}>다음</button>
                                             </div>
                                         </div>
                                     </>

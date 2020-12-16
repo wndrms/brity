@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 
-const CertForm = (toggleProceeding) => {
+const CertForm = ({Proceeding}, setProceeding) => {
     const [counter, setcounter] = useState(180);
     const [error, seterror] = useState();
     useEffect( () => {
         const timer = (counter > 0) && setInterval(() => setcounter(counter - 1), 1000);
         return () => clearInterval(timer);
     }, [counter]);
+    console.log(Proceeding);
+    const toggleProceeding = () => setProceeding(Proceeding + 1);
     return(
         <>
             <p>인증번호가 발송되었습니다 💌<br/>
@@ -23,7 +25,7 @@ const CertForm = (toggleProceeding) => {
                         <label for="name"></label>
                         <input type="submit" className="input-basic" value="인증하기"/>
                         <button type="button"></button>
-                        <div className="message">입력시간 : {Math.ceil(counter/60)} : {counter%60}</div>
+                        <div className="message">입력시간 {Math.floor(counter/60)} : {counter%60}</div>
                     </form>
                 </div>
                 <div className="btn-wrap">
