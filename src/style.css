@@ -2,14 +2,18 @@
 *{list-style: none; margin: 0; padding: 0;}
 html{font-size: 10px;}
 a, p, div, li, span, h1, h2, h3, h4, h5, h6, label, button, input{
-    font-family: 'Montserrat', sans-serif; 
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Montserrat', sans-serif; font-family: 'Noto Sans KR', sans-serif; letter-spacing: .3px;
     color: #161616; font-size: 1.4rem; font-weight: 700;}
 p, label{font-weight: 500;}
+input::placeholder{
+    font-size: 1.4rem; color: #6f6f6f; font-weight: normal; letter-spacing: .3px;}
+.message{letter-spacing: .26px;}
+h2{letter-spacing: .43px;}
 input, a{font-weight: normal;}
 a{text-decoration: none;}
 *:focus{outline: none;}
 button{border: none;}
+input{-webkit-appearance: none;}
 
 body{width: 100%;}
 
@@ -24,45 +28,37 @@ header button{
 header img{width: 24px; height: 24px;}
 
 .content{width: 92%; margin: 0 auto; position: relative; height: 100vh;}
+.content >p{font-size: 1.4rem;}
 
 .logo-wrap{display: flex; align-items: flex-end; margin: 8px 0;}
 .logo-wrap h1{font-size: 4rem;}
-.logo-wrap h2{font-size: 2.4rem;}
+.logo-wrap h2{font-size: 2rem;}
 .logo-wrap p{
     font-size: 1.2rem; color: #e94757; margin-left: 8px;
     text-transform: capitalize; font-weight: 700;}
 
-.content >p{font-size: 1.4rem;}
-
 .form-box{margin-top: 40px;}
 .form-box *{display: block;}
+.form-box label{display: flex;}
 .input-basic{
     border: 1px solid #dfdfdf; border-radius: 4px;
-    width: 100%; height: 44px; margin-top: 8px; 
+    width: 100%; height: 46px; margin-top: 8px; 
     padding: 11px 8px; box-sizing: border-box;
     font-size: 1.6rem; font-weight: 700;}
-.input-basic::placeholder{
-    font-size: 1.4rem; color: #6f6f6f; font-weight: normal;}
 
-.required{position: relative; display: inline-block;}
-.required::after{
-    display: block; content:"*";
-    color: #161616; font-size: 1.4rem; font-weight: 500;
-    position: absolute; top: 0; right: -15px;
-    width: 15px; height: 15px;}
+label >span{color: #161616; font-size: 1.4rem; font-weight: 500;}
 
 form{position: relative;}
 
-form >button{
+form.success button, form.filled button, form.pw-veiw button, 
+form.pw-hide button, form.error button{
     position: absolute; bottom: 9px; right: 8px;
     background: url(./img/02-icon-01-outline-exclamation-circle.svg) no-repeat 0 0;
     width: 24px; height: 24px;}
-.form-box form >button{display: none;}
 form .message{
     width: 100%; height: 18px; font-size: 1.2rem; font-weight: normal;
-    position: absolute; bottom: -22px; left: 0; }
+    position: absolute; bottom: -22px; left: 0;}
 
-.form-box form.error >button{display: block;}
 form.error input{border: 1px solid #d32f2f;}
 .form-box form.error .message{color: #d32f2f; display: block;}
 
@@ -74,7 +70,7 @@ form.pw-veiw button{background: url(./img/02-icon-02-solid-eye.svg); display: bl
 form.pw-hide button{background: url(./img/02-icon-02-solid-eye-slash.svg); display: block;}
 form.selected input{border: 1px solid #555;}
 
-.check-circle label{display: flex; align-self: center; margin-top: 32px;}
+.check-circle label{display: flex; align-items: center; margin-top: 32px;}
 .check-circle input[type=checkbox]{display: none;}
 .check-circle input[type=checkbox] + label::before{
     display: inline-block; content: "";
@@ -105,31 +101,18 @@ form.selected input{border: 1px solid #555;}
     color: #8b8b8b;}
 .form-box .certification-box ~ .message{color: #e94757}
 
-.login-google{
-    display: flex; justify-content: center; align-items: center;
-    border: 1px solid #543dab; color: #543dab; border-radius: 4px; font-size: 1.6rem; box-sizing: border-box; font-weight: 700;
-    line-height: 48px; margin-top: 24px; width: 100%; height: 48px;}
+.login-google{display: flex; justify-content: center; align-items: center;}
 .login-google img{margin-top: 4px;}
 
 .btn-purple{
     width: 100%; height: 48px; border: 1px solid #543dab;
     color: #543dab; font-size: 1.6rem; text-align: center;
-    background: none; border-radius: 4px; background: #fff;}
+    background: none; border-radius: 4px; background: #fff;
+    box-sizing: border-box; font-weight: 700; margin-top: 24px;}
 .btn-purple.fix-bottom{position: absolute; bottom: 83px; left: 0;}
 
 .btn-purple:hover{background-color: rgba(75, 46, 137, 0.1);}
 .btn-purple:active{background-color: rgba(75, 46, 137, 0.2);}
 .btn-purple.enable{border: 1px solid #8b8b8b; color: #8b8b8b;}
 
-.content >p{margin-top: 8px;}
-.btn-wrap{justify-content: flex-end;}
-.form-box form .message{display: block; color:#8b8b8b;}
-
-.form-box form{margin-top: 38px;}
-.form-box form:first-child .message{display: none;}
-
-.form-box .certification-number{
-  display: flex; align-items: flex-end;}
-.form-box .certification-number form:first-child{width: calc(100% - 100px);}
-.form-box .certification-number form:last-child{
-  margin-left:8px; width: 100px;}
+.content >form{position: static;}
