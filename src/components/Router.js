@@ -5,6 +5,7 @@ import Home from "routes/Home";
 import Profile from "routes/Profile";
 import Navigation from "components/Navigation";
 import SignUp from "./SignUp";
+import Findemail from "./Findemail";
 
 const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
     return (
@@ -36,6 +37,9 @@ const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
                         </Route>
                         <Route exact path="/SignUp">
                             <SignUp/>
+                        </Route>
+                        <Route exact path="/findemail">
+                            <Findemail/>
                         </Route>
                     </>
                 )}

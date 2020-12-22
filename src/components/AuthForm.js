@@ -40,13 +40,17 @@ const AuthForm = () => {
     const headerstyle = Proceeding => ({
         display: !Proceeding && "none"
     });
+    const contentstyle = Proceeding => ({
+        margintop: !Proceeding && "40px"
+    });
+
     return(
         <>
             <div id="wrap">
                 <header id="header" style={headerstyle(Proceeding)}>
                     <button onClick={toggleProceeding}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-chevron-left.svg'} alt="이전"></img></button>
                 </header>
-                <div id="content" className="content">
+                <div id="content" className="content" style={contentstyle(Proceeding)}>
                     <div className="logo-wrap">
                         <h1>Brity</h1>
                         <p>admin</p>
@@ -96,7 +100,9 @@ const AuthForm = () => {
                                     <div className="message">{error}</div>
                                 </form>
                                 <div className="btn-wrap">
-                                    <a href="#">이메일을 잊으셨나요?</a>
+                                    <Link to="/findemail">
+                                        <a>이메일을 잊으셨나요?</a>
+                                    </Link>
                                     <button className="btn-basic next" onClick={toggleProceeding}>다음</button>
                                 </div>
                             </div>
