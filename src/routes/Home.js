@@ -15,7 +15,42 @@ const Home = ({userObj}) => {
         });
     }, []);
     return (
-        <div className="container">
+        <div id="wrap">
+            <header className="header">
+                <div className="menu-wrap">
+                    <p className="user-name">{userObj.displayName}</p>
+                    <p><span className="admin">admin</span>with by <u>brity</u></p>
+                    <button type="submit" className="menu">
+                        <img src="" alt="menu"/>
+                    </button>
+                </div>
+            </header>
+            <div className="content">
+                {
+                    (nweets.length > 0 ? (
+                        <>
+                            <div className="card-wrap">
+                                <CardDragList nweets={nweets}/>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="empty-box">
+                                <p>💁</p>
+                                <p>생성된 카드가 아직 없어요</p>
+                                <p>버튼을 눌러 새로운 카드를<br/>
+                                    만들어 볼까요?</p>
+                            </div>
+                        </>
+                    ))
+                }
+                <div className="ad-card-btn">
+                    <img src="" alt="카드만들기"/>
+                    <p>카드만들기</p>
+                </div>
+            </div>
+        </div>
+        /*<div className="container">
             <div style={{marginTop: 30}}>
                 <CardDragList nweets={nweets}></CardDragList>
             </div>
@@ -73,7 +108,7 @@ const Home = ({userObj}) => {
                         </Popup>
                     </div>
             </Popup>
-        </div>
+            </div>*/
     );
 };
 export default Home;

@@ -77,7 +77,9 @@ const AuthForm = () => {
                                     <label for="pw-re-cb">비밀번호 저장</label>
                                 </div>
                                 <div className="btn-wrap">
-                                    <a href="#">비밀번호를 잊으셨나요?</a>
+                                    <Link to="/Findpw">
+                                        <a>비밀번호를 잊으셨나요?</a>
+                                    </Link>
                                     <button className="btn-basic next" onClick={onSubmit}>다음</button>
                                 </div>
                             </div>
@@ -100,7 +102,7 @@ const AuthForm = () => {
                                     <div className="message">{error}</div>
                                 </form>
                                 <div className="btn-wrap">
-                                    <Link to="/findemail">
+                                    <Link to="/Findemail">
                                         <a>이메일을 잊으셨나요?</a>
                                     </Link>
                                     <button className="btn-basic next" onClick={toggleProceeding}>다음</button>

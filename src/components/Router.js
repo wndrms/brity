@@ -6,11 +6,12 @@ import Profile from "routes/Profile";
 import Navigation from "components/Navigation";
 import SignUp from "./SignUp";
 import Findemail from "./Findemail";
+import Findpw from "./Findpw";
 
 const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
     return (
         <Router>
-            {isLoggedIn && <Navigation userObj={userObj}/>}
+            
             <Switch>
                 {isLoggedIn ? (
                     <div
@@ -38,8 +39,11 @@ const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
                         <Route exact path="/SignUp">
                             <SignUp/>
                         </Route>
-                        <Route exact path="/findemail">
+                        <Route exact path="/Findemail">
                             <Findemail/>
+                        </Route>
+                        <Route exact path="/Findpw">
+                            <Findpw/>
                         </Route>
                     </>
                 )}

@@ -30,7 +30,6 @@ const SignUp = () => {
                     )}
                 </header>
                 <div id="content" className="content">
-                    
                 {
                     (() => {
                         if(Proceeding === 0) {
@@ -83,7 +82,7 @@ const SignUp = () => {
                                             </form>
                                             <form>
                                                 <button type="submit" className="btn-purple enable">인증하기</button>
-                                                <div className="message">입력시간 {Math.floor(counter/60)} : {counter%60}</div>
+                                                <div className="message">입력시간 {Math.floor(counter/60)} : {counter%60 < 10 ? ('0'+String(counter%60)) : (counter%60)}</div>
                                             </form>
                                         </div>
                                         <div className="btn-wrap">

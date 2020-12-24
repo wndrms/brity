@@ -57,14 +57,17 @@ const CardDragList = (nweets) => {
                             <Draggable key={nweet.id} draggableId={nweet.id} index={index}>
                                 {(provided, snapshot) => (
                                     <div
+                                        className="card"
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
                                         style={getItemStyle(
                                             snapshot.isDragging,
                                             provided.draggableProps.style
-                                        )}>
-                                        <h4><a href={"http://" + nweet.text} >{nweet.text}</a></h4>
+                                        )} href={"http://" + nweet.text}>
+                                        <h3>📢</h3>
+                                        <button><img src="" alt="이동화살표"></img></button>
+                                        <p>{nweet.text}</p>
                                     </div>
                                 )}
                             </Draggable>
