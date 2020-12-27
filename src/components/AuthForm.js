@@ -36,27 +36,33 @@ const AuthForm = () => {
             setError(err.message);
         }
     };
+    const onSocialClick = async (event) => {
+        const {
+            target: {name},
+        } = event;
+        let provider;
+        if(name === "google"){
+            provider = new firebaseInstance.auth.GoogleAuthProvider();
+        }
+        const data = await authService.signInWithPopup(provider);
+        console.log(data);
+    }
     const toggleProceeding = () => setProceeding((prev) => !prev);
-    const headerstyle = Proceeding => ({
-        display: !Proceeding && "none"
-    });
-    const contentstyle = Proceeding => ({
-        margintop: !Proceeding && "40px"
-    });
 
     return(
         <>
-            <div id="wrap">
-                <header id="header" style={headerstyle(Proceeding)}>
+            <div id="wrap" className={Proceeding ? "login-pw" : "login-email"}>
+                <header id="header">
                     <button onClick={toggleProceeding}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-chevron-left.svg'} alt="이전"></img></button>
                 </header>
-                <div id="content" className="content" style={contentstyle(Proceeding)}>
-                    <div className="logo-wrap">
-                        <h1>Brity</h1>
-                        <p>admin</p>
-                    </div>
+                <div id="content" className="content">
+                    
                     { Proceeding ? (
                         <>
+                            <div className="logo-wrap">
+                                <h2>Brity</h2>
+                                <p>admin</p>
+                            </div>
                             <p className="user-id">{email}</p>
                             <div className="form-box">
                                 <form>
@@ -73,8 +79,8 @@ const AuthForm = () => {
                                         <div className="message">{error}</div>
                                 </form>
                                 <div className="check-circle square">
-                                    <input type="checkbox" name="pw-remember" id="pw-re-cb"/>
-                                    <label for="pw-re-cb">비밀번호 저장</label>
+                                    <input type="checkbox" id="pw-save"/>
+                                    <label for="pw-save">로그인 유지하기</label>
                                 </div>
                                 <div className="btn-wrap">
                                     <Link to="/Findpw">
@@ -86,16 +92,20 @@ const AuthForm = () => {
                         </>
                     ) : (
                         <>
+                            <div className="logo-wrap">
+                                <h1>Brity</h1>
+                                <p>admin</p>
+                            </div>
                             <p>안녕하세요, 브리티 관리자 페이지 입니다😀<br></br>
                                 브리티와 함께 영역을 확장해볼까요?</p>
                             <div className="form-box">
                                 <form>
-                                    <label for="user-id">이메일</label>
+                                    <label for="user-email">이메일</label>
                                     <input 
                                         name="email" 
-                                        type="text" 
+                                        type="email" 
                                         className="input-basic"
-                                        id="user-id" 
+                                        id="user-email" 
                                         placeholder="이메일이나 아이디를 입력하세요"
                                         onChange={onChange}/>
                                     <button type="submit"></button>
@@ -108,7 +118,7 @@ const AuthForm = () => {
                                     <button className="btn-basic next" onClick={toggleProceeding}>다음</button>
                                 </div>
                             </div>
-                            <a href="#" className="login-google btn-purple enable">Continue with Google</a>         
+                            <a onClick={onSocialClick} name="google" className="login-google btn-purple enable">Continue with &nbsp;<img src={process.env.PUBLIC_URL + 'google.svg'} alt="google"/></a>         
                         </>
                         )}
                     <Link to="/SignUp">

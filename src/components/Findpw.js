@@ -16,7 +16,7 @@ const Findpw = () => {
 
     return(
         <>
-            <div id="wrap">
+            <div id="wrap" className={"reset-pw0" + Proceeding + " reset-pw"}>
                 <header id="header">
                     { Proceeding > 0 ? (
                         <button onClick={onDecrease}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-chevron-left.svg'} alt="이전"></img></button>
@@ -71,19 +71,19 @@ const Findpw = () => {
                                         <div>
                                             <form>
                                                 <label for="new-pw">새 비밀번호<span className="required">*</span></label>
-                                                <input type="text" className="input-basic" id="new-pw" placeholder="새롭게 설정할 비밀번호를 입력하세요"/>
+                                                <input type="password" className="input-basic" id="new-pw" placeholder="새롭게 설정할 비밀번호를 입력하세요"/>
                                                 <button type="submit"></button>
                                                 <div className="message">새롭게 설정할 비밀번호를 적어주세요</div>
                                             </form>
                                             <form>
                                                 <label for="new-pw">새 비밀번호 확인</label>
-                                                <input type="text" className="input-basic" id="new-pw" placeholder="새 비밀번호를 확인해주세요"/>
+                                                <input type="password" className="input-basic" id="new-pw" placeholder="새 비밀번호를 확인해주세요"/>
                                                 <button type="submit"></button>
                                                 <div className="message">{error}</div>
                                             </form>
                                         </div>
                                         <form className="btn-wrap">
-                                            <button className="btn-basic next" onClick={onIncrease}>다음</button>
+                                            <button className="btn-basic" onClick={onIncrease}>비밀번호 변경하기</button>
                                         </form>
                                     </div>
                                 </>
@@ -104,7 +104,7 @@ const Findpw = () => {
                                     <div className="form-box">
                                         <form className="btn-wrap">
                                             <Link to="/">
-                                                <button className="btn-purple">로그인 하기</button>
+                                                <button className="btn-purple enable">로그인 하기</button>
                                             </Link>
                                         </form>
                                     </div>

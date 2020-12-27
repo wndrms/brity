@@ -3,6 +3,8 @@ import {Link} from "react-router-dom";
 
 const SignUp = () => {
     const [Proceeding, setProceeding] = useState(0);
+    const [email, setemail] = useState();
+    const [phnum, setphnum] = useState();
     const [error, seterror] = useState();
     const [counter, setcounter] = useState(0);
     useEffect( () => {
@@ -17,7 +19,7 @@ const SignUp = () => {
     }
     return(
         <>
-            <div id="wrap">
+            <div id="wrap" className={"sign-up-0" + (Proceeding+1) + " sign-up"}>
                 <header id="header">
                     { Proceeding > 0 ? (
                         <button onClick={decresProceeding}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-chevron-left.svg'} alt="이전"></img></button>
@@ -44,13 +46,23 @@ const SignUp = () => {
                                     <div className="form-box">
                                         <form>
                                             <label for="user-name">이름<span className="required">*</span></label>
-                                            <input type="text" className="input-basic" id="user-name" placeholder="본인이름을 입력하세요"/>
+                                            <input 
+                                                type="text"
+                                                className="input-basic" 
+                                                id="user-name"
+                                                name="email"
+                                                placeholder="본인이름을 입력하세요"/>
                                             <button type="submit"></button>
                                             <div className="message">{error}</div>
                                         </form>
-                                        <form action="">
+                                        <form>
                                             <label for="ph-number">휴대폰 번호<span className="required">*</span></label>
-                                            <input type="text" className="input-basic" id="ph-number" placeholder="휴대폰 번호를 입력하세요"/>
+                                            <input 
+                                                type="number" 
+                                                className="input-basic" 
+                                                id="ph-number" 
+                                                name="ph-number"
+                                                placeholder="휴대폰 번호를 입력하세요"/>
                                             <button type="submit"></button>
                                             <div className="message">다음 버튼을 누르면 인증번호가 발송됩니다.</div>
                                         </form>
@@ -59,7 +71,7 @@ const SignUp = () => {
                                         </div>
                                     </div>
                                     <Link to="/">
-                                        <button className="btn-purple fix-bottom">로그인 하기</button>
+                                        <button className="btn-purple fix-bottom enable">로그인 하기</button>
                                     </Link>
                                 </>
                             );
@@ -96,14 +108,14 @@ const SignUp = () => {
                             return (
                                 <>
                                     <div className="logo-wrap">
-                                        <h2>닉네임 만들기</h2>
+                                        <h2>아이디 만들기</h2>
                                     </div>
-                                    <p>지금 설정하신 닉네임으로 링크가 생성됩니다.<br/>
+                                    <p>지금 설정하신 아이디으로 링크가 생성됩니다.<br/>
                                         나중엔 변경 불가합니다 🔏</p>
                                     <div className="form-box">
                                         <form>
-                                            <label for="user-id">닉네임(아이디)<span className="required">*</span></label>
-                                            <input type="text" className="input-basic" id="user-id" placeholder="닉네임을 입력하세요"/>
+                                            <label for="user-id">아이디(닉네임)<span className="required">*</span></label>
+                                            <input type="text" className="input-basic" id="user-id" placeholder="아이디를 입력하세요"/>
                                             <button type="submit"></button>
                                             <div className="message">변경 불가 사항🔒</div>
                                         </form>
@@ -175,21 +187,18 @@ const SignUp = () => {
                                 <p>개인정보는 공개되지 않는 정보에요 🤫<br/>
                                     정보는 나중에 얼마든지 수정할 수 있어요</p>
                                 <div className="form-box">
-                                    <div>
-                                        <form>
-                                            <label for="address">주소</label>
-                                            <input type="text" className="input basic" id="address" placeholder="우편번호를 입력하세요"/>
-                                            <button type="submit"></button>
-                                        </form>
-                                        <form>
-                                            <button type="submit" className="btn-purple">우편번호 찾기</button>
-                                        </form>
-                                    </div>
+                                    <p>주소</p>
+                                    <form className="ico-search">
+                                        <label for="address"></label>
+                                        <input type="text" className="input basic" id="address" placeholder="우편번호를 입력하세요"/>
+                                        <button type="submit"><img src={process.env.PUBLIC_URL + '02-icon-01-outline-search.svg'} alt="검색"/></button>
+                                        <div className="message">우편번호를 입력해주세요</div>
+                                    </form>
                                     <form>
                                         <label for="detail-address"></label>
                                         <input type="text" class="input-basic" id="detail-address" placeholder="상세주소를 입력하세요"/>
                                         <button type="submit"></button>
-                                        <div className="message">{error}<span className="required"></span></div>
+                                        <div className="message">{error}</div>
                                     </form>
                                     <form className="btn-wrap">
                                         <button className="btn-basic next" onClick={incresProceeding}>다음</button>
@@ -208,26 +217,26 @@ const SignUp = () => {
                                     <form>
                                         <ul>
                                             <li className="check-circle">
-                                                <input type="checkbox" id="survice-check"/>
+                                                <input type="checkbox" id="survice-check" checked/>
                                                 <label for="survice-check">서비스 이용 약관 운영 및 동의<span class="required">(필수)</span></label>
                                             </li>
                                             <li className="check-circle">
-                                                <input type="checkbox" id="info-check"/>
+                                                <input type="checkbox" id="info-check" checked/>
                                                 <label for="info-check">개인정보 수집 및 이용 동의<span class="required">(필수)</span></label>
                                             </li>
                                             <li className="check-circle">
-                                                <input type="checkbox" id="ad-check"/>
+                                                <input type="checkbox" id="ad-check" checked/>
                                                 <label for="ad-check">마케팅 정보SMS, 이메일 수신 동의<span>(선택)</span></label>
                                             </li>
                                             <li className="check-circle all">
-                                                <input type="checkbox" id="all"/>
+                                                <input type="checkbox" id="all" checked/>
                                                 <label for="all">모두 동의하고 계속할래요</label>
                                                 <div className="message">{error}</div>
                                             </li>
                                         </ul>
                                     </form>
                                     <form className="btn-wrap">
-                                        <button className="btn-basic next" onClick={incresProceeding}>다음</button>
+                                        <button className="btn-basic next enable" onClick={incresProceeding}>다음</button>
                                     </form>
                                 </div>
                             </>
@@ -245,7 +254,7 @@ const SignUp = () => {
                                     <p>link.milleniz.com/yesss__eif</p>
                                 </div>
                                 <form className="btn-wrap">
-                                    <button className="btn-purple">다음</button>
+                                    <button className="btn-purple enable">다음</button>
                                 </form>
                             </>
                         }
