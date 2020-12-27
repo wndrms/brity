@@ -3,14 +3,31 @@ import {Link} from "react-router-dom";
 
 const SignUp = () => {
     const [Proceeding, setProceeding] = useState(0);
-    const [email, setemail] = useState();
+    const [email, setemail] = useState("");
     const [phnum, setphnum] = useState();
+    const [smsnum, setsmsnum] = useState();
+    const [userid, setuserid] = useState();
+    const [pw, setpw] = useState();
     const [error, seterror] = useState();
     const [counter, setcounter] = useState(0);
     useEffect( () => {
         const timer = (counter > 0) && setInterval(() => setcounter(counter - 1), 1000);
         return () => clearInterval(timer);
     }, [counter]);
+    const onChange = (event) => {
+        const {target: {name, value}} = event;
+        if(name === "email"){
+            setemail(value);
+        } else if(name === "ph-number"){
+            setphnum(value);
+        } else if(name === "sms-num"){
+            setsmsnum(value);
+        } else if(name === "user-id"){
+            setuserid(value);
+        } else if(name === "pw"){
+            setpw(value);
+        }
+    };
     const decresProceeding = () => setProceeding(Proceeding - 1);
     const incresProceeding = () => setProceeding(Proceeding + 1);
     const toggleCertProceeding = () => {
@@ -51,6 +68,7 @@ const SignUp = () => {
                                                 className="input-basic" 
                                                 id="user-name"
                                                 name="email"
+                                                onChange={onChange}
                                                 placeholder="본인이름을 입력하세요"/>
                                             <button type="submit"></button>
                                             <div className="message">{error}</div>
@@ -62,12 +80,18 @@ const SignUp = () => {
                                                 className="input-basic" 
                                                 id="ph-number" 
                                                 name="ph-number"
+                                                value={phnum}
+                                                onChange={onChange}
                                                 placeholder="휴대폰 번호를 입력하세요"/>
                                             <button type="submit"></button>
                                             <div className="message">다음 버튼을 누르면 인증번호가 발송됩니다.</div>
                                         </form>
                                         <div className="btn-wrap">
-                                            <button className="btn-basic next" onClick={toggleCertProceeding}>다음</button>
+                                            {email && phnum ? (
+                                                <button className="btn-basic enable" onClick={toggleCertProceeding}>다음</button>
+                                            ) : (
+                                                <button className="btn-basic next">다음</button>
+                                            )}
                                         </div>
                                     </div>
                                     <Link to="/">
@@ -88,7 +112,12 @@ const SignUp = () => {
                                         <div>
                                             <form>
                                                 <label for="sms-num">인증번호<span className="required">*</span></label>
-                                                <input type="number" className="input-basic" id="sms-num"/>
+                                                <input 
+                                                    type="number" 
+                                                    className="input-basic" 
+                                                    name="sms-num"
+                                                    onChange={onChange}
+                                                    id="sms-num"/>
                                                 <button type="submit"></button>
                                                 <div className="message">인증번호가 발송되었습니다</div>
                                             </form>
@@ -98,7 +127,11 @@ const SignUp = () => {
                                             </form>
                                         </div>
                                         <div className="btn-wrap">
-                                            <button className="btn-basic next" onClick={incresProceeding}>다음</button>
+                                            {smsnum ? (
+                                                <button className="btn-basic enable" onClick={incresProceeding}>다음</button>
+                                            ) : (
+                                                <button className="btn-basic next">다음</button>
+                                            )}
                                         </div>
                                     </div>
                                 </>
@@ -115,13 +148,22 @@ const SignUp = () => {
                                     <div className="form-box">
                                         <form>
                                             <label for="user-id">아이디(닉네임)<span className="required">*</span></label>
-                                            <input type="text" className="input-basic" id="user-id" placeholder="아이디를 입력하세요"/>
+                                            <input 
+                                                type="text" 
+                                                className="input-basic" 
+                                                id="user-id"
+                                                name="user-id"
+                                                onChange={onChange}
+                                                placeholder="아이디를 입력하세요"/>
                                             <button type="submit"></button>
                                             <div className="message">변경 불가 사항🔒</div>
                                         </form>
-
                                         <div className="btn-wrap">
-                                            <button className="btn-basic next" onClick={incresProceeding}>다음</button>
+                                            {userid ? (
+                                                <button className="btn-basic enable" onClick={incresProceeding}>다음</button>
+                                            ) : (
+                                                <button className="btn-basic next">다음</button>
+                                            )}
                                         </div>
                                     </div>
                                 </>
@@ -137,12 +179,22 @@ const SignUp = () => {
                                     <div className="form-box">
                                         <form>
                                             <label for="pw">비밀번호<span className="required">*</span></label>
-                                            <input type="password" className="input-basic" id="pw" placeholder="비밀번호를 입력하세요"/>
+                                            <input 
+                                                type="password" 
+                                                className="input-basic" 
+                                                name="pw"
+                                                onChange={onChange}
+                                                id="pw" 
+                                                placeholder="비밀번호를 입력하세요"/>
                                             <button type="submit"></button>
                                             <div className="message">🤫소문자, 숫자 포함 8자리 이상</div>
                                         </form>
                                         <div className="btn-wrap">
-                                            <button className="btn-basic next" onClick={incresProceeding}>다음</button>
+                                            {pw ? (
+                                                <button className="btn-basic enable" onClick={incresProceeding}>다음</button>
+                                            ) : (
+                                                <button className="btn-basic next">다음</button>
+                                            )}
                                         </div>
                                     </div>
                                 </>

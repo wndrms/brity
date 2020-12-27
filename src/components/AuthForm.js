@@ -1,4 +1,4 @@
-import { authService } from "fbase";
+import { authService, firebaseInstance } from "fbase";
 import React, { useState } from "react";
 import {Link} from "react-router-dom";
 
@@ -46,7 +46,7 @@ const AuthForm = () => {
         }
         const data = await authService.signInWithPopup(provider);
         console.log(data);
-    }
+    };
     const toggleProceeding = () => setProceeding((prev) => !prev);
 
     return(
@@ -86,7 +86,11 @@ const AuthForm = () => {
                                     <Link to="/Findpw">
                                         <a>비밀번호를 잊으셨나요?</a>
                                     </Link>
-                                    <button className="btn-basic next" onClick={onSubmit}>다음</button>
+                                    {!password ? (
+                                        <button className="btn-basic next">다음</button>
+                                    ) : (
+                                        <button className="btn-basic enable" onClick={toggleProceeding}>다음</button>
+                                    )}
                                 </div>
                             </div>
                         </>
@@ -115,7 +119,11 @@ const AuthForm = () => {
                                     <Link to="/Findemail">
                                         <a>이메일을 잊으셨나요?</a>
                                     </Link>
-                                    <button className="btn-basic next" onClick={toggleProceeding}>다음</button>
+                                    {!email ? (
+                                        <button className="btn-basic next">다음</button>
+                                    ) : (
+                                        <button className="btn-basic enable" onClick={toggleProceeding}>다음</button>
+                                    )}
                                 </div>
                             </div>
                             <a onClick={onSocialClick} name="google" className="login-google btn-purple enable">Continue with &nbsp;<img src={process.env.PUBLIC_URL + 'google.svg'} alt="google"/></a>         
