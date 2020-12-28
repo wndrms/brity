@@ -89,7 +89,7 @@ const AuthForm = () => {
                                     {!password ? (
                                         <button className="btn-basic next">다음</button>
                                     ) : (
-                                        <button className="btn-basic enable" onClick={toggleProceeding}>다음</button>
+                                        <button className="btn-basic enable" onClick={onSubmit}>다음</button>
                                     )}
                                 </div>
                             </div>
