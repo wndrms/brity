@@ -86,10 +86,10 @@ const AuthForm = () => {
                                     <Link to="/Findpw">
                                         <a>비밀번호를 잊으셨나요?</a>
                                     </Link>
-                                    {!password ? (
-                                        <button className="btn-basic next">다음</button>
+                                    {password ? (
+                                        <button className="btn-basic next enable" onClick={onSubmit}>다음</button>
                                     ) : (
-                                        <button className="btn-basic enable" onClick={onSubmit}>다음</button>
+                                        <button className="btn-basic next">다음</button>
                                     )}
                                 </div>
                             </div>
@@ -119,10 +119,10 @@ const AuthForm = () => {
                                     <Link to="/Findemail">
                                         <a>이메일을 잊으셨나요?</a>
                                     </Link>
-                                    {!email ? (
-                                        <button className="btn-basic next">다음</button>
+                                    {email ? (
+                                        <button className="btn-basic next enable" onClick={toggleProceeding}>다음</button>
                                     ) : (
-                                        <button className="btn-basic enable" onClick={toggleProceeding}>다음</button>
+                                        <button className="btn-basic next">다음</button>
                                     )}
                                 </div>
                             </div>

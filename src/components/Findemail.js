@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 const Findemail = () => {
     const [Proceeding, setProceeding] = useState(0);
     const [counter, setcounter] = useState(0);
+    const [phnum, setphnum] = useState();
+    const [smsnum, setsmsnum] = useState();
 
     useEffect( () => {
         const timer = (counter > 0) && setInterval(() => setcounter(counter - 1), 1000);
@@ -11,6 +13,14 @@ const Findemail = () => {
     }, [counter]);
     const onDecrease = () => setProceeding(Proceeding - 1);
     const onIncrease = () => setProceeding(Proceeding + 1);
+    const onChange = (event) => {
+        const {target: {name, value}} = event;
+        if(name === "ph-number"){
+            setphnum(value);
+        } else if(name === "sms-num"){
+            setsmsnum(value);
+        }
+    };
     const toggleCertProceeding = () => {
         setProceeding(Proceeding + 1);
         setcounter(180);
@@ -42,13 +52,23 @@ const Findemail = () => {
                                     <div className="form-box">
                                         <form>
                                             <label for="ph-number">휴대폰 번호<span className="required">*</span></label>
-                                            <input type="number" id="ph-number" className="input-basic" placeholder="휴대전화 번호를 입력하세요"/>
+                                            <input 
+                                                type="number" 
+                                                id="ph-number" 
+                                                className="input-basic"
+                                                name="ph-number"
+                                                onChange={onChange}
+                                                placeholder="휴대전화 번호를 입력하세요"/>
                                             <button type="submit"></button>
                                             <div className="message">다음 버튼을 누르면 인증번호가 발송됩니다.</div>
                                         </form>
 
                                         <form className="btn-wrap">
-                                            <button className="btn-basic next" onClick={toggleCertProceeding}>다음</button>
+                                            {phnum ? (
+                                                <button className="btn-basic next enable" onClick={toggleCertProceeding}>다음</button>
+                                            ) : (
+                                                <button className="btn-basic next">다음</button>
+                                            )}
                                         </form>
                                     </div>
                                 </>
@@ -66,7 +86,13 @@ const Findemail = () => {
                                         <div>
                                             <form>
                                                 <label for="sms-num">인증번호<span className="required">*</span></label>
-                                                <input type="text" className="input-basic" id="sms=num" placeholder=""/>
+                                                <input 
+                                                    type="text" 
+                                                    className="input-basic" 
+                                                    name="sms-num"
+                                                    onChange={onChange}
+                                                    id="sms-num" 
+                                                    placeholder=""/>
                                                 <button type="submit"></button>
                                                 <div className="message">인증번호가 발송되었습니다</div>
                                             </form>
@@ -76,7 +102,11 @@ const Findemail = () => {
                                             </form>
                                         </div>
                                         <form className="btn-wrap">
-                                            <button className="btn-basic next" onClick={onIncrease}>다음</button>
+                                            {smsnum ? (
+                                                <button className="btn-basic next enable" onClick={onIncrease}>다음</button>
+                                            ) : (
+                                                <button className="btn-basic next">다음</button>
+                                            )}
                                         </form>
                                     </div>
                                 </>
@@ -96,7 +126,9 @@ const Findemail = () => {
                                             <p>milleniz@milleniz.com</p>
                                         </div>
                                         <form className="btn-wrap">
-                                            <button type="submit" className="btn-basic pw">비밀번호 재설정</button>
+                                            <Link to="/Findpw">
+                                                <button className="btn-basic pw">비밀번호 재설정</button>
+                                            </Link>
                                         </form>
                                     </div>
                                     <form className="btn-wrap">

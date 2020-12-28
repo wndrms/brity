@@ -1,9 +1,11 @@
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
 import React, { useEffect, useState } from "react";
 import Popup from 'reactjs-popup';
 import CardDragList from "components/CardDragList";
+import { useHistory } from "react-router-dom";
 
-const Home = ({userObj}) => {
+const Home = ({refreshUser, userObj}) => {
+    const history = useHistory();
     const [nweets, setNweets] = useState([]);
     useEffect(() => {
         dbService.collection("nweets").onSnapshot(snapshot => {
@@ -14,12 +16,18 @@ const Home = ({userObj}) => {
             setNweets(nweetArray);
         });
     }, []);
+    const onLogOutClick = () => {
+        authService.signOut();
+        history.push("/");
+        refreshUser();
+    };
     return (
         <div id="wrap">
             <header className="header">
                 <div className="menu-wrap">
                     <p className="user-name">{userObj.displayName}</p>
                     <p><span className="admin">admin</span>with by <u>brity</u></p>
+                    <button onClick={onLogOutClick}>로그아웃</button>
                     <button type="submit" className="menu">
                         <img src="" alt="menu"/>
                     </button>
