@@ -8,6 +8,7 @@ const AuthForm = () => {
     const [newAccount, setNewAccount] = useState(false);
     const [error, setError] = useState("");
     const [Proceeding, setProceeding] = useState(false);
+    const [focusemail, setfocusemail] = useState(false);
     const onChange = (event) => {
         const {target: {name, value}} = event;
         if(name === "email"){
@@ -48,6 +49,7 @@ const AuthForm = () => {
         console.log(data);
     };
     const toggleProceeding = () => setProceeding((prev) => !prev);
+    const onFocus = () => setfocusemail((prev) => !prev);
 
     return(
         <>
@@ -57,7 +59,43 @@ const AuthForm = () => {
                 </header>
                 <div id="content" className="content">
                     
-                    { Proceeding ? (
+                    {!Proceeding ? (
+                        <>
+                            <div className="logo-wrap">
+                                <h1>Brity</h1>
+                                <p>admin</p>
+                            </div>
+                            <p>안녕하세요, 브리티 관리자 페이지 입니다😀<br></br>
+                                브리티와 함께 영역을 확장해볼까요?</p>
+                            <div className="form-box">
+                                <form className={focusemail? "selected" : ""}>
+                                    <label for="user-email">이메일</label>
+                                    <input 
+                                        name="email" 
+                                        type="email" 
+                                        className="input-basic"
+                                        id="user-email" 
+                                        placeholder="이메일이나 아이디를 입력하세요"
+                                        onFocus={onFocus}
+                                        onBlur={onFocus}
+                                        onChange={onChange}/>
+                                    <button type="submit"></button>
+                                    <div className="message">{error}</div>
+                                </form>
+                                <div className="btn-wrap">
+                                    <Link to="/Findemail">
+                                        <a>이메일을 잊으셨나요?</a>
+                                    </Link>
+                                    {email ? (
+                                        <button className="btn-basic next enable" onClick={toggleProceeding}>다음</button>
+                                    ) : (
+                                        <button className="btn-basic next">다음</button>
+                                    )}
+                                </div>
+                            </div>
+                            <a onClick={onSocialClick} name="google" className="login-google btn-purple enable">Continue with &nbsp;<img src={process.env.PUBLIC_URL + 'google.svg'} alt="google"/></a>         
+                        </>
+                        ) : (
                         <>
                             <div className="logo-wrap">
                                 <h2>Brity</h2>
@@ -94,41 +132,7 @@ const AuthForm = () => {
                                 </div>
                             </div>
                         </>
-                    ) : (
-                        <>
-                            <div className="logo-wrap">
-                                <h1>Brity</h1>
-                                <p>admin</p>
-                            </div>
-                            <p>안녕하세요, 브리티 관리자 페이지 입니다😀<br></br>
-                                브리티와 함께 영역을 확장해볼까요?</p>
-                            <div className="form-box">
-                                <form>
-                                    <label for="user-email">이메일</label>
-                                    <input 
-                                        name="email" 
-                                        type="email" 
-                                        className="input-basic"
-                                        id="user-email" 
-                                        placeholder="이메일이나 아이디를 입력하세요"
-                                        onChange={onChange}/>
-                                    <button type="submit"></button>
-                                    <div className="message">{error}</div>
-                                </form>
-                                <div className="btn-wrap">
-                                    <Link to="/Findemail">
-                                        <a>이메일을 잊으셨나요?</a>
-                                    </Link>
-                                    {email ? (
-                                        <button className="btn-basic next enable" onClick={toggleProceeding}>다음</button>
-                                    ) : (
-                                        <button className="btn-basic next">다음</button>
-                                    )}
-                                </div>
-                            </div>
-                            <a onClick={onSocialClick} name="google" className="login-google btn-purple enable">Continue with &nbsp;<img src={process.env.PUBLIC_URL + 'google.svg'} alt="google"/></a>         
-                        </>
-                        )}
+                    )}
                     <Link to="/SignUp">
                         <button className="btn-purple fix-bottom">Brity 계정 만들기</button>
                     </Link>   

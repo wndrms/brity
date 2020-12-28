@@ -23,11 +23,11 @@ const Home = ({refreshUser, userObj}) => {
     };
     return (
         <div id="wrap">
+            <button onClick={onLogOutClick}>로그아웃</button>
             <header className="header">
                 <div className="menu-wrap">
                     <p className="user-name">{userObj.displayName}</p>
                     <p><span className="admin">admin</span>with by <u>brity</u></p>
-                    <button onClick={onLogOutClick}>로그아웃</button>
                     <button type="submit" className="menu">
                         <img src="" alt="menu"/>
                     </button>
