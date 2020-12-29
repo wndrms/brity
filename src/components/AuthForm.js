@@ -63,7 +63,10 @@ const AuthForm = () => {
         event.preventDefault();
         setpwshow((prev) => !prev);
     }
-
+    const onDelete = (event) => {
+        event.preventDefault();
+        setEmail("");
+    }
     return(
         <>
             <div id="wrap" className={Proceeding ? "login-pw" : "login-email"}>
@@ -93,7 +96,7 @@ const AuthForm = () => {
                                         onFocus={onFocus}
                                         onBlur={onFocus}
                                         onChange={onChange}/>
-                                    <button></button>
+                                    <button onClick={onDelete}></button>
                                     <div className="message">{error}</div>
                                 </form>
                                 <div className="btn-wrap">
@@ -148,7 +151,7 @@ const AuthForm = () => {
                         </>
                     )}
                     <Link to="/SignUp">
-                        <button className="btn-purple fix-bottom">Brity 계정 만들기</button>
+                        <button className="btn-purple fix-bottom enable">Brity 계정 만들기</button>
                     </Link>   
                 </div>
             </div>

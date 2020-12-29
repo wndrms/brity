@@ -17,10 +17,8 @@ const CardDragList = (nweets) => {
 
     const getItemStyle = (isDragging, draggableStyle) => ({
         userSelect: "none",
-        padding: grid * 2,
-        margin: `0 0 ${grid}px 0`,
-
-        background: isDragging ? "lightgreen" : "grey",
+        boxShadow: isDragging ? "0 8px 15px 0 rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.3)" : "",
+        background: isDragging && "rgba(52, 52, 52, 0.8)",
 
         ...draggableStyle
     });
@@ -66,7 +64,7 @@ const CardDragList = (nweets) => {
                                             provided.draggableProps.style
                                         )} href={"http://" + nweet.text}>
                                         <h3>📢</h3>
-                                        <button><img src="" alt="이동화살표"></img></button>
+                                        <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-arrows.svg"} alt="이동화살표"></img></button>
                                         <p>{nweet.text}</p>
                                     </div>
                                 )}

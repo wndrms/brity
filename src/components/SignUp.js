@@ -8,7 +8,7 @@ const SignUp = () => {
     const [Proceeding, setProceeding] = useState(0);
     const [name, setname] = useState("");
     const [phnum, setphnum] = useState();
-    const [userid, setuserid] = useState();
+    const [userid, setuserid] = useState("");
     const [password, setpassword] = useState("");
     const [year, setyear] = useState("");
     const [month, setmonth] = useState("");
@@ -26,6 +26,7 @@ const SignUp = () => {
     const [focusdate, setfocusdate] = useState(false);
     const [focussubadd, setfocussubadd] = useState(false);
     const [pwshow, setpwshow] = useState(false);
+    const [all, setall] = useState(false);
     const onChange = (event) => {
         const {target: {name, value}} = event;
         if(name === "name"){
@@ -107,6 +108,7 @@ const SignUp = () => {
         event.preventDefault();
         setpwshow((prev) => !prev);
     }
+    const toggleall = () => setall((prev) => !prev);
     return(
         <>
             <div id="wrap" className={"sign-up-0" + (Proceeding+1) + " sign-up"}>
@@ -161,8 +163,7 @@ const SignUp = () => {
                                                 onBlur={onFocus}
                                                 onFocus={onFocus}
                                                 placeholder="휴대폰 번호를 입력하세요"/>
-                                            <button type="submit"></button>
-                                            <div className="message">다음 버튼을 누르면 인증번호가 발송됩니다.</div>
+                                            <button></button>
                                         </form>
                                         <div className="btn-wrap">
                                             {name && phnum ? (
@@ -352,7 +353,7 @@ const SignUp = () => {
                                                 onBlur={onFocus}
                                                 onFocus={onFocus}
                                                 placeholder="상세주소를 입력하세요"/>
-                                            <button type="submit"></button>
+                                            <button></button>
                                             <div className="message">상세주소를 입력해주세요</div>
                                         </form>
                                         <form className="btn-wrap">
@@ -378,19 +379,31 @@ const SignUp = () => {
                                         <form>
                                             <ul>
                                                 <li className="check-circle">
-                                                    <input type="checkbox" id="survice-check" checked/>
+                                                    {all ? (
+                                                        <input type="checkbox" id="survice-check" checked/>
+                                                    ) : (
+                                                        <input type="checkbox" id="survice-check"/>
+                                                    )}
                                                     <label for="survice-check">서비스 이용 약관 운영 및 동의<span class="required">(필수)</span></label>
                                                 </li>
                                                 <li className="check-circle">
-                                                    <input type="checkbox" id="info-check" checked/>
+                                                    {all ? (
+                                                        <input type="checkbox" id="info-check" checked/>
+                                                    ) : (
+                                                        <input type="checkbox" id="info-check"/>
+                                                    )}
                                                     <label for="info-check">개인정보 수집 및 이용 동의<span class="required">(필수)</span></label>
                                                 </li>
                                                 <li className="check-circle">
-                                                    <input type="checkbox" id="ad-check" checked/>
+                                                    {all ? (
+                                                        <input type="checkbox" id="ad-check" checked/>
+                                                    ) : (
+                                                        <input type="checkbox" id="ad-check"/>
+                                                    )}
                                                     <label for="ad-check">마케팅 정보SMS, 이메일 수신 동의<span>(선택)</span></label>
                                                 </li>
                                                 <li className="check-circle all">
-                                                    <input type="checkbox" id="all" checked/>
+                                                    <input type="checkbox" id="all" onChange={toggleall}/>
                                                     <label for="all">모두 동의하고 계속할래요</label>
                                                     <div className="message">{error}</div>
                                                 </li>

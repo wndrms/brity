@@ -26,10 +26,26 @@ const Home = ({refreshUser, userObj}) => {
             <button onClick={onLogOutClick}>로그아웃</button>
             <header className="header">
                 <div className="menu-wrap">
-                    <p className="user-name">{userObj.displayName}</p>
+                    <Popup
+                        trigger={<p className="user-name">{userObj.displayName}</p>}
+                        modal>
+                        <div className="bg-opacity alert on">
+                            <div className="alert-wrap">
+                                <div className="text-box">
+                                    <p className="p-header">@{userObj.displayName}</p>
+                                    <p className="p-text">링크 주소가 복사되었습니다.<br/>
+                                        바로 이동할까요?</p>
+                                </div>
+                                <div className="btn-box">
+                                    <button>닫기</button>
+                                    <button>바로이동👉</button>
+                                </div>
+                            </div>
+                        </div>
+                    </Popup>
                     <p><span className="admin">admin</span>with by <u>brity</u></p>
                     <button type="submit" className="menu">
-                        <img src="" alt="menu"/>
+                        <img src={process.env.PUBLIC_URL + "02-icon-01-outline-bars.svg"} alt="menu"/>
                     </button>
                 </div>
             </header>
@@ -37,6 +53,9 @@ const Home = ({refreshUser, userObj}) => {
                 {
                     (nweets.length > 0 ? (
                         <>
+                            <div className="del-text-box">
+                                <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-check.svg"} alt="체크"/>카드선택　및　삭제</button>
+                            </div>
                             <div className="card-wrap">
                                 <CardDragList nweets={nweets}/>
                             </div>
@@ -52,8 +71,8 @@ const Home = ({refreshUser, userObj}) => {
                         </>
                     ))
                 }
-                <div className="ad-card-btn">
-                    <img src="" alt="카드만들기"/>
+                <div className={"ad-card-btn" + (!nweets.length ? " emrty-ani" : "")}>
+                    <img src={process.env.PUBLIC_URL + "02-icon-01-outline-plus.svg"} alt="카드만들기"/>
                     <p>카드만들기</p>
                 </div>
             </div>
