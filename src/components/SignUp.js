@@ -8,35 +8,36 @@ const SignUp = () => {
     const [Proceeding, setProceeding] = useState(0);
     const [name, setname] = useState("");
     const [phnum, setphnum] = useState();
-    const [smsnum, setsmsnum] = useState();
     const [userid, setuserid] = useState();
     const [password, setpassword] = useState("");
-    const [year, setyesr] = useState("");
+    const [year, setyear] = useState("");
     const [month, setmonth] = useState("");
     const [date, setdate] = useState("");
     const [search, setsearch] = useState(false);
     const [address, setaddress] = useState();
     const [subaddress, setsubaddress] = useState();
     const [error, seterror] = useState();
-    const [counter, setcounter] = useState(0);
-    useEffect( () => {
-        const timer = (counter > 0) && setInterval(() => setcounter(counter - 1), 1000);
-        return () => clearInterval(timer);
-    }, [counter]);
+    const [focusname, setfocusname] = useState(false);
+    const [focusph, setfocusph] = useState(false);
+    const [focusid, setfocusid] = useState(false);
+    const [focuspw, setfocuspw] = useState(false);
+    const [focusyear, setfocusyear] = useState(false);
+    const [focusmonth, setfocusmonth] = useState(false);
+    const [focusdate, setfocusdate] = useState(false);
+    const [focussubadd, setfocussubadd] = useState(false);
+    const [pwshow, setpwshow] = useState(false);
     const onChange = (event) => {
         const {target: {name, value}} = event;
         if(name === "name"){
             setname(value);
         } else if(name === "ph-number"){
             setphnum(value);
-        } else if(name === "sms-num"){
-            setsmsnum(value);
         } else if(name === "user-id"){
             setuserid(value);
         } else if(name === "pw"){
             setpassword(value);
         } else if(name === "year"){
-            setyesr(value);
+            setyear(value);
         } else if(name === "month"){
             setmonth(value);
         } else if(name === "date"){
@@ -45,12 +46,32 @@ const SignUp = () => {
             setsubaddress(value);
         }
     };
+    const onDelete = (event) => {
+        setname("");
+        console.log(name);
+    }
+    const onFocus = (event) => {
+        const {target: {name}} = event;
+        if(name === "name"){
+            setfocusname((prev) => !prev);
+        } else if(name === "ph-number"){
+            setfocusph((prev) => !prev);
+        } else if(name === "user-id"){
+            setfocusid((prev) => !prev);
+        } else if(name === "pw"){
+            setfocuspw((prev) => !prev);
+        } else if(name === "year"){
+            setfocusyear((prev) => !prev);
+        } else if(name === "month"){
+            setfocusmonth((prev) => !prev);
+        } else if(name === "date"){
+            setfocusdate((prev) => !prev);
+        } else if(name === "detail-address"){
+            setfocussubadd((prev) => !prev);
+        }
+    };
     const decresProceeding = () => setProceeding(Proceeding - 1);
     const incresProceeding = () => setProceeding(Proceeding + 1);
-    const toggleCertProceeding = () => {
-        setProceeding(Proceeding + 1);
-        setcounter(180);
-    }
     const togglesearch = () => setsearch((prev) => !prev);
     const handleComplete = (data) => {
         let fullAddress = data.address;
@@ -82,6 +103,10 @@ const SignUp = () => {
         }
         history.push("/");
     };
+    const togglepwshow = (event) => {
+        event.preventDefault();
+        setpwshow((prev) => !prev);
+    }
     return(
         <>
             <div id="wrap" className={"sign-up-0" + (Proceeding+1) + " sign-up"}>
@@ -109,19 +134,22 @@ const SignUp = () => {
                                     <p>입력하신 이메일로 등록한 계정이 없습니다<br/>
                                         바로 계정 만들기를 시작하겠습니다 😉</p>
                                     <div className="form-box">
-                                        <form>
+                                        <form className={(focusname ? "selected" : "") + (name ? " filled" : "")}>
                                             <label for="user-name">이름<span className="required">*</span></label>
                                             <input 
                                                 type="text"
                                                 className="input-basic" 
                                                 id="user-name"
                                                 name="name"
+                                                value={name}
                                                 onChange={onChange}
+                                                onBlur={onFocus}
+                                                onFocus={onFocus}
                                                 placeholder="본인이름을 입력하세요"/>
-                                            <button type="submit"></button>
+                                            <button onClick={onDelete}></button>
                                             <div className="message">{error}</div>
                                         </form>
-                                        <form>
+                                        <form className={(focusph ? "selected" : "") + (phnum ? " filled" : "")}>
                                             <label for="ph-number">휴대폰 번호<span className="required">*</span></label>
                                             <input 
                                                 type="number" 
@@ -130,13 +158,15 @@ const SignUp = () => {
                                                 name="ph-number"
                                                 value={phnum}
                                                 onChange={onChange}
+                                                onBlur={onFocus}
+                                                onFocus={onFocus}
                                                 placeholder="휴대폰 번호를 입력하세요"/>
                                             <button type="submit"></button>
                                             <div className="message">다음 버튼을 누르면 인증번호가 발송됩니다.</div>
                                         </form>
                                         <div className="btn-wrap">
                                             {name && phnum ? (
-                                                <button className="btn-basic next enable" onClick={toggleCertProceeding}>다음</button>
+                                                <button className="btn-basic next enable" onClick={incresProceeding}>다음</button>
                                             ) : (
                                                 <button className="btn-basic next">다음</button>
                                             )}
@@ -152,58 +182,24 @@ const SignUp = () => {
                             return (
                                 <>
                                     <div className="logo-wrap">
-                                        <h2>번호인증</h2>
-                                    </div>
-                                    <p>인증번호가 발송되었습니다 💌<br/>
-                                        오지 않았다면, 입력하신 번호를 다시 확인해주세요</p>
-                                    <div className="form-box">
-                                        <div>
-                                            <form>
-                                                <label for="sms-num">인증번호<span className="required">*</span></label>
-                                                <input 
-                                                    type="number" 
-                                                    className="input-basic" 
-                                                    name="sms-num"
-                                                    onChange={onChange}
-                                                    id="sms-num"/>
-                                                <button type="submit"></button>
-                                                <div className="message">인증번호가 발송되었습니다</div>
-                                            </form>
-                                            <form>
-                                                <button type="submit" className="btn-purple enable">인증하기</button>
-                                                <div className="message">입력시간 {Math.floor(counter/60)} : {counter%60 < 10 ? ('0'+String(counter%60)) : (counter%60)}</div>
-                                            </form>
-                                        </div>
-                                        <div className="btn-wrap">
-                                            {smsnum ? (
-                                                <button className="btn-basic next enable" onClick={incresProceeding}>다음</button>
-                                            ) : (
-                                                <button className="btn-basic next">다음</button>
-                                            )}
-                                        </div>
-                                    </div>
-                                </>
-                            );
-                        }
-                        else if (Proceeding === 2){
-                            return (
-                                <>
-                                    <div className="logo-wrap">
                                         <h2>아이디 만들기</h2>
                                     </div>
                                     <p>지금 설정하신 아이디으로 링크가 생성됩니다.<br/>
                                         나중엔 변경 불가합니다 🔏</p>
                                     <div className="form-box">
-                                        <form>
+                                        <form className={(focusid ? "selected" : "") + (userid ? " filled" : "")}>
                                             <label for="user-id">아이디(닉네임)<span className="required">*</span></label>
                                             <input 
                                                 type="text" 
                                                 className="input-basic" 
                                                 id="user-id"
                                                 name="user-id"
+                                                value={userid}
                                                 onChange={onChange}
+                                                onBlur={onFocus}
+                                                onFocus={onFocus}
                                                 placeholder="아이디를 입력하세요"/>
-                                            <button type="submit"></button>
+                                            <button></button>
                                             <div className="message">변경 불가 사항🔒</div>
                                         </form>
                                         <div className="btn-wrap">
@@ -217,7 +213,7 @@ const SignUp = () => {
                                 </>
                             );
                         }
-                        else if (Proceeding === 3){
+                        else if (Proceeding === 2){
                             return (
                                 <>
                                     <div className="logo-wrap">
@@ -225,7 +221,7 @@ const SignUp = () => {
                                     </div>
                                     <p>로그인에 필요한 비밀번호를 만드세요</p>
                                     <div className="form-box">
-                                        <form>
+                                        <form className={(focuspw ? "selected" : "") + (pwshow ? " pw-veiw" : " pw-hide")}>
                                             <label for="pw">비밀번호<span className="required">*</span></label>
                                             <input 
                                                 type="password" 
@@ -233,9 +229,11 @@ const SignUp = () => {
                                                 name="pw"
                                                 value={password}
                                                 onChange={onChange}
+                                                onBlur={onFocus}
+                                                onFocus={onFocus}
                                                 id="pw" 
                                                 placeholder="비밀번호를 입력하세요"/>
-                                            <button type="submit"></button>
+                                            <button onClick={togglepwshow}></button>
                                             <div className="message">🤫소문자, 숫자 포함 8자리 이상</div>
                                         </form>
                                         <div className="btn-wrap">
@@ -249,7 +247,7 @@ const SignUp = () => {
                                 </>
                             );
                         }
-                        else if (Proceeding === 4){
+                        else if (Proceeding === 3){
                             return (
                                 <>
                                     <div className="logo-wrap">
@@ -259,7 +257,7 @@ const SignUp = () => {
                                         정보는 나중에 얼마든지 수정할 수 있어요</p>
                                     <div className="form-box">
                                         <p>생일</p>
-                                        <form>
+                                        <form className={(focusyear ? "selected" : "") + (year ? " filled" : "")}>
                                             <div>
                                                 <label for="year"></label>
                                                 <input 
@@ -270,6 +268,8 @@ const SignUp = () => {
                                                     className="input-basic" 
                                                     name="year"
                                                     onChange={onChange}
+                                                    onBlur={onFocus}
+                                                    onFocus={onFocus}
                                                     placeholder="연도"/> 
                                             </div>
                                             <div>
@@ -282,6 +282,8 @@ const SignUp = () => {
                                                     className="input-basic" 
                                                     name="month"
                                                     onChange={onChange}
+                                                    onBlur={onFocus}
+                                                    onFocus={onFocus}
                                                     placeholder="월"/>
                                             </div>
                                             <div>
@@ -294,6 +296,8 @@ const SignUp = () => {
                                                     className="input-basic"
                                                     name="date"
                                                     onChange={onChange}
+                                                    onBlur={onFocus}
+                                                    onFocus={onFocus}
                                                     placeholder="일"/>
                                             </div>
                                         </form>
@@ -308,7 +312,7 @@ const SignUp = () => {
                                 </>
                             );
                         }
-                        else if (Proceeding === 5) {
+                        else if (Proceeding === 4) {
                             return(
                                 <>
                                     <div className="logo-wrap">
@@ -336,14 +340,17 @@ const SignUp = () => {
                                             )}
                                             <div className="message">우편번호를 입력해주세요</div>
                                         </form>
-                                        <form>
+                                        <form className={(focussubadd ? "selected" : "") + (subaddress ? " filled" : "")}>
                                             <label for="detail-address"></label>
                                             <input 
                                                 type="text" 
                                                 class="input-basic" 
                                                 id="detail-address" 
                                                 name="detail-address"
+                                                value={subaddress}
                                                 onChange={onChange}
+                                                onBlur={onFocus}
+                                                onFocus={onFocus}
                                                 placeholder="상세주소를 입력하세요"/>
                                             <button type="submit"></button>
                                             <div className="message">상세주소를 입력해주세요</div>
@@ -359,7 +366,7 @@ const SignUp = () => {
                                 </>
                             );
                         }
-                        else if (Proceeding === 6) {
+                        else if (Proceeding === 5) {
                             return(
                                 <>
                                     <div className="logo-wrap">
@@ -400,7 +407,7 @@ const SignUp = () => {
                                 </>
                             );
                         }
-                        else if(Proceeding === 7) {
+                        else if(Proceeding === 6) {
                             return(
                                 <>
                                     <div className="logo-wrap">

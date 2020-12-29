@@ -9,6 +9,8 @@ const AuthForm = () => {
     const [error, setError] = useState("");
     const [Proceeding, setProceeding] = useState(false);
     const [focusemail, setfocusemail] = useState(false);
+    const [focuspw, setfocuspw] = useState(false);
+    const [pwshow, setpwshow] = useState(false);
     const onChange = (event) => {
         const {target: {name, value}} = event;
         if(name === "email"){
@@ -49,7 +51,18 @@ const AuthForm = () => {
         console.log(data);
     };
     const toggleProceeding = () => setProceeding((prev) => !prev);
-    const onFocus = () => setfocusemail((prev) => !prev);
+    const onFocus = (event) => {
+        const {target: {name, value}} = event;
+        if(name === "email"){
+            setfocusemail((prev) => !prev);
+        } else if(name === "password"){
+            setfocuspw((prev) => !prev);
+        }
+    };
+    const togglepwshow = (event) => {
+        event.preventDefault();
+        setpwshow((prev) => !prev);
+    }
 
     return(
         <>
@@ -68,7 +81,7 @@ const AuthForm = () => {
                             <p>안녕하세요, 브리티 관리자 페이지 입니다😀<br></br>
                                 브리티와 함께 영역을 확장해볼까요?</p>
                             <div className="form-box">
-                                <form className={focusemail? "selected" : ""}>
+                                <form className={(focusemail ? "selected" : "") + (email ? " filled" : "")}>
                                     <label for="user-email">이메일</label>
                                     <input 
                                         name="email" 
@@ -76,10 +89,11 @@ const AuthForm = () => {
                                         className="input-basic"
                                         id="user-email" 
                                         placeholder="이메일이나 아이디를 입력하세요"
+                                        value={email}
                                         onFocus={onFocus}
                                         onBlur={onFocus}
                                         onChange={onChange}/>
-                                    <button type="submit"></button>
+                                    <button></button>
                                     <div className="message">{error}</div>
                                 </form>
                                 <div className="btn-wrap">
@@ -103,17 +117,17 @@ const AuthForm = () => {
                             </div>
                             <p className="user-id">{email}</p>
                             <div className="form-box">
-                                <form>
+                                <form className={(focuspw ? "selected" : "") + (pwshow ? " pw-veiw" : " pw-hide")}>
                                     <label for="login-pw">비밀번호</label>
                                     <input 
                                         name="password" 
-                                        type="password" 
+                                        type={pwshow ? "text" : "password"}
                                         className="input-basic" 
                                         id="login-pw"
                                         placeholder="비밀번호를 입력하세요"
                                         value={password}
                                         onChange={onChange}/>
-                                        <button type="submit"></button>
+                                        <button onClick={togglepwshow}></button>
                                         <div className="message">{error}</div>
                                 </form>
                                 <div className="check-circle square">
