@@ -154,8 +154,8 @@ const SignUp = () => {
                                         <form className={(focusph ? "selected" : "") + (phnum ? " filled" : "")}>
                                             <label for="ph-number">휴대폰 번호<span className="required">*</span></label>
                                             <input 
-                                                type="number" 
-                                                pattern="\\d*"
+                                                type="text" 
+                                                pattern="[0-9]*"
                                                 className="input-basic" 
                                                 id="ph-number" 
                                                 name="ph-number"
