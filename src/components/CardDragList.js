@@ -24,9 +24,6 @@ const CardDragList = (nweets) => {
     });
 
     const getListStyle = isDraggingOver => ({
-        background: isDraggingOver ? "white" : "white",
-        padding: grid,
-        width: 320
     });
 
     const onDragEnd = (result) => {
