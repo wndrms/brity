@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 const Home = ({refreshUser, userObj}) => {
     const history = useHistory();
     const [nweets, setNweets] = useState([]);
+    const [addcard, setaddcard] = useState(0);
     useEffect(() => {
         dbService.collection("nweets").onSnapshot(snapshot => {
             const nweetArray = snapshot.docs.map((doc) => ({
@@ -21,9 +22,15 @@ const Home = ({refreshUser, userObj}) => {
         history.push("/");
         refreshUser();
     };
-    const addcard = () => {
-        history.push("/addcard");
+    const linkaddcard = () => {
+        if(addcard === 1){
+            history.push("/addcard");
+        } else if(addcard === 2){
+            history.push("/addnotice");
+        }
     }
+    const toggleaddcard1 = () => history.push("/addcard");
+    const toggleaddcard2 = () => history.push("/addnotice");
     return (
         <div id="wrap" className="admin-home">
             <button onClick={onLogOutClick}>로그아웃</button>
@@ -35,14 +42,16 @@ const Home = ({refreshUser, userObj}) => {
                         { close => (
                             <div className="bg-opacity alert on">
                                 <div className="alert-wrap">
-                                    <div className="text-box">
-                                        <p className="p-header">@{userObj.displayName}</p>
-                                        <p className="p-text">링크 주소가 복사되었습니다.<br/>
-                                            바로 이동할까요?</p>
-                                    </div>
-                                    <div className="btn-box">
-                                        <button onClick={close}>닫기</button>
-                                        <button>바로이동👉</button>
+                                    <div className="alert-box">
+                                        <div className="text-box">
+                                            <p className="p-header">@{userObj.displayName}</p>
+                                            <p className="p-text">링크 주소가 복사되었습니다.<br/>
+                                                바로 이동할까요?</p>
+                                        </div>
+                                        <div className="btn-box">
+                                            <button onClick={close}>닫기</button>
+                                            <button>바로이동👉</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -97,9 +106,7 @@ const Home = ({refreshUser, userObj}) => {
                     <Popup
                         trigger={<p>카드만들기</p>}
                         modal
-                        lockScroll
-                        nested
-                        onClose={addcard}>
+                        >
                         { close => (
                             <div className="bg-opacity on">
                                 <div className="sheet-wrap ad-card">
@@ -107,8 +114,14 @@ const Home = ({refreshUser, userObj}) => {
                                         <button className="drag-btn"><span></span></button>
                                         <div className="sheet-name">메뉴</div>
                                         <ul className="sheet-list">
-                                            <li><button onClick={close}>🔗 링크 카드 만들기</button></li>
-                                            <li><button>📢 공지 카드 만들기</button></li>
+                                            <li><button onClick={event => {
+                                                close();
+                                                toggleaddcard1();
+                                                }}>🔗 링크 카드 만들기</button></li>
+                                            <li><button onClick={event => {
+                                                close();
+                                                toggleaddcard2();
+                                                }}>📢 공지 카드 만들기</button></li>
                                         </ul>
                                     </div>
                                 </div>

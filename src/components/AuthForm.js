@@ -5,7 +5,6 @@ import {Link} from "react-router-dom";
 const AuthForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [newAccount, setNewAccount] = useState(false);
     const [error, setError] = useState("");
     const [Proceeding, setProceeding] = useState(false);
     const [focusemail, setfocusemail] = useState(false);
@@ -23,17 +22,10 @@ const AuthForm = () => {
         event.preventDefault();
         try {
             let data;
-            if(newAccount){
-                data = await authService.createUserWithEmailAndPassword(
-                    email,
-                    password
-                );
-            } else {
-                data = await authService.signInWithEmailAndPassword(
-                    email, 
-                    password
-                );
-            }
+            data = await authService.signInWithEmailAndPassword(
+                email, 
+                password
+            );
             console.log(data);
         } catch (err) {
             setError(err.message);
@@ -52,7 +44,7 @@ const AuthForm = () => {
     };
     const toggleProceeding = () => setProceeding((prev) => !prev);
     const onFocus = (event) => {
-        const {target: {name, value}} = event;
+        const {target: {name}} = event;
         if(name === "email"){
             setfocusemail((prev) => !prev);
         } else if(name === "password"){

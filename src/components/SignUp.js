@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {Link, useHistory} from "react-router-dom";
 import DaumPostcode from "react-daum-postcode";
 import { authService } from "fbase";
@@ -155,6 +155,7 @@ const SignUp = () => {
                                             <label for="ph-number">휴대폰 번호<span className="required">*</span></label>
                                             <input 
                                                 type="number" 
+                                                pattern="\\d*"
                                                 className="input-basic" 
                                                 id="ph-number" 
                                                 name="ph-number"

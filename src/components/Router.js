@@ -3,11 +3,11 @@ import {HashRouter as Router, Route, Switch } from "react-router-dom";
 import Auth from "routes/Auth";
 import Home from "routes/Home";
 import Profile from "routes/Profile";
-import Navigation from "components/Navigation";
 import SignUp from "./SignUp";
 import Findemail from "./Findemail";
 import Findpw from "./Findpw";
 import Addcard from "./Addcard";
+import Addnotice from "./Addnotice";
 
 const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
     return (
@@ -20,6 +20,9 @@ const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
                         </Route>
                         <Route exact path="/addcard">
                             <Addcard userObj={userObj}/>
+                        </Route>
+                        <Route exact path="/addnotice">
+                            <Addnotice userObj={userObj}/>
                         </Route>
                         <Route exact path="/profile">
                             <Profile refreshUser={refreshUser} userObj={userObj}/>

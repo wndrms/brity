@@ -1,12 +1,10 @@
-import { dbService } from "fbase";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const Addcard = ({userObj}) => {
+const Addnotice = (userObj) => {
     const history = useHistory();
     const [name, setname] = useState("");
     const [sub, setsub] = useState("");
-
     const onChange = (event) => {
         const {target: {name, value}} = event;
         if(name === "name"){
@@ -15,25 +13,9 @@ const Addcard = ({userObj}) => {
             setsub(value);
         }
     }
-    const onSubmit = async (event) => {
-        if (name === "" || sub === "") {
-            return;
-        }
-        event.preventDefault();
-        const cardObj = {
-            text: name,
-            subtext: sub,
-            createdAt: Date.now(),
-            creatorId: userObj.uid,
-        }
-        await dbService.collection("nweets").add(cardObj);
-        setname("");
-        setsub("");
-        history.push("/");
-    };
     const gethome = () => history.push("/");
     return(
-        <div id="wrap" className="ad-card">
+        <div id="wrap" className="ad-card ad-card-notice">
             <header className="header">
                 <div className="menu-wrap">
                     <button className="back" onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
@@ -45,17 +27,17 @@ const Addcard = ({userObj}) => {
                 <div className="exempli border-bottom">
                     <h2>카드 예시</h2>
                     <div className="card">
-                        <h3><span>🛍</span>  |  B. {sub? sub : "(서브 타이틀)"}</h3>
-                        <p>카카오톡 문의  |  A. {name ? name : "(카드 이름)"}</p>
+                        <h3><span>🛍</span>  |  B. (서브 타이틀)</h3>
+                        <p>카카오톡 문의  |  A. (카드 이름)</p>
                     </div>
                 </div>
                 <div className="form-box border-bottom">
                     <form>
-                        <label for="card-name">A. 어떤 이름의 링크 카드를 만들어 볼까요?<span className="required">*</span></label>
-                        <input 
-                            type="text" 
-                            id="card-name" 
-                            className="input-basic" 
+                        <label for="card-name">A. 어떤 이름의 공지 카드를 만들어 볼까요?<span className="required">*</span></label>
+                        <input
+                            type="text"
+                            id="card-name"
+                            className="input-basic"
                             name="name"
                             value={name}
                             onChange={onChange}
@@ -74,6 +56,43 @@ const Addcard = ({userObj}) => {
                             placeholder="서브 타이틀 내용을 적어주세요  ex. 🛍"/>
                         <div className="message">정확한 링크 주소를 입력해주세요</div>
                     </form>
+                    <form>
+                        <label for="card-index">C. 어떤 내용을 공지할까요?</label>
+                        <textarea
+                            name="card-index"
+                            id="card-index"
+                            cols="30"
+                            rows="10"
+                            className="input-basic"
+                            placeholder="공지할 내용을 입력해주세요"></textarea>
+                        <div className="message">공지 내용을 입력해주세요</div>
+                    </form>
+                    <form>
+                        <label for="card-img" className="ad-img-box">
+                            <p>첨부할 이미지가 있나요?</p>
+                            <div>
+                                <p>📷</p>
+                                <p>이미지 올리기</p>
+                                <p>클릭 후 이미지 파일을 선택하거나,<br/>
+                                    직접 끌어와서 업로드해주세요 </p>
+                            </div>
+                        </label>
+                        <input type="file" id="card-img" className="input-basic"/>
+                        <div className="img-del-btn">
+                            <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="삭제"/></button>
+                        </div>
+                    </form>
+                </div>
+                <div className="toggle-box">
+                    <div className="toggle-on">
+                        <p>공지 공개 여부<span>ON</span></p>
+                        <button className="btn-toggle"><span></span></button>
+                    </div>
+                    <div>
+                        <p>댓글 허용<span>OFF</span></p>
+                        <button className="btn-toggle"><span></span></button>
+                    </div>
+                    <p>📢 지금은 댓글 기능을 지원하지 않고 있어요 😢</p>
                 </div>
                 <div className="toggle-box">
                     <div className="toggle-on">
@@ -91,14 +110,10 @@ const Addcard = ({userObj}) => {
                         <img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-right.svg"} alt="선택"/>
                     </button>
                 </div>
-                { (name && sub) ? (
-                    <button className="btn-purple-filled enable" onClick={onSubmit}>링크 만들기 완료</button>
-                ) : (
-                    <button className="btn-purple-filled">링크 만들기 완료</button>
-                )}
+                <button className="btn-purple-filled">공지 만들기 완료</button>
             </div>
         </div>
     );
 }
 
-export default Addcard;
+export default Addnotice;
