@@ -7,6 +7,7 @@ import Navigation from "components/Navigation";
 import SignUp from "./SignUp";
 import Findemail from "./Findemail";
 import Findpw from "./Findpw";
+import Addcard from "./Addcard";
 
 const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
     return (
@@ -16,6 +17,9 @@ const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
                     <>
                         <Route exact path="/">
                             <Home refreshUser={refreshUser} userObj={userObj}/>
+                        </Route>
+                        <Route exact path="/addcard">
+                            <Addcard userObj={userObj}/>
                         </Route>
                         <Route exact path="/profile">
                             <Profile refreshUser={refreshUser} userObj={userObj}/>

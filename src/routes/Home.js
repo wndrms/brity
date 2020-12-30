@@ -21,6 +21,9 @@ const Home = ({refreshUser, userObj}) => {
         history.push("/");
         refreshUser();
     };
+    const addcard = () => {
+        history.push("/addcard");
+    }
     return (
         <div id="wrap" className="admin-home">
             <button onClick={onLogOutClick}>로그아웃</button>
@@ -47,7 +50,23 @@ const Home = ({refreshUser, userObj}) => {
                     </Popup>
                     <p><span className="admin">admin</span>with by <u>brity</u></p>
                     <button type="submit" className="menu">
-                        <img src={process.env.PUBLIC_URL + "02-icon-01-outline-bars.svg"} alt="menu"/>
+                        <Popup
+                            trigger={<img src={process.env.PUBLIC_URL + "02-icon-01-outline-bars.svg"} alt="menu"/>}
+                            modal
+                            closeOnDocumentClick>
+                            <nav className="bg-opacity on">
+                                <div className="sheet-wrap nav-sheet">
+                                    <div className="sheet-box">
+                                        <button className="drag-btn"><span></span></button>
+                                        <div className="sheet-name">메뉴</div>
+                                        <ul className="sheet-list">
+                                            <li><button>🛠 내 계정 관리</button></li>
+                                            <li><button>🧑‍🔧 고객 도움</button></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </nav>
+                        </Popup>
                     </button>
                 </div>
             </header>
@@ -75,69 +94,30 @@ const Home = ({refreshUser, userObj}) => {
                 }
                 <div className={"ad-card-btn" + (!nweets.length ? " emrty-ani" : "")}>
                     <img src={process.env.PUBLIC_URL + "02-icon-01-outline-plus.svg"} alt="카드만들기"/>
-                    <p>카드만들기</p>
+                    <Popup
+                        trigger={<p>카드만들기</p>}
+                        modal
+                        lockScroll
+                        nested
+                        onClose={addcard}>
+                        { close => (
+                            <div className="bg-opacity on">
+                                <div className="sheet-wrap ad-card">
+                                    <div className="sheet-box">
+                                        <button className="drag-btn"><span></span></button>
+                                        <div className="sheet-name">메뉴</div>
+                                        <ul className="sheet-list">
+                                            <li><button onClick={close}>🔗 링크 카드 만들기</button></li>
+                                            <li><button>📢 공지 카드 만들기</button></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </Popup>
                 </div>
             </div>
         </div>
-        /*<div className="container">
-            <div style={{marginTop: 30}}>
-                <CardDragList nweets={nweets}></CardDragList>
-            </div>
-            <Popup 
-                trigger={<button>+</button>} 
-                position="top center"
-                className="menu">
-                    <div className="menu">
-                        <div className="menu-header">카드 만들기</div>
-                        <Popup
-                            trigger={<div className="menu-item">🔗 Link Card 만들기</div>}
-                            modal
-                            contentStyle={{width: "80%", height: "80%"}}
-                        >
-                            <div className="menu-header">🔗 Link Card 만들기</div>
-                            <div>
-                                <span>홈 카드에 보여질 이름을 적어주세요</span>
-                            </div>
-                            <div>
-                                <input type="text" placeholder="어떤 이름의 링크를 만들어드릴까요?"></input>
-                            </div>
-                            <div>
-                                <span>연결 할 링크 주소를 입력해주세요</span>
-                            </div>
-                            <div>
-                                <input type="text" placeholder="연결할 링크 주소 전체를 입력해주세요"></input>
-                            </div>
-                            <div>
-                                <label>링크 공개 여부</label>
-                            </div>
-                            <button>링크 만들기 완료</button>
-                        </Popup>
-                        <Popup
-                            trigger={<div className="menu-item">📢Notice Card 만들기</div>}
-                            modal
-                            contentStyle={{width: "80%", height: "80%"}}
-                        >
-                            <div className="menu-header">📢Notice Card 만들기</div>
-                            <div>
-                                <span>홈 카드에 보여질 이름을 적어주세요*</span>
-                            </div>
-                            <div>
-                                <input type="text" placeholder="어떤 이름의 링크를 만들어드릴까요?"></input>
-                            </div>
-                            <div>
-                                <span>연결 할 링크 주소를 입력해주세요*</span>
-                            </div>
-                            <div>
-                                <input type="text" placeholder="연결할 링크 주소 전체를 입력해주세요"></input>
-                            </div>
-                            <div>
-                                <label>공지 공개 여부</label>
-                            </div>
-                            <button>공지 만들기 완료</button>
-                        </Popup>
-                    </div>
-            </Popup>
-            </div>*/
     );
 };
 export default Home;
