@@ -54,8 +54,7 @@ const Findpw = () => {
                                                 className="input-basic" 
                                                 placeholder="이메일이나 아이디를 입력하세요"
                                                 onChange={onChange}/>
-                                            <button type="submit"></button>
-                                            <div className="message">다음 버튼을 누르면 인증번호가 발송됩니다.</div>
+                                            <button></button>
                                         </form>
 
                                         <form className="btn-wrap">

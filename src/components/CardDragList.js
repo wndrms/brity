@@ -38,7 +38,6 @@ const CardDragList = (nweets) => {
         );
         setlist(Cardlists);
     };
-    console.log(Cardlist);
     return (
         <>
         <DragDropContext onDragEnd={onDragEnd}>
@@ -59,10 +58,10 @@ const CardDragList = (nweets) => {
                                         style={getItemStyle(
                                             snapshot.isDragging,
                                             provided.draggableProps.style
-                                        )} href={"http://" + nweet.text}>
-                                        <h3>📢</h3>
+                                        )}>
+                                        <h3>📢{nweet.subtitle}</h3>
                                         <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-arrows.svg"} alt="이동화살표"></img></button>
-                                        <p>{nweet.text}</p>
+                                        <p>{nweet.title}</p>
                                     </div>
                                 )}
                             </Draggable>

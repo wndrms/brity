@@ -27,12 +27,6 @@ const NweetFactory = ({userObj}) => {
         await dbService.collection("nweets").add(nweetObj);
         setNweet("");
         setAttachment("");
-        /*await dbService.collection("nweets").add({
-            text: nweet,
-            createdAt: Date.now(),
-            creatorId: userObj.uid,
-        });
-        setNweet("");*/
     };
     const onChange = (event) => {
         const {

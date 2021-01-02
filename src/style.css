@@ -11,7 +11,7 @@ input::placeholder{
 h2{letter-spacing: .43px;}
 input, a{font-weight: normal;}
 a{text-decoration: none;}
-*:focus, textarea{outline: none;}
+*:focus{outline: none;}
 button{border: none;}
 input{-webkit-appearance: none;}
 input[type="number"]::-webkit-outer-spin-button,
@@ -140,7 +140,7 @@ form.selected input{border: 1px solid #555;}
 /*login-pw*/
 .login-pw .content >form{position: static;} 
 .login-pw .content .user-id{margin-top: 32px; font-weight: 700;}
-.login-pw .btn-wrap{margin-top: 26px; justify-content: space-between;}
+.login-pw .btn-wrap{margin-top: 26px;}
 .login-pw .logo-wrap h2{font-size: 2.4rem;}
 .login-pw .form-box form.btn-wrap{justify-content: space-between;}
 
@@ -152,6 +152,8 @@ form.selected input{border: 1px solid #555;}
 
 /*sign-up-01*/
 .sign-up-01 .form-box form{margin-top: 38px;}
+.sign-up-01 .form-box form:first-child .message{display: none;}
+.sign-up-01 .form-box form:first-child.error .message{display: block;}
 
 /*sign-up-02*/
 .sign-up-02 .message{color: #e94757; display: block;}
@@ -160,9 +162,9 @@ form.selected input{border: 1px solid #555;}
 .sign-up-03 .form-box{margin-top: 62px;}
 
 /*sign-up-04*/
-.sign-up-04 .form-box form{display: flex;}
-.sign-up-04 .form-box form >div{width: 100%;}
-.sign-up-04 .form-box form >div:nth-child(2){margin: 0 8px;}
+.sign-up-04 .birth{display: flex;}
+.sign-up-04 .birth form{width: 100%;}
+.sign-up-04 .birth form:nth-child(2){margin: 0 8px;}
 
 /*sign-up-05*/
 .sign-up-05 form.ico-serch{position: relative; margin-bottom: 22px}
@@ -177,7 +179,7 @@ form.selected input{border: 1px solid #555;}
 /*sign-up-06*/
 .sign-up-06 .form-box form ul li label{height: 50px; margin-top: 0px;}
 .sign-up-06 .form-box .all{margin-top: 48px;}
-.sign-up-06 .btn-wrap{display: block; margin-top: 8px;}
+.sign-up-06 .btn-wrap{display: block; margin-top: 16px;}
 .sign-up-06 .content .btn-wrap button{width: 100%;}
 .sign-up-06 .form-box .all .message{position: static; margin: 8px 0; display: none;}
 .sign-up-06 .all{margin-bottom: 8px;}
@@ -203,7 +205,8 @@ form.selected input{border: 1px solid #555;}
 /*reset-pw02*/
 .reset-pw02 .form-box form .message{display: none;}
 .reset-pw02 .form-box div form:last-child{margin-top: 30px;}
-.reset-pw02 .btn-basic{width: 100%;}
+.reset-pw02 .btn-basic{width: 100%; font-size: 1.6rem;}
+.reset-pw02 .user-id{color: #e94757;}
 
 /*reset-pw03*/
 .reset-pw03 .form-box form .message{display: none;}
@@ -217,3 +220,22 @@ form.selected input{border: 1px solid #555;}
 .reset-pw03 .form-box{margin-top: 66px;}
 .reset-pw03 .form-box .btn-wrap{margin-top: 0;}
 .reset-pw03 .form-box button{margin-top: 0;}
+
+/* customer-help */
+.customer-help header{height: 50px; width: 100%; position: relative;}
+.customer-help header p{
+    height: 50px; text-align: center; line-height: 50px;
+    font-size: 1.6rem; font-weight: 700;}
+.customer-help header button{position: absolute; top: 0; right: 0;}
+.customer-help h2{font-size: 1.4rem; font-weight: 500; margin: 16px 0 48px;}
+.customer-help a{
+    font-size: 1.8rem; font-weight: 700; text-decoration: underline; 
+    margin-bottom: 32px; display: block;}
+
+/* find-email */
+.find-email h2{margin-top: 8px; font-size: 2rem; font-weight: 700;}
+.find-email .content h2 +p{
+    font-size: 1.4rem; font-weight: 500; margin: 16px 0 40px;}
+.find-email a{
+    font-size: 1.8rem; font-weight: 700; text-decoration: underline; 
+    margin-bottom: 32px; display: block;}

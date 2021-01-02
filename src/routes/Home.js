@@ -7,7 +7,6 @@ import { useHistory } from "react-router-dom";
 const Home = ({refreshUser, userObj}) => {
     const history = useHistory();
     const [nweets, setNweets] = useState([]);
-    const [addcard, setaddcard] = useState(0);
     useEffect(() => {
         dbService.collection("nweets").onSnapshot(snapshot => {
             const nweetArray = snapshot.docs.map((doc) => ({
@@ -22,13 +21,6 @@ const Home = ({refreshUser, userObj}) => {
         history.push("/");
         refreshUser();
     };
-    const linkaddcard = () => {
-        if(addcard === 1){
-            history.push("/addcard");
-        } else if(addcard === 2){
-            history.push("/addnotice");
-        }
-    }
     const toggleaddcard1 = () => history.push("/addcard");
     const toggleaddcard2 = () => history.push("/addnotice");
     return (

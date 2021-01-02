@@ -1,5 +1,7 @@
+import { dbService, storageService } from "fbase";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import {v4 as uuidv4} from "uuid";
 
 const Addnotice = (userObj) => {
     const history = useHistory();
@@ -29,12 +31,32 @@ const Addnotice = (userObj) => {
         reader.readAsDataURL(theFile);
         console.log(attachment);
     };
-    const attachstyle = () => ({
-        background: `url(${attachment})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center center",
-    })
+    const onClearAttachment = () => setAttachment("");
+    const onSubmit = async (event) => {
+        if (name === "" || sub === "" || text === "") {
+            return;
+        }
+        event.preventDefault();
+        let attachmentUrl = "";
+        if(attachment !== ""){
+            const attachmentRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
+            const response = await attachmentRef.putString(attachment, "data_url");
+            const attachmentUrl = await response.ref.getDownloadURL();
+        }
+        const cardObj = {
+            title: name,
+            subtitle: sub,
+            text: text,
+            createdAt: Date.now(),
+            creatorId: userObj.uid,
+            attachmentUrl
+        }
+        await dbService.collection("nweets").add(cardObj);
+        setname("");
+        setsub("");
+        settext("");
+        setAttachment("");
+    };
     const gethome = () => history.push("/");
     return(
         <div id="wrap" className="ad-card ad-card-notice">
@@ -95,14 +117,29 @@ const Addnotice = (userObj) => {
                     <form>
                         <label for="card-img" className="ad-img-box">
                             <p>첨부할 이미지가 있나요?</p>
-                            {attachment
-                            }
-                            <div style={attachstyle}>
-                                <p>📷</p>
-                                <p>이미지 올리기</p>
-                                <p>클릭 후 이미지 파일을 선택하거나,<br/>
-                                    직접 끌어와서 업로드해주세요 </p>
-                            </div>
+                            {attachment ? (
+                                <>
+                                    <div style={{
+                                        background: `url(${attachment})`,
+                                        backgroundSize: "cover",
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "center center",}}>
+                                        <p>📷</p>
+                                        <p>이미지 올리기</p>
+                                        <p>클릭 후 이미지 파일을 선택하거나,<br/>
+                                            직접 끌어와서 업로드해주세요 </p>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div>
+                                        <p>📷</p>
+                                        <p>이미지 올리기</p>
+                                        <p>클릭 후 이미지 파일을 선택하거나,<br/>
+                                            직접 끌어와서 업로드해주세요 </p>
+                                    </div>
+                                </>
+                            )}
                         </label>
                         <input 
                             type="file" 
@@ -110,7 +147,7 @@ const Addnotice = (userObj) => {
                             className="input-basic"
                             onChange={onFileChange}/>
                         <div className="img-del-btn">
-                            <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="삭제"/></button>
+                            <button onClick={onClearAttachment}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="삭제"/></button>
                         </div>
                     </form>
                 </div>
@@ -141,7 +178,7 @@ const Addnotice = (userObj) => {
                         <img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-right.svg"} alt="선택"/>
                     </button>
                 </div>
-                <button className="btn-purple-filled">공지 만들기 완료</button>
+                <button className="btn-purple-filled" onClick={onSubmit}>공지 만들기 완료</button>
             </div>
         </div>
     );

@@ -93,7 +93,7 @@ const AuthForm = () => {
                                 </form>
                                 <div className="btn-wrap">
                                     <Link to="/Findemail">
-                                        <a>이메일을 잊으셨나요?</a>
+                                        이메일을 잊으셨나요?
                                     </Link>
                                     {email ? (
                                         <button className="btn-basic next enable" onClick={toggleProceeding}>다음</button>
@@ -121,6 +121,8 @@ const AuthForm = () => {
                                         id="login-pw"
                                         placeholder="비밀번호를 입력하세요"
                                         value={password}
+                                        onFocus={onFocus}
+                                        onBlur={onFocus}
                                         onChange={onChange}/>
                                         <button onClick={togglepwshow}></button>
                                         <div className="message">{error}</div>
@@ -131,7 +133,7 @@ const AuthForm = () => {
                                 </div>
                                 <div className="btn-wrap">
                                     <Link to="/Findpw">
-                                        <a>비밀번호를 잊으셨나요?</a>
+                                        비밀번호를 잊으셨나요?
                                     </Link>
                                     {password ? (
                                         <button className="btn-basic next enable" onClick={onSubmit}>다음</button>
