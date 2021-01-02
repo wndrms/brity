@@ -5,14 +5,36 @@ const Addnotice = (userObj) => {
     const history = useHistory();
     const [name, setname] = useState("");
     const [sub, setsub] = useState("");
+    const [text, settext] = useState("");
+    const [attachment, setAttachment] = useState("");
     const onChange = (event) => {
         const {target: {name, value}} = event;
         if(name === "name"){
             setname(value);
         } else if(name === "sub"){
             setsub(value);
+        } else if(name === "text"){
+            settext(value);
         }
     }
+    const onFileChange = (event) => {
+        const {target: {files}, } = event;
+        const theFile = files[0];
+        const reader = new FileReader();
+        reader.onloadend = (finishedEvent) => {
+            const {currentTarget: {result},
+            } = finishedEvent;
+            setAttachment(result);
+        };
+        reader.readAsDataURL(theFile);
+        console.log(attachment);
+    };
+    const attachstyle = () => ({
+        background: `url(${attachment})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center center",
+    })
     const gethome = () => history.push("/");
     return(
         <div id="wrap" className="ad-card ad-card-notice">
@@ -27,8 +49,8 @@ const Addnotice = (userObj) => {
                 <div className="exempli border-bottom">
                     <h2>카드 예시</h2>
                     <div className="card">
-                        <h3><span>🛍</span>  |  B. (서브 타이틀)</h3>
-                        <p>카카오톡 문의  |  A. (카드 이름)</p>
+                        <h3><span>🛍</span>  |  B. {sub? sub : "(서브 타이틀)"}</h3>
+                        <p>카카오톡 문의  |  A. {name ? name : "(카드 이름)"}</p>
                     </div>
                 </div>
                 <div className="form-box border-bottom">
@@ -64,20 +86,29 @@ const Addnotice = (userObj) => {
                             cols="30"
                             rows="10"
                             className="input-basic"
+                            name="text"
+                            value={text}
+                            onChange={onChange}
                             placeholder="공지할 내용을 입력해주세요"></textarea>
                         <div className="message">공지 내용을 입력해주세요</div>
                     </form>
                     <form>
                         <label for="card-img" className="ad-img-box">
                             <p>첨부할 이미지가 있나요?</p>
-                            <div>
+                            {attachment
+                            }
+                            <div style={attachstyle}>
                                 <p>📷</p>
                                 <p>이미지 올리기</p>
                                 <p>클릭 후 이미지 파일을 선택하거나,<br/>
                                     직접 끌어와서 업로드해주세요 </p>
                             </div>
                         </label>
-                        <input type="file" id="card-img" className="input-basic"/>
+                        <input 
+                            type="file" 
+                            id="card-img" 
+                            className="input-basic"
+                            onChange={onFileChange}/>
                         <div className="img-del-btn">
                             <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="삭제"/></button>
                         </div>
