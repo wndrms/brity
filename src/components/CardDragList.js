@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
 
-const CardDragList = (nweets) => {
+const CardDragList = ({nweets, isDelete}) => {
     const [Cardlist, setlist] = useState([]);
     useEffect(() => {
-        setlist(nweets.nweets);
+        setlist(nweets);
     }, []);
     const reorder = (list, startIndex, endIndex) => {
         const result = Array.from(list);
@@ -13,7 +13,6 @@ const CardDragList = (nweets) => {
 
         return result;
     };
-    const grid = 8;
 
     const getItemStyle = (isDragging, draggableStyle) => ({
         userSelect: "none",
@@ -51,7 +50,7 @@ const CardDragList = (nweets) => {
                             <Draggable key={nweet.id} draggableId={nweet.id} index={index}>
                                 {(provided, snapshot) => (
                                     <div
-                                        className="card"
+                                        className={"card" + (isDelete ? " del" : "")}
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
@@ -60,7 +59,11 @@ const CardDragList = (nweets) => {
                                             provided.draggableProps.style
                                         )}>
                                         <h3>📢{nweet.subtitle}</h3>
-                                        <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-arrows.svg"} alt="이동화살표"></img></button>
+                                        {isDelete ? (
+                                            <button><img src={process.env.PUBLIC_URL + "02-icon-02-solid-check-circle.svg"} alt="삭제 체크"></img></button>
+                                        ) : (
+                                            <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-arrows.svg"} alt="이동화살표"></img></button>
+                                        )}       
                                         <p>{nweet.title}</p>
                                     </div>
                                 )}

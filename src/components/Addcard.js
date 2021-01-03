@@ -7,7 +7,22 @@ const Addcard = ({userObj}) => {
     const [name, setname] = useState("");
     const [sub, setsub] = useState("");
     const [Processing, setProcessing] = useState(0);
-
+    const [Color, setColor] = useState("");
+    const [select, setselect] = useState(true);
+    const [size, setsize] = useState(true);
+    const gradientcolor = ["linear-gradient(136deg, #d4b2da 1%, #9cd6e0)", 
+                            "linear-gradient(136deg, #86c9ae 1%, #704ddf)",
+                            "linear-gradient(136deg, #4590e1 1%, #de72b2)",
+                            "linear-gradient(135deg, #fa7696, #fed946 100%)",
+                            "linear-gradient(136deg, #c71d6f 1%, #d09693 100%)",
+                            "linear-gradient(136deg, #134e5e 1%, #71b280)",
+                            "linear-gradient(135deg, #16222a, #3a6073 100%)",
+                            "linear-gradient(135deg, #3a6186, #89253e 100%)",
+                            "linear-gradient(136deg, #8e2de2 1%, #4a00e0)",
+                            "linear-gradient(136deg, #4767af 1%, #1a2b4c)",
+                            "linear-gradient(136deg, #545454 1%, #111112 96%)"];
+    const flatcolor = ["#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51", "#ce4257", "#720026", "#4f000b", "#540d6e", " #132572", "#1d1e20"];
+    const pastelcolor = ["#e3b5b7", "#ddb5cb", "#c8bbdb", "#b5cbdc", "#b7d0cb", "#e4d8b9", "#e1c6b3", "#cebdb3", "#988585", " #644d56", "#353240"];
     const onChange = (event) => {
         const {target: {name, value}} = event;
         if(name === "name"){
@@ -15,6 +30,9 @@ const Addcard = ({userObj}) => {
         } else if(name === "sub"){
             setsub(value);
         }
+    }
+    const onClickColor = (event, colorname) => {
+        setColor(colorname);
     }
     const onSubmit = async (event) => {
         if (name === "" || sub === "") {
@@ -24,6 +42,7 @@ const Addcard = ({userObj}) => {
         const cardObj = {
             title: name,
             subtitle: sub,
+            cardcolor: Color,
             createdAt: Date.now(),
             creatorId: userObj.uid,
         }
@@ -32,15 +51,18 @@ const Addcard = ({userObj}) => {
         setsub("");
         history.push("/");
     };
+    const toggleProcessing0 = () => setProcessing(0);
     const toggleProcessing1 = () => setProcessing(1);
     const toggleProcessing2 = () => setProcessing(2);
     const gethome = () => history.push("/");
+    const toggleselect = () => setselect((prev) => !prev);
+    const togglesize = () => setsize((prev) => !prev);
     return(
-        <div id="wrap" className="ad-card">
+        <div id="wrap" className={"ad-card" + (Processing>0 ? (Processing === 1 ? (" ad-card-size") : (" ad-card-cover")) : (""))}>
             <header className="header">
                 <div className="menu-wrap">
-                    <button className="back" onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
-                    <p>🔗 링크 카드 만들기</p>
+                    <button className="back" onClick={toggleProcessing0}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
+                    <p>{(Processing>0 ? (Processing === 1 ? ("카드 크기 선택") : ("카드 커버 선택")) : ("🔗 링크 카드 만들기"))}</p>
                     <button className="close" onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>
                 </div>
             </header>
@@ -111,11 +133,11 @@ const Addcard = ({userObj}) => {
                                 <h2>원하는 카드 크기를 선택해주세요</h2>
                                 <div className="form-box border-bottom">
                                     <form className="check-circle">
-                                        <input type="checkbox" name="checkbox" id="size-s"/>
+                                        <input type="checkbox" name="checkbox" id="size-s" checked={!size && "checked"} onClick={togglesize}/>
                                         <label for="size-s">S</label>
                                     </form>
                                     <form className="check-circle">
-                                        <input checked type="checkbox" name="checkbox" id="size-l"/>
+                                        <input checked type="checkbox" name="checkbox" id="size-l" checked={size && "checked"} onClick={togglesize}/>
                                         <label for="size-l">L</label>
                                     </form>
                                     <p className="size-s-error">📢 지금은 ‘L’ 사이즈 카드만 지원하고 있어요<br/>
@@ -134,7 +156,7 @@ const Addcard = ({userObj}) => {
                                         </div>
                                     </div>
                                 </div>
-                                <button className="btn-purple-filled enable">카드 크기 적용하기</button>
+                                <button className="btn-purple-filled enable" onClick={toggleProcessing0}>카드 크기 적용하기</button>
                             </>
                         );
                     } else if (Processing === 2){
@@ -143,38 +165,78 @@ const Addcard = ({userObj}) => {
                                 <h2>원하는 카드 색상을 선택해주세요</h2>
                                 <div className="form-box border-bottom">
                                     <form className="check-circle">
-                                        <input checked type="checkbox" name="checkbox" id="bd-check-color"/>
+                                        <input type="checkbox" name="checkbox" id="bd-check-color" checked={select && "checked"} onClick={toggleselect}/>
                                         <label for="bd-check-color">색상 선택하기</label>
                                     </form>
                                     <form className="check-circle">
-                                        <input type="checkbox" name="checkbox" id="bd-check-img"/>
+                                        <input type="checkbox" name="checkbox" id="bd-check-img" checked={!select && "checked"}onClick={toggleselect}/>
                                         <label for="bd-check-img">이미지 올리기</label>
                                     </form>
                                 </div>
-                                <div className="colorBox">
-                                    <h3>색상 카드 중 선택해주세요</h3>
-                                    <div className="color-box-wrap">
-                                        <div className="gradients">
-                                            <h4>Gradients</h4>
-                                            <div className="color-chip-wrap">
-                                                <div className="check"></div>
+                                { select ? (
+                                    <div className="colorBox">
+                                        <h3>색상 카드 중 선택해주세요</h3>
+                                        <div className="color-box-wrap">
+                                            <div className="gradients">
+                                                <h4>Gradients</h4>
+                                                <div className="color-chip-wrap">
+                                                    {gradientcolor.map(key => {
+                                                        if(key === Color){
+                                                            return <div className="check" onClick={(e) => onClickColor(e, key)}></div>
+                                                        } else {
+                                                            return <div onClick={(e) => onClickColor(e, key)}></div>
+                                                        }
+                                                    })}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flat-color">
-                                            <h4>Flat colors</h4>
-                                            <div className="color-chip-wrap">
-
+                                            <div className="flat-color">
+                                                <h4>Flat colors</h4>
+                                                <div className="color-chip-wrap">
+                                                    {flatcolor.map(key => {
+                                                        if(key === Color){
+                                                            return <div className="check" onClick={(e) => onClickColor(e, key)}></div>
+                                                        } else {
+                                                            return <div onClick={(e) => onClickColor(e, key)}></div>
+                                                        }
+                                                    })}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="pastel-color">
-                                            <h4>Pastel colors </h4>
-                                            <div className="color-chip-wrap">
-
+                                            <div className="pastel-color">
+                                                <h4>Pastel colors </h4>
+                                                <div className="color-chip-wrap">
+                                                    {pastelcolor.map(key => {
+                                                        if(key === Color){
+                                                            return <div className="check" onClick={(e) => onClickColor(e, key)}></div>
+                                                        } else {
+                                                            return <div onClick={(e) => onClickColor(e, key)}></div>
+                                                        }
+                                                    })}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <button className="btn-purple-filled enable">카드 커버 적용하기</button>
+                                ) : (
+                                    <div className="imgBox">
+                                        <div className="form-box">
+                                            <form>
+                                                <label for="card-img" className="ad-img-box">
+                                                    <p>원하는 이미지를 올려주세요</p>
+                                                    <div>
+                                                        <p>📷</p>
+                                                        <p>이미지 올리기</p>
+                                                        <p>클릭 후 이미지 파일을 선택하거나,<br/>
+                                                        직접 끌어와서 업로드해주세요 </p>
+                                                    </div>
+                                                </label>
+                                                <input type="file" id="card-img" className="input-basic"/>
+                                                <div className="img-del-btn">
+                                                    <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="이미지 삭제하기"></img></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                )}
+                                <button className="btn-purple-filled enable" onClick={toggleProcessing0}>카드 커버 적용하기</button>
                             </>
                         );
                     } 

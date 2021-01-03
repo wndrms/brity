@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 const Home = ({refreshUser, userObj}) => {
     const history = useHistory();
     const [nweets, setNweets] = useState([]);
+    const [isDelete ,setisDelete] = useState(false);
     useEffect(() => {
         dbService.collection("nweets").onSnapshot(snapshot => {
             const nweetArray = snapshot.docs.map((doc) => ({
@@ -23,6 +24,7 @@ const Home = ({refreshUser, userObj}) => {
     };
     const toggleaddcard1 = () => history.push("/addcard");
     const toggleaddcard2 = () => history.push("/addnotice");
+    const toggleisDelete = () => setisDelete((prev) => !prev);
     return (
         <div id="wrap" className="admin-home">
             <button onClick={onLogOutClick}>로그아웃</button>
@@ -76,10 +78,32 @@ const Home = ({refreshUser, userObj}) => {
                     (nweets.length > 0 ? (
                         <>
                             <div className="del-text-box">
-                                <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-check.svg"} alt="체크"/>카드선택 및 삭제</button>
+                                <Popup
+                                    trigger={<button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-check.svg"} alt="체크"/>카드선택 및 삭제</button>}
+                                    modal
+                                    onOpen={toggleisDelete}
+                                    onClose={toggleisDelete}>
+                                    { close => (
+                                        <div className="card-del-wrap on">
+                                            <div className="card-del-box">
+                                                <button onClick={close}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>
+                                                <p className="del-message "><span className="count"></span>삭제할 카드를 선택하세요</p>
+                                                <form className="check-circle-all-del">
+                                                    <input type="checkbox" id="all-del"/>
+                                                    <label for="all-del" className="all-del">전체 선택</label>
+                                                </form>
+                                                <div className="btn-wrap">
+                                                    <button className="btn-purple">선택 해제</button>
+                                                    <button className="btn-purple-filled">선택 삭제하기</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </Popup>
+                                
                             </div>
                             <div className="card-wrap">
-                                <CardDragList nweets={nweets}/>
+                                <CardDragList nweets={nweets} isDelete={isDelete}/>
                             </div>
                         </>
                     ) : (
