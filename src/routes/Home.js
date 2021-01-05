@@ -1,4 +1,4 @@
-import { authService, dbService } from "fbase";
+import { dbService } from "fbase";
 import React, { useEffect, useState } from "react";
 import Popup from 'reactjs-popup';
 import CardDragList from "components/CardDragList";
@@ -17,17 +17,13 @@ const Home = ({refreshUser, userObj}) => {
             setNweets(nweetArray);
         });
     }, []);
-    const onLogOutClick = () => {
-        authService.signOut();
-        history.push("/");
-        refreshUser();
-    };
     const toggleaddcard1 = () => history.push("/addcard");
     const toggleaddcard2 = () => history.push("/addnotice");
+    const togglemenu1 = () => history.push("/Profile");
+    const togglemenu2 = () => history.push("/help");
     const toggleisDelete = () => setisDelete((prev) => !prev);
     return (
         <div id="wrap" className="admin-home">
-            <button onClick={onLogOutClick}>로그아웃</button>
             <header className="header">
                 <div className="menu-wrap">
                     <Popup
@@ -63,8 +59,8 @@ const Home = ({refreshUser, userObj}) => {
                                         <button className="drag-btn"><span></span></button>
                                         <div className="sheet-name">메뉴</div>
                                         <ul className="sheet-list">
-                                            <li><button>🛠 내 계정 관리</button></li>
-                                            <li><button>🧑‍🔧 고객 도움</button></li>
+                                            <li><button onClick={togglemenu1}>🛠 내 계정 관리</button></li>
+                                            <li><button onClick={togglemenu2}>🧑‍🔧 고객 도움</button></li>
                                         </ul>
                                     </div>
                                 </div>

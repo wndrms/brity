@@ -8,6 +8,7 @@ import Findpw from "./Findpw";
 import Addcard from "./Addcard";
 import Addnotice from "./Addnotice";
 import AuthForm from "./AuthForm";
+import Customerhelp from "./Customerhelp";
 
 const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
     return (
@@ -23,6 +24,9 @@ const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
                         </Route>
                         <Route exact path="/addnotice">
                             <Addnotice userObj={userObj}/>
+                        </Route>
+                        <Route exact path="/help">
+                            <Customerhelp />
                         </Route>
                         <Route exact path="/profile">
                             <Profile refreshUser={refreshUser} userObj={userObj}/>

@@ -259,8 +259,8 @@ const SignUp = () => {
                                         정보는 나중에 얼마든지 수정할 수 있어요</p>
                                     <div className="form-box">
                                         <p>생일</p>
-                                        <form className={(focusyear ? "selected" : "") + (year ? " filled" : "")}>
-                                            <div>
+                                        <div className="birth">
+                                            <form className={(focusyear ? "selected" : "") + (year ? " filled" : "")}>
                                                 <label for="year"></label>
                                                 <input 
                                                     type="number" 
@@ -273,8 +273,8 @@ const SignUp = () => {
                                                     onBlur={onFocus}
                                                     onFocus={onFocus}
                                                     placeholder="연도"/> 
-                                            </div>
-                                            <div>
+                                            </form>
+                                            <form className={(focusmonth ? "selected" : "") + (month ? " filled" : "")}>
                                                 <label for="month"></label>
                                                 <input 
                                                     type="number" 
@@ -287,8 +287,8 @@ const SignUp = () => {
                                                     onBlur={onFocus}
                                                     onFocus={onFocus}
                                                     placeholder="월"/>
-                                            </div>
-                                            <div>
+                                            </form>
+                                            <form className={(focusdate ? "selected" : "") + (date ? " filled" : "")}>
                                                 <label for="date"></label>
                                                 <input 
                                                     type="number" 
@@ -301,8 +301,8 @@ const SignUp = () => {
                                                     onBlur={onFocus}
                                                     onFocus={onFocus}
                                                     placeholder="일"/>
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </div>
                                         <div className="btn-wrap">
                                             {(year && month && date) ? (
                                                 <button className="btn-basic next enable" onClick={incresProceeding}>다음</button>
