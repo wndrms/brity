@@ -1,5 +1,5 @@
 import { dbService } from "fbase";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Popup from 'reactjs-popup';
 import CardDragList from "components/CardDragList";
 import { useHistory } from "react-router-dom";
@@ -8,6 +8,13 @@ const Home = ({refreshUser, userObj}) => {
     const history = useHistory();
     const [nweets, setNweets] = useState([]);
     const [isDelete ,setisDelete] = useState(false);
+    const [fix, setfix] = useState(false);
+    const ref = useRef(null);
+    const handleScroll = () => {
+        if(ref.current) {
+            setfix(ref.current.getBoundingClientRect().top <= 0);
+        }
+    };
     useEffect(() => {
         dbService.collection("nweets").onSnapshot(snapshot => {
             const nweetArray = snapshot.docs.map((doc) => ({
@@ -16,6 +23,11 @@ const Home = ({refreshUser, userObj}) => {
             }));
             setNweets(nweetArray);
         });
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', () => handleScroll);
+        };
     }, []);
     const toggleaddcard1 = () => history.push("/addcard");
     const toggleaddcard2 = () => history.push("/addnotice");
@@ -24,7 +36,7 @@ const Home = ({refreshUser, userObj}) => {
     const toggleisDelete = () => setisDelete((prev) => !prev);
     return (
         <div id="wrap" className="admin-home">
-            <header className="header">
+            <header className={`header${fix ? ' fix' : ''}`} ref={ref}>
                 <div className="menu-wrap">
                     <Popup
                         trigger={<p className="user-name">{userObj.displayName}</p>}

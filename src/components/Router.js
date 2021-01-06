@@ -9,6 +9,7 @@ import Addcard from "./Addcard";
 import Addnotice from "./Addnotice";
 import AuthForm from "./AuthForm";
 import Customerhelp from "./Customerhelp";
+import AccountDelete from "routes/AccountDelete";
 
 const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
     return (
@@ -30,6 +31,9 @@ const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
                         </Route>
                         <Route exact path="/profile">
                             <Profile refreshUser={refreshUser} userObj={userObj}/>
+                        </Route>
+                        <Route exact path="/delete">
+                            <AccountDelete refreshUser={refreshUser}/>
                         </Route>
                     </>
                 ) : (

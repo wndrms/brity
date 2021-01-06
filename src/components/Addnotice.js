@@ -1,5 +1,5 @@
 import { dbService, storageService } from "fbase";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import {v4 as uuidv4} from "uuid";
 
@@ -9,6 +9,20 @@ const Addnotice = (userObj) => {
     const [sub, setsub] = useState("");
     const [text, settext] = useState("");
     const [attachment, setAttachment] = useState("");
+    const [fix, setfix] = useState(false);
+    const ref = useRef(null);
+    const handleScroll = () => {
+        if(ref.current) {
+            setfix(ref.current.getBoundingClientRect().top <= 0);
+        }
+    };
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', () => handleScroll);
+        };
+    }, []);
     const onChange = (event) => {
         const {target: {name, value}} = event;
         if(name === "name"){
@@ -60,7 +74,7 @@ const Addnotice = (userObj) => {
     const gethome = () => history.push("/");
     return(
         <div id="wrap" className="ad-card ad-card-notice">
-            <header className="header">
+            <header className={`header${fix ? ' fix' : ''}`} ref={ref}>
                 <div className="menu-wrap">
                     <button className="back" onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
                     <p>🔗 링크 카드 만들기</p>

@@ -1,5 +1,5 @@
 import { dbService } from "fbase";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 const Addcard = ({userObj}) => {
@@ -10,6 +10,20 @@ const Addcard = ({userObj}) => {
     const [Color, setColor] = useState("");
     const [select, setselect] = useState(true);
     const [size, setsize] = useState(true);
+    const [fix, setfix] = useState(false);
+    const ref = useRef(null);
+    const handleScroll = () => {
+        if(ref.current) {
+            setfix(ref.current.getBoundingClientRect().top <= 0);
+        }
+    };
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', () => handleScroll);
+        };
+    }, []);
     const gradientcolor = ["linear-gradient(136deg, #d4b2da 1%, #9cd6e0)", 
                             "linear-gradient(136deg, #86c9ae 1%, #704ddf)",
                             "linear-gradient(136deg, #4590e1 1%, #de72b2)",
@@ -59,7 +73,7 @@ const Addcard = ({userObj}) => {
     const togglesize = () => setsize((prev) => !prev);
     return(
         <div id="wrap" className={"ad-card" + (Processing>0 ? (Processing === 1 ? (" ad-card-size") : (" ad-card-cover")) : (""))}>
-            <header className="header">
+            <header className={`header${fix ? ' fix' : ''}`} ref={ref}>
                 <div className="menu-wrap">
                     <button className="back" onClick={toggleProcessing0}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
                     <p>{(Processing>0 ? (Processing === 1 ? ("카드 크기 선택") : ("카드 커버 선택")) : ("🔗 링크 카드 만들기"))}</p>

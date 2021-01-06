@@ -13,7 +13,7 @@ input, a{font-weight: normal;}
 a{text-decoration: none;}
 *:focus{outline: none;}
 button, textarea{border: none; background: none;}
-input{-webkit-appearance: none;}
+input{-webkit-appearance: none; background: none; border: none;}
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none; margin: 0;}
@@ -145,6 +145,8 @@ form.selected input{border: 1px solid #555;}
 .alert-box .btn-box button:active{background: #d8d8d8; border-radius: 8px;}
 .alert-box.small{height: 157px;}
 .alert-box.small .text-box{height: 109px;}
+.alert-box.small .btn-box button{width: 100%; border-right: none;}
+
 
 .bg-opacity.on .sheet-wrap{visibility: visible; z-index: 1; bottom: 0;}
 .sheet-wrap{
@@ -345,23 +347,23 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .ad-img-box ~.img-del-btn.on{display: flex;}
 
 .card-size-box{margin-top: 40px;}
-.hover-style >button{
+.hover-style >*{
     display: flex; justify-content: space-between; align-items: center;
     width: 100%; height: 50px; position: relative;}
-.hover-style button:hover{background: #f5f5f5;}
-.hover-style button:active{background: #ebebeb;}
-.hover-style button::after{
+.hover-style >*:hover{background: #f5f5f5;}
+.hover-style >*:active{background: #ebebeb;}
+.hover-style >*::after{
     content:""; display: block; display: none;
     position: absolute; top: 0; right: -4%;
     width: 4%; height: 50px; background: #f5f5f5;}
-.hover-style button::before{
+.hover-style >*::before{
     content:""; display: block; display: none;
     position: absolute; top: 0; left: -4%;
     width: 4%; height: 50px; background: #f5f5f5;}
-.hover-style button:hover::after{display: block;}
-.hover-style button:hover::before{display: block;}
-.hover-style button:active::after{display: block; background: #ebebeb;}
-.hover-style button:active::before{display: block; background: #ebebeb;}
+.hover-style >*:hover::after{display: block;}
+.hover-style >*:hover::before{display: block;}
+.hover-style >*:active::after{display: block; background: #ebebeb;}
+.hover-style >*:active::before{display: block; background: #ebebeb;}
 
 .card-size-box button p span{margin-left: 8px; color: #8b8b8b; font-size: 1.2rem;}
 .card-size-box button.select p span{color: #e94757;}
@@ -531,12 +533,17 @@ div.toggle-on .btn-toggle span{left: 18px;}
     position: absolute; top: 0; left: 0;
     background:rgba(0, 0, 0, 0.1)}
 .user-home .card.bg-img >*{z-index: 1;}
-.user-home .sns-sheet .sheet-box >p.none-sns{
-    margin: 16px 0 24px 4%; color:#8b8b8b;}
 .user-home .sns-sheet .sheet-box >p:last-child{
     font-size: 1.2rem; color: #543dab; text-align: center; 
     height: 50px; line-height: 50px; margin-top: 8px;}
-.user-home .alert-wrap .btn-box button{width: 100%; border-right: none;}
+
+.user-home .sns-sheet .sheet-list.none-sns{height: 74px;}
+.user-home .sns-sheet .sheet-list.none-sns li{display: none;}
+.user-home .sns-sheet .sheet-list.none-sns .none-sns-message{display: block;}
+.user-home .sns-sheet .sheet-list .none-sns-message{
+    padding: 16px 0 24px 4%; color:#8b8b8b; display: none; font-weight: 500;
+    width: 100%; height: auto; line-height: inherit; box-sizing: border-box;}
+.user-home .sns-sheet .sheet-list.none-sns+p{margin-top: 0;}
 
 /*user-home-notice*/
 .user-home-notice header{width: 100%; position: relative; height: 168px;}
@@ -767,12 +774,112 @@ div.toggle-on .btn-toggle span{left: 18px;}
 
 /* account */
 .account header button:last-child{justify-content: flex-end; margin-right: 12px;}
-
+.account .content form{margin: 0;}
 /* account-menu */
-.account-menu .form-box form{height: 50px; width: 100%; margin: 0;}
-.account-menu .form-box form button{font-weight: 500;}
+.account-menu .form-box div{height: 50px; width: 100%; margin: 0;}
+.account-menu .form-box div button{font-weight: 500;}
 .account-menu .form-box:first-child{margin-top: 40px;}
+.account-menu .form-box:last-child{margin-top: 24px;}
 .account-menu .form-box:last-child button{color: #8b8b8b;}
 
 /* account-menu-delete */
-.account-menu-delete li, .account-menu-delete label{word-break: keep-all;}
+.account-delete header button:first-child img{display: block;}
+.account-delete header button:last-child img{display: none;}
+.account-delete h2{margin-top: 17px;}
+.account-delete .user-name{color: #e94757;}
+.account-delete ul.text-box{
+    width: 100%; height: 100%; background: #f7f7f7; margin: 31px 0 16px;
+    box-sizing: border-box; padding: 24px 16px; border-radius: 8px;}
+.account-delete ul.text-box li:first-child{font-weight: 700; color: #161616; margin: 0 0 24px;}
+.account-delete ul.text-box li{font-weight: 500; color: #8b8b8b; margin-top: 8px; word-break: keep-all;}
+.account-delete .check-circle input[type=checkbox] + label::before{min-width: 24px; margin-right: 8px;}
+.account-delete .check-circle input[type=checkbox] + label{
+    width: calc(100% - 32px); word-break: keep-all;}
+.account-delete .btn-basic{width: 100%; margin-top:40px;}
+
+/* account-delete02 */
+.account-delete02 h2{margin-top: 30px;}
+.account-delete02 form{margin-top: 32px;}
+.account-delete02 form label{color: #8b8b8b; font-weight: 500;}
+.account-delete02 .btn-basic{margin-top: 46px;}
+
+/* account-sns */
+.account-sns .header .menu-wrap button img{display: block;}
+.account-sns .content{position: relative; height: calc(100vh - 74px);}
+.account-sns form{
+    display: flex; align-items: center; position: relative; width: 100%; height: 50px;
+    border-bottom: 1px solid #ebebeb; box-sizing: border-box; margin-top: 8px;}
+.account-sns form:first-child{margin-top: 40px} 
+.account-sns form:hover >*{background: #f5f5f5;}
+.account-sns form:active >*{background: #ebebeb;}
+.account-sns form::after{
+    content:""; display: block; display: none;
+    position: absolute; top: 0; right: -4%;
+    width: 4%; height: 50px; background: #f5f5f5;}
+.account-sns form::before{
+    content:""; display: block; display: none;
+    position: absolute; top: 0; left: -4%;
+    width: 4%; height: 50px; background: #f5f5f5;}
+.account-sns form:hover::after{display: block;}
+.account-sns form:hover::before{display: block;}
+.account-sns form:active::after{display: block; background: #ebebeb;}
+.account-sns form:active::before{display: block; background: #ebebeb;}
+.account-sns form >*{ height: 100%; display: block;}
+.account-sns form label{
+    width: 88px; line-height: 50px; color: #8b8b8b;}
+.account-sns form input{
+    width: calc(100% - 88px); box-sizing: border-box; padding: 11px 16px;}
+.account-sns input::placeholder{color: #c1c1c1;}
+
+/* account-info */
+.account-info header button:first-child img{display: block;}
+.account-info .content{position: relative; height: calc(100vh - 74px);}
+.account-info .content h2{font-size: 2rem; font-weight: 700; margin: 24px 0 16px;}
+.account-info .content p{color: #555;}
+.account-info .form-box{margin-top: 56px;}
+.account-info .form-box label{color: #8b8b8b;}
+.account-info .form-box input{height: 42px;}
+.account-info .form-box input::placeholder{color: #161616; font-size: 1.6rem; font-weight: 700;}
+
+/* account-info01 */
+.account-info01 header button:first-child img{display: block;}
+.account-info01 header button:last-child img{display: none;}
+.account-info01 .form-box:first-child{margin-top: 40px;}
+.account-info01 .content .form-box >div{border-bottom: 1px solid #ebebeb; box-sizing: border-box;}
+.account-info01 .content .form-box >div:last-child{border-bottom: none;}
+.account-info01 .form-box:first-child div:last-child button{height: auto;} 
+.account-info01 .form-box:first-child div:last-child button:hover::after{height: 100%;} 
+.account-info01 .form-box:first-child div:last-child button:hover::before{height: 100%;} 
+.account-info01 .form-box:first-child div:last-child button:active::after{height: 100%;} 
+.account-info01 .form-box:first-child div:last-child button:active::before{height: 100%;} 
+.account-info01 .form-box >div button *{height: auto; text-align: left;}
+.account-info01 .form-box >div button >span{color:#8b8b8b; width: 88px; font-weight: 400;}
+.account-info01 .form-box >div button >p{
+    width: calc(100% - 88px); box-sizing: border-box; padding: 11px 16px;
+    font-weight: 500;}
+.account-info01 .form-box >div button >p span{font-weight: 500;}
+
+/* account-info03 */
+.account-info03 .birth{display: flex;}
+.account-info03 .form-box{margin-top: 32px;}
+.account-info03 .content .birth form{width: 100%;}
+.account-info03 .birth form:nth-child(2){margin: 0 8px;}
+
+/* account-info04 */
+.account-info04 .content p{margin-top: 68px;}
+.account-info04 .content .form-box{margin-top: 0px;}
+.account-info04 label{
+    margin-top: 0px; height: 100%; width: 100%;
+    flex-direction: row-reverse; justify-content: space-between;}
+.account-info04 .form-box form:first-child{margin-top: 16px;}
+.account-info04 form{height: 50px; border-bottom: 1px solid #ebebeb; box-sizing: border-box}
+.account-info04 form:last-child{border: none;}
+/*
+.account-info04 form:hover{background: #ebebeb;}
+.account-info04 form::after{
+    width: 4%; height: 50px; content:""; display: none;
+    background: #ebebeb; position: absolute; top: 0; right: -4%;}
+.account-info04 form::before{
+    width: 4%; height: 50px; content:""; display: none;
+    background: #ebebeb; position: absolute; top: 0; left: -4%;}
+    */
