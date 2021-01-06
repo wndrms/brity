@@ -10,6 +10,9 @@ const Addnotice = (userObj) => {
     const [text, settext] = useState("");
     const [attachment, setAttachment] = useState("");
     const [fix, setfix] = useState(false);
+    const [open, setopen] = useState(true);
+    const [linkopen, setlinkopen] = useState(true);
+
     const ref = useRef(null);
     const handleScroll = () => {
         if(ref.current) {
@@ -72,12 +75,14 @@ const Addnotice = (userObj) => {
         setAttachment("");
     };
     const gethome = () => history.push("/");
+    const toggleopen = () => setopen((prev) => !prev);
+    const togglelinkopen = () => setlinkopen((prev) => !prev);
     return(
         <div id="wrap" className="ad-card ad-card-notice">
             <header className={`header${fix ? ' fix' : ''}`} ref={ref}>
                 <div className="menu-wrap">
                     <button className="back" onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
-                    <p>🔗 링크 카드 만들기</p>
+                    <p>📢 공지 카드 만들기</p>
                     <button className="close" onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>
                 </div>
             </header>
@@ -166,9 +171,9 @@ const Addnotice = (userObj) => {
                     </form>
                 </div>
                 <div className="toggle-box">
-                    <div className="toggle-on">
-                        <p>공지 공개 여부<span>ON</span></p>
-                        <button className="btn-toggle"><span></span></button>
+                    <div className={open ? "toggle-on" : ""}>
+                        <p>공지 공개 여부<span>{open ? "ON" : "OFF"}</span></p>
+                        <button className="btn-toggle" onClick={toggleopen}><span></span></button>
                     </div>
                     <div>
                         <p>댓글 허용<span>OFF</span></p>
@@ -177,12 +182,12 @@ const Addnotice = (userObj) => {
                     <p>📢 지금은 댓글 기능을 지원하지 않고 있어요 😢</p>
                 </div>
                 <div className="toggle-box">
-                    <div className="toggle-on">
-                        <p>링크 공개 여부<span>ON</span></p>
-                        <button className="btn-toggle"><span></span></button>
+                    <div className={linkopen ? "toggle-on" : ""}>
+                        <p>링크 공개 여부<span>{linkopen ? "ON" : "OFF"}</span></p>
+                        <button className="btn-toggle" onClick={togglelinkopen}><span></span></button>
                     </div>
                 </div>
-                <div className="card-size-box">
+                <div className="card-size-box hover-style">
                     <button className="select">
                         <p>카드 크기 선택<span>LARGE</span></p>
                         <img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-right.svg"} alt="선택"/>

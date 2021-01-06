@@ -11,6 +11,8 @@ const Addcard = ({userObj}) => {
     const [select, setselect] = useState(true);
     const [size, setsize] = useState(true);
     const [fix, setfix] = useState(false);
+    const [linkopen, setlinkopen] = useState(true);
+
     const ref = useRef(null);
     const handleScroll = () => {
         if(ref.current) {
@@ -71,6 +73,7 @@ const Addcard = ({userObj}) => {
     const gethome = () => history.push("/");
     const toggleselect = () => setselect((prev) => !prev);
     const togglesize = () => setsize((prev) => !prev);
+    const togglelinkopen = () => setlinkopen((prev) => !prev);
     return(
         <div id="wrap" className={"ad-card" + (Processing>0 ? (Processing === 1 ? (" ad-card-size") : (" ad-card-cover")) : (""))}>
             <header className={`header${fix ? ' fix' : ''}`} ref={ref}>
@@ -115,16 +118,25 @@ const Addcard = ({userObj}) => {
                                             value={sub}
                                             onChange={onChange}
                                             placeholder="서브 타이틀 내용을 적어주세요  ex. 🛍"/>
+                                        <div className="message">서브 타이틀 입력, 최대 16자</div>
+                                    </form>
+                                    <form>
+                                        <label for="card-index">C. 연결 할 링크 주소를 적어주세요<span class="required">*</span></label>
+                                        <input
+                                            type="text"
+                                            id="card-index"
+                                            className="input-basic"
+                                            placeholder="연결 할 링크 주소 전체를 입력해주세요"/>
                                         <div className="message">정확한 링크 주소를 입력해주세요</div>
                                     </form>
                                 </div>
                                 <div className="toggle-box">
-                                    <div className="toggle-on">
-                                        <p>링크 공개 여부<span>ON</span></p>
-                                        <button className="btn-toggle"><span></span></button>
+                                    <div className={linkopen ? "toggle-on" : ""}>
+                                        <p>링크 공개 여부<span>{linkopen ? "ON" : "OFF"}</span></p>
+                                        <button className="btn-toggle" onClick={togglelinkopen}><span></span></button>
                                     </div>
                                 </div>
-                                <div className="card-size-box">
+                                <div className="card-size-box hover-style">
                                     <button className="select" onClick={toggleProcessing1}>
                                         <p>카드 크기 선택<span>LARGE</span></p>
                                         <img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-right.svg"} alt="선택"/>

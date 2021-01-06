@@ -66,7 +66,7 @@ const Home = ({refreshUser, userObj}) => {
                             trigger={<img src={process.env.PUBLIC_URL + "02-icon-01-outline-bars.svg"} alt="menu"/>}
                             modal
                             closeOnDocumentClick>
-                            <nav className="bg-opacity on">
+                            <nav className="bg-opacity on" style={{height: "calc(100% - 200px)"}}>
                                 <div className="sheet-wrap nav-sheet">
                                     <div className="sheet-box">
                                         <button className="drag-btn"><span></span></button>
@@ -88,7 +88,7 @@ const Home = ({refreshUser, userObj}) => {
                         <>
                             <div className="del-text-box">
                                 <Popup
-                                    trigger={<button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-check.svg"} alt="체크"/>카드선택 및 삭제</button>}
+                                    trigger={<button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-check-000.svg"} alt="체크"/>카드선택 및 삭제</button>}
                                     modal
                                     onOpen={toggleisDelete}
                                     onClose={toggleisDelete}>
@@ -133,7 +133,7 @@ const Home = ({refreshUser, userObj}) => {
                         modal
                         >
                         { close => (
-                            <div className="bg-opacity on">
+                            <div className="bg-opacity on" style={{height: "calc(100% - 200px)"}}>
                                 <div className="sheet-wrap ad-card">
                                     <div className="sheet-box">
                                         <button className="drag-btn"><span></span></button>

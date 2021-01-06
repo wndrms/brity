@@ -8,6 +8,7 @@ const UserHome = ({userObj}) => {
     const history = useHistory();
     const [nweets, setNweets] = useState([]);
     const [fix, setfix] = useState(false);
+    const [check, setcheck] = useState(false);
     const ref = useRef(null);
     const handleScroll = () => {
         if(ref.current) {
@@ -57,38 +58,43 @@ const UserHome = ({userObj}) => {
                             trigger={<img src={process.env.PUBLIC_URL + "02-icon-01-outline-bars.svg"} alt="menu"/>}
                             modal
                             closeOnDocumentClick>
-                            <nav className="bg-opacity on">
+                            <nav className="bg-opacity on" style={{height: "calc(100% - 200px)"}}>
                                 <div className="sheet-wrap sns-sheet">
                                     <div className="sheet-box">
                                         <button className="drag-btn"><span></span></button>
                                         <div className="sheet-name">SNS</div>
                                         <ul className="sheet-list">
-                                            <li>
-                                                <button>
-                                                    <img src={process.env.PUBLIC_URL + "instagram-icon.svg"} alt="instagram"/>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button>
-                                                    <img src={process.env.PUBLIC_URL + "facebook-icon.svg"} alt="facebook"/>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button>
-                                                    <img src={process.env.PUBLIC_URL + "youtube-icon.svg"} alt="youtube"/>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button>
-                                                    <img src={process.env.PUBLIC_URL + "tiktok-icon.svg"} alt="Tiktok"/>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button>
-                                                    <img src={process.env.PUBLIC_URL + "twitter-icon.svg"} alt="twitter"/>
-                                                </button>
-                                            </li>
-                                            <li className="none-sns-message">현재 등록된 SNS 주소가 없어요😯</li>
+                                            { check ? (
+                                                <>
+                                                    <li>
+                                                        <button>
+                                                            <img src={process.env.PUBLIC_URL + "instagram-icon.svg"} alt="instagram"/>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button>
+                                                            <img src={process.env.PUBLIC_URL + "facebook-icon.svg"} alt="facebook"/>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button>
+                                                            <img src={process.env.PUBLIC_URL + "youtube-icon.svg"} alt="youtube"/>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button>
+                                                            <img src={process.env.PUBLIC_URL + "tiktok-icon.svg"} alt="Tiktok"/>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button>
+                                                            <img src={process.env.PUBLIC_URL + "twitter-icon.svg"} alt="twitter"/>
+                                                        </button>
+                                                    </li>
+                                                </>
+                                            ) : (
+                                                <li className="none-sns-message">현재 등록된 SNS 주소가 없어요😯</li>
+                                            )}
                                         </ul>
                                         <p>go to. <u>Brity</u></p>
                                     </div>

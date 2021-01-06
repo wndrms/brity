@@ -32,8 +32,8 @@ const Profile = ({refreshUser, userObj}) => {
     const togglepage2 = () => setpage(2);
     const toggleclassName = () => {
         if(page === 0) return "ad-card account-menu account"
-        else if(page === 1) return "account-info01 account"
-        else if(page === 2) return "ad-card account-sns account"
+        else if(page === 1) return "ad-card account-sns account"
+        else if(page === 2) return "account-info01 account"
     }
     const togglemenuName = () => {
         if(page === 0) return "🛠 내 계정 관리"
@@ -175,14 +175,15 @@ const Profile = ({refreshUser, userObj}) => {
                                             <img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="수정하기"/>
                                         </button>
                                     </div>
+                                    <div className="hover-style">
+                                        <button>
+                                            <span>비밀번호</span>
+                                            <p className="user-pw">••••••••</p>
+                                            <img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="수정하기"/>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="hover-style">
-                                    <button>
-                                        <span>비밀번호</span>
-                                        <p className="user-pw">••••••••</p>
-                                        <img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="수정하기"/>
-                                    </button>
-                                </div>
+                                
                             </>
                         );
                     } 

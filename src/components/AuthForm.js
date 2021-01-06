@@ -61,7 +61,7 @@ const AuthForm = () => {
     }
     return(
         <>
-            <div id="wrap" className={Proceeding ? "login-pw" : "login-email"}>
+            <div id="wrap" className={Proceeding ? "login-pw join" : "login-email join"}>
                 <header id="header">
                     <button onClick={toggleProceeding}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-chevron-left.svg'} alt="이전"></img></button>
                 </header>
