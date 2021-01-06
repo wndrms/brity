@@ -165,7 +165,7 @@ const Addnotice = (userObj) => {
                             id="card-img" 
                             className="input-basic"
                             onChange={onFileChange}/>
-                        <div className="img-del-btn">
+                        <div className={"img-del-btn" + (attachment ? " on" : "")}>
                             <button onClick={onClearAttachment}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="삭제"/></button>
                         </div>
                     </form>

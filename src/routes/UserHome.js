@@ -1,11 +1,8 @@
-import CardDragList from "components/CardDragList";
 import { dbService } from "fbase";
 import React, { useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 
 const UserHome = ({userObj}) => {
-    const history = useHistory();
     const [nweets, setNweets] = useState([]);
     const [fix, setfix] = useState(false);
     const [check, setcheck] = useState(false);
@@ -107,11 +104,12 @@ const UserHome = ({userObj}) => {
             <div className="content">
                 {
                     (nweets.length > 0 ? (
-                        <>
-                            <div className="card-wrap">
-                                <CardDragList nweets={nweets}/>
+                        nweets.map((nweet) => (
+                            <div className="card">
+                                <h3>{nweet.subtitle}</h3>
+                                <p>{nweet.title}</p>
                             </div>
-                        </>
+                        ))
                     ) : (
                         <>
                             <div className="empty-box">

@@ -12,6 +12,7 @@ const Addcard = ({userObj}) => {
     const [size, setsize] = useState(true);
     const [fix, setfix] = useState(false);
     const [linkopen, setlinkopen] = useState(true);
+    const [attachment, setAttachment] = useState("");
 
     const ref = useRef(null);
     const handleScroll = () => {
@@ -67,6 +68,18 @@ const Addcard = ({userObj}) => {
         setsub("");
         history.push("/");
     };
+    const onFileChange = (event) => {
+        const {target: {files}, } = event;
+        const theFile = files[0];
+        const reader = new FileReader();
+        reader.onloadend = (finishedEvent) => {
+            const {currentTarget: {result},
+            } = finishedEvent;
+            setAttachment(result);
+        };
+        reader.readAsDataURL(theFile);
+    };
+    const onClearAttachment = () => setAttachment("");
     const toggleProcessing0 = () => setProcessing(0);
     const toggleProcessing1 = () => setProcessing(1);
     const toggleProcessing2 = () => setProcessing(2);
@@ -76,7 +89,7 @@ const Addcard = ({userObj}) => {
     const togglelinkopen = () => setlinkopen((prev) => !prev);
     return(
         <div id="wrap" className={"ad-card" + (Processing>0 ? (Processing === 1 ? (" ad-card-size") : (" ad-card-cover")) : (""))}>
-            <header className={`header${fix ? ' fix' : ''}`} ref={ref}>
+            <header className={`header`} ref={ref}>
                 <div className="menu-wrap">
                     <button className="back" onClick={toggleProcessing0}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
                     <p>{(Processing>0 ? (Processing === 1 ? ("카드 크기 선택") : ("카드 커버 선택")) : ("🔗 링크 카드 만들기"))}</p>
@@ -247,16 +260,33 @@ const Addcard = ({userObj}) => {
                                             <form>
                                                 <label for="card-img" className="ad-img-box">
                                                     <p>원하는 이미지를 올려주세요</p>
-                                                    <div>
-                                                        <p>📷</p>
-                                                        <p>이미지 올리기</p>
-                                                        <p>클릭 후 이미지 파일을 선택하거나,<br/>
-                                                        직접 끌어와서 업로드해주세요 </p>
-                                                    </div>
+                                                    {attachment ? (
+                                                        <>
+                                                            <div style={{
+                                                                background: `url(${attachment})`,
+                                                                backgroundSize: "cover",
+                                                                backgroundRepeat: "no-repeat",
+                                                                backgroundPosition: "center center",}}>
+                                                                <p>📷</p>
+                                                                <p>이미지 올리기</p>
+                                                                <p>클릭 후 이미지 파일을 선택하거나,<br/>
+                                                                    직접 끌어와서 업로드해주세요 </p>
+                                                            </div>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <div>
+                                                                <p>📷</p>
+                                                                <p>이미지 올리기</p>
+                                                                <p>클릭 후 이미지 파일을 선택하거나,<br/>
+                                                                    직접 끌어와서 업로드해주세요 </p>
+                                                            </div>
+                                                        </>
+                                                    )}
                                                 </label>
-                                                <input type="file" id="card-img" className="input-basic"/>
-                                                <div className="img-del-btn">
-                                                    <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="이미지 삭제하기"></img></button>
+                                                <input type="file" id="card-img" className="input-basic" onChange={onFileChange}/>
+                                                <div className={"img-del-btn" + (attachment ? (" on") : (""))}>
+                                                    <button onClick={onClearAttachment}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="이미지 삭제하기"></img></button>
                                                 </div>
                                             </form>
                                         </div>

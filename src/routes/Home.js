@@ -42,7 +42,7 @@ const Home = ({refreshUser, userObj}) => {
             cardArray = [cardid,
                 ...cardArray];
         }
-        else cardArray = cardArray.filter(id => id!=cardid);
+        else cardArray = cardArray.filter(id => id!==cardid);
         setdelcards(cardArray);
     }
     const alldelcard = () => {
@@ -121,7 +121,10 @@ const Home = ({refreshUser, userObj}) => {
                                     trigger={<button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-check-000.svg"} alt="체크"/>카드선택 및 삭제</button>}
                                     closeOnDocumentClick={false}
                                     onOpen={toggleisDelete}
-                                    onClose={toggleisDelete}>
+                                    onClose={() => {
+                                        toggleisDelete();
+                                        emptydelcard();
+                                    }}>
                                     { close => (
                                         <div className="card-del-wrap on">
                                             <div className="card-del-box">
