@@ -115,7 +115,7 @@ const Addnotice = (userObj) => {
                         <div className="message">정확한 링크 주소를 입력해주세요</div>
                     </form>
                     <form>
-                        <label for="card-index">C. 어떤 내용을 공지할까요?</label>
+                        <label for="card-index">C. 어떤 내용을 공지할까요?<span class="required">*</span></label>
                         <textarea
                             name="card-index"
                             id="card-index"

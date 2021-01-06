@@ -109,12 +109,16 @@ const SignUp = () => {
         setpwshow((prev) => !prev);
     }
     const toggleall = () => setall((prev) => !prev);
+    const gethome = () => history.push("/");
     return(
         <>
             <div id="wrap" className={"sign-up-0" + (Proceeding+1) + " sign-up"}>
                 <header id="header">
-                    { Proceeding > 0 ? (
+                    { Proceeding > 0 ? ( Proceeding === 6 ? (
+                        <button onClick={gethome}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-times.svg'} alt="닫기"></img></button>
+                    ) : (
                         <button onClick={decresProceeding}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-chevron-left.svg'} alt="이전"></img></button>
+                    )
                     ) : (
                         <>
                             <Link to="/">
@@ -186,7 +190,7 @@ const SignUp = () => {
                                     <div className="logo-wrap">
                                         <h2>아이디 만들기</h2>
                                     </div>
-                                    <p>지금 설정하신 아이디으로 링크가 생성됩니다.<br/>
+                                    <p>지금 설정하신 아이디로 링크가 생성됩니다.<br/>
                                         나중엔 변경 불가합니다 🔏</p>
                                     <div className="form-box">
                                         <form className={(focusid ? "selected" : "") + (userid ? " filled" : "")}>
@@ -412,9 +416,9 @@ const SignUp = () => {
                                         </form>
                                         <form className="btn-wrap">
                                             {(address && subaddress) ? (
-                                                <button className="btn-basic next enable" onClick={incresProceeding}>다음</button>
+                                                <button className="btn-basic next enable" onClick={incresProceeding}>계속</button>
                                             ) : (
-                                                <button className="btn-basic next">다음</button>
+                                                <button className="btn-basic next">계속</button>
                                             )}
                                         </form>
                                     </div>

@@ -32,7 +32,7 @@ const Profile = ({refreshUser, userObj}) => {
     const togglepage2 = () => setpage(2);
     const toggleclassName = () => {
         if(page === 0) return "ad-card account-menu account"
-        else if(page === 1) return "ad-card account-info01 account"
+        else if(page === 1) return "account-info01 account"
         else if(page === 2) return "ad-card account-sns account"
     }
     const togglemenuName = () => {

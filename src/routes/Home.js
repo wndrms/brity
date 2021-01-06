@@ -37,7 +37,7 @@ const Home = ({refreshUser, userObj}) => {
     return (
         <div id="wrap" className="admin-home">
             <header className={`header${fix ? ' fix' : ''}`} ref={ref}>
-                <div className="menu-wrap">
+                <div className="menu-wrap home-menu-btn">
                     <Popup
                         trigger={<p className="user-name">{userObj.displayName}</p>}
                         modal>
@@ -59,7 +59,7 @@ const Home = ({refreshUser, userObj}) => {
                             </div>
                         )}
                     </Popup>
-                    <p><span className="admin">admin</span>with by <u>brity</u></p>
+                    <p><span className="admin">Admin</span>with by <u>brity</u></p>
                     <button type="submit" className="menu">
                         <Popup
                             trigger={<img src={process.env.PUBLIC_URL + "02-icon-01-outline-bars.svg"} alt="menu"/>}
