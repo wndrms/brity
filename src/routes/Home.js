@@ -9,6 +9,7 @@ const Home = ({refreshUser, userObj}) => {
     const [nweets, setNweets] = useState([]);
     const [isDelete ,setisDelete] = useState(false);
     const [fix, setfix] = useState(false);
+    const [delcards, setdelcards] = useState([]); 
     const ref = useRef(null);
     const handleScroll = () => {
         if(ref.current) {
@@ -35,6 +36,24 @@ const Home = ({refreshUser, userObj}) => {
     const togglemenu2 = () => history.push("/help");
     const toggleisDelete = () => setisDelete((prev) => !prev);
     const toggleuser = () => history.push("/user");
+    const adddelcard = (cardid) => {
+        let cardArray = delcards;
+        if(!cardArray.includes(cardid)){
+            cardArray = [cardid,
+                ...cardArray];
+        }
+        else cardArray = cardArray.filter(id => id!=cardid);
+        setdelcards(cardArray);
+    }
+    const emptydelcard = () => setdelcards([]);
+    const deletecards = async () => {
+        let cardArray = delcards;
+        await cardArray.map((card) => {
+            dbService.doc(`nweets/${card}`).delete();
+        });
+        setdelcards([]);
+        history.push("/");
+    }
     return (
         <div id="wrap" className="admin-home">
             <header className={`header${fix ? ' fix' : ''}`} ref={ref}>
@@ -89,21 +108,34 @@ const Home = ({refreshUser, userObj}) => {
                             <div className="del-text-box">
                                 <Popup
                                     trigger={<button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-check-000.svg"} alt="체크"/>카드선택 및 삭제</button>}
-                                    modal
+                                    closeOnDocumentClick={false}
                                     onOpen={toggleisDelete}
                                     onClose={toggleisDelete}>
                                     { close => (
                                         <div className="card-del-wrap on">
                                             <div className="card-del-box">
                                                 <button onClick={close}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>
-                                                <p className="del-message "><span className="count"></span>삭제할 카드를 선택하세요</p>
+                                                {delcards.length > 0 ? (
+                                                    <p className="del-message "><span className="count">{delcards.length}</span>개의 카드가 선택 되었어요</p>
+                                                ) : (
+                                                    <p className="del-message "><span className="count"></span>삭제할 카드를 선택하세요</p>
+                                                )}
                                                 <form className="check-circle-all-del">
                                                     <input type="checkbox" id="all-del"/>
                                                     <label for="all-del" className="all-del">전체 선택</label>
                                                 </form>
                                                 <div className="btn-wrap">
-                                                    <button className="btn-purple">선택 해제</button>
-                                                    <button className="btn-purple-filled">선택 삭제하기</button>
+                                                    { delcards.length > 0 ? (
+                                                        <>
+                                                            <button className="btn-purple enable" onClick={emptydelcard}>선택 해제</button>
+                                                            <button className="btn-purple-filled enable" onClick={deletecards}>선택 삭제하기</button>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <button className="btn-purple">선택 해제</button>
+                                                            <button className="btn-purple-filled">선택 삭제하기</button>
+                                                        </>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -112,7 +144,24 @@ const Home = ({refreshUser, userObj}) => {
                                 
                             </div>
                             <div className="card-wrap">
-                                <CardDragList nweets={nweets} isDelete={isDelete}/>
+                                {!isDelete ? (
+                                    <CardDragList nweets={nweets}/>
+                                ) : (
+                                    nweets.map((nweet) => (
+                                        <div className="card del">
+                                            <h3>{nweet.subtitle}</h3>
+                                            <button onClick={() => adddelcard(nweet.id)}>
+                                                { delcards.includes(nweet.id) ? (
+                                                    <img src={process.env.PUBLIC_URL + "02-icon-01-outline-check-000.svg"} alt="삭제 체크" />
+                                                ) : (
+                                                    <img src={process.env.PUBLIC_URL + "02-icon-02-solid-check-circle.svg"} alt="삭제 체크" />
+                                                )}
+                                                </button>
+                                            <p>{nweet.title}</p>
+                                        </div>
+                                    ))
+                                )}
+                                
                             </div>
                         </>
                     ) : (

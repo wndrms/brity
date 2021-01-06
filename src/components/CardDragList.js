@@ -58,7 +58,7 @@ const CardDragList = ({nweets, isDelete}) => {
                                             snapshot.isDragging,
                                             provided.draggableProps.style
                                         )}>
-                                        <h3>📢{nweet.subtitle}</h3>
+                                        <h3>{nweet.subtitle}</h3>
                                         {isDelete ? (
                                             <button><img src={process.env.PUBLIC_URL + "02-icon-02-solid-check-circle.svg"} alt="삭제 체크"></img></button>
                                         ) : (
