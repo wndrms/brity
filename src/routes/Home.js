@@ -45,6 +45,17 @@ const Home = ({refreshUser, userObj}) => {
         else cardArray = cardArray.filter(id => id!=cardid);
         setdelcards(cardArray);
     }
+    const alldelcard = () => {
+        if(delcards.length === nweets.length){
+            setdelcards([]);
+        } else {
+            let cardArray = [];
+            nweets.map((card) => {
+                cardArray.push(card.id);
+            });
+            setdelcards(cardArray);
+        }
+    }
     const emptydelcard = () => setdelcards([]);
     const deletecards = async () => {
         let cardArray = delcards;
@@ -121,8 +132,8 @@ const Home = ({refreshUser, userObj}) => {
                                                     <p className="del-message "><span className="count"></span>삭제할 카드를 선택하세요</p>
                                                 )}
                                                 <form className="check-circle-all-del">
-                                                    <input type="checkbox" id="all-del"/>
-                                                    <label for="all-del" className="all-del">전체 선택</label>
+                                                    <input type="checkbox" id="all-del" onClick={alldelcard}/>
+                                                    <label for="all-del" className="all-del" >전체 선택</label>
                                                 </form>
                                                 <div className="btn-wrap">
                                                     { delcards.length > 0 ? (
