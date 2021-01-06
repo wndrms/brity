@@ -34,6 +34,7 @@ const Home = ({refreshUser, userObj}) => {
     const togglemenu1 = () => history.push("/Profile");
     const togglemenu2 = () => history.push("/help");
     const toggleisDelete = () => setisDelete((prev) => !prev);
+    const toggleuser = () => history.push("/user");
     return (
         <div id="wrap" className="admin-home">
             <header className={`header${fix ? ' fix' : ''}`} ref={ref}>
@@ -52,7 +53,7 @@ const Home = ({refreshUser, userObj}) => {
                                         </div>
                                         <div className="btn-box">
                                             <button onClick={close}>닫기</button>
-                                            <button>바로이동👉</button>
+                                            <button onClick={toggleuser}>바로이동👉</button>
                                         </div>
                                     </div>
                                 </div>

@@ -10,6 +10,7 @@ import Addnotice from "./Addnotice";
 import AuthForm from "./AuthForm";
 import Customerhelp from "./Customerhelp";
 import AccountDelete from "routes/AccountDelete";
+import UserHome from "routes/UserHome";
 
 const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
     return (
@@ -19,6 +20,9 @@ const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
                     <>
                         <Route exact path="/">
                             <Home refreshUser={refreshUser} userObj={userObj}/>
+                        </Route>
+                        <Route exact path="/user">
+                            <UserHome userObj={userObj}/>
                         </Route>
                         <Route exact path="/addcard">
                             <Addcard userObj={userObj}/>
