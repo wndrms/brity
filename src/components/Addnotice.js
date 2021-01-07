@@ -131,8 +131,8 @@ const Addnotice = (userObj) => {
                                     <div className="exempli border-bottom">
                                         <h2>카드 예시</h2>
                                         <div className="card">
-                                            <h3><span>🛍</span>  |  B. {sub? sub : "(서브 타이틀)"}</h3>
-                                            <p>카카오톡 문의  |  A. {name ? name : "(카드 이름)"}</p>
+                                            <h3><span>🛍</span> {sub? sub : " |  B. (서브 타이틀)"}</h3>
+                                            <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
                                         </div>
                                     </div>
                                     <div className="form-box border-bottom">
