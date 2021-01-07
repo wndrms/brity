@@ -175,7 +175,7 @@ const Addnotice = (userObj) => {
                                             <div className="message">공지 내용을 입력해주세요</div>
                                         </form>
                                         <form>
-                                            <label for="card-img" className="ad-img-box">
+                                            <label for="card-img" className={"ad-img-box" + (attachment ? " on" : "")}>
                                                 <p>첨부할 이미지가 있나요?</p>
                                                 {attachment ? (
                                                     <>
@@ -207,7 +207,7 @@ const Addnotice = (userObj) => {
                                                 className="input-basic"
                                                 onChange={onFileChange}/>
                                             <div className={"img-del-btn" + (attachment ? " on" : "")}>
-                                                <button onClick={onClearAttachment}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="삭제"/></button>
+                                                <button onClick={onClearAttachment}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="삭제"/>삭제</button>
                                             </div>
                                         </form>
                                     </div>
@@ -259,7 +259,7 @@ const Addnotice = (userObj) => {
                                     </div>
                                     <div className="card-box">
                                         <p>카드 크기 예시</p>
-                                        <div className={"card-wrap" + (size ? " flex-column" : "")}>
+                                        <div className={"card-wrap" + (size ? "" : " flex-column")}>
                                             <div className="card">
                                                 <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-arrows.svg"} alt="이동 화살표"/></button>
                                                 <p>S</p>
@@ -270,7 +270,7 @@ const Addnotice = (userObj) => {
                                             </div>
                                         </div>
                                     </div>
-                                    {!size ? (
+                                    {size ? (
                                         <button className="btn-purple-filled enable" onClick={() => toggleProceeding(0)}>카드 크기 적용하기</button>
                                     ) : (
                                         <button className="btn-purple-filled">카드 크기 적용하기</button>
@@ -337,7 +337,7 @@ const Addnotice = (userObj) => {
                                         <div className="imgBox">
                                             <div className="form-box">
                                                 <form>
-                                                    <label for="card-img" className="ad-img-box">
+                                                    <label for="card-img" className={"ad-img-box" + (attachment2 ? " on" : "")}>
                                                         <p>원하는 이미지를 올려주세요</p>
                                                         {attachment2 ? (
                                                             <>
@@ -365,7 +365,7 @@ const Addnotice = (userObj) => {
                                                     </label>
                                                     <input type="file" id={"card-img" + (attachment2 ? " on" : "")} className="input-basic" onChange={onFileChange2}/>
                                                     <div className={"img-del-btn" + (attachment2 ? (" on") : (""))}>
-                                                        <button onClick={onClearAttachment2}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="이미지 삭제하기"></img></button>
+                                                        <button onClick={onClearAttachment2}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="이미지 삭제하기"/>삭제</button>
                                                     </div>
                                                 </form>
                                             </div>

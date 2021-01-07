@@ -8,11 +8,14 @@ const Profile = ({refreshUser, userObj}) => {
     const [page, setpage] = useState(0);
     const [fix, setfix] = useState(false);
     const [email, setemail] = useState();
-    const [name, setname] = useState();
-    const [birth, setbirth] = useState();
-    const [gender, setgender] = useState();
-    const [address, setaddress] = useState();
-    const [subadd, setsubadd] = useState();
+    const [name, setname] = useState("");
+    const [birth, setbirth] = useState("");
+    const [year, setyear] = useState("");
+    const [month, setmonth] = useState("");
+    const [date, setdate] = useState("");
+    const [gender, setgender] = useState("");
+    const [address, setaddress] = useState("");
+    const [subadd, setsubadd] = useState("");
     const [newpw, setnewpw] = useState();
     const [newpwre, setnewpwre] = useState();
     const ref = useRef(null);
@@ -52,14 +55,11 @@ const Profile = ({refreshUser, userObj}) => {
         } else if(name === "user-email"){
             setemail(value);
         } else if(name === "year"){
-            let tbirth = Number(birth % 10000);
-            setbirth(value*10000 + tbirth);
+            setyear(value);
         } else if(name === "month"){
-            let tbirth = Number(birth/10000) + Number(birth % 100);
-            setbirth(value*100 + tbirth);
+            setmonth(value);
         } else if(name === "date"){
-            let tbirth = Number(birth/100);
-            setbirth(value + tbirth);
+            setdate(value);
         } else if(name === "detail-address"){
             setsubadd(value);
         }
@@ -72,27 +72,51 @@ const Profile = ({refreshUser, userObj}) => {
     const gethome = () => history.push("/");
     const getdelete =() => history.push("/delete");
     const togglepage0 = () => setpage(0);
-    const togglepage1 = () => setpage(1);
-    const togglepage2 = () => setpage(2);
     const togglepage = (num) => setpage(num);
     const toggleclassName = () => {
         if(page === 0) return "ad-card account-menu account"
         else if(page === 1) return "ad-card account-sns account"
-        else if(page === 2) return "account-info01 account"
-        else if(page > 2) return "account-info0" + (page-1).toString + " account account-info"
+        else if(page > 1){
+            let pagenum = "account-info0" + String(page-1) + " account account-info";
+            return pagenum 
+        }
     }
     const togglemenuName = () => {
         if(page === 0) return "🛠 내 계정 관리"
         else if(page === 1) return "SNS 계정 정보"
         else if(page >= 2) return "개인 정보" 
     }
+    const selectgender = (event) => {
+        const {target: {value}} = event;
+        setgender(value);
+        console.log(gender);
+    }
+    const onSubmit = async (event) => {
+        event.preventDefault();
+        const data = {
+            email: email,
+            name: name,
+            birth: year + month + date,
+            gender: gender,
+            address: address,
+            subadd: subadd,
+        }
+        const res = await dbService.collection('users').doc(authService.currentUser.email).set(data);
+        console.log(res);
+        setpage(2);
+    };
     return (
         <div id="wrap" className={toggleclassName()}>
             <header className={`header${fix ? ' fix' : ''}`} ref={ref}>
                 <div className="menu-wrap">
-                    <button className="back" onClick={togglepage0}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
+                    <button className="back" onClick={() => togglepage(0)}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
                     <p>{togglemenuName()}</p>
-                    <button className="close" onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>
+                    { page < 3 ? (
+                        <button className="close" onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>
+                    ) : (
+                        <button className="btn-purple-light enable" onClick={onSubmit}>저장</button>
+                    )}
+                    
                 </div>
             </header>
             <div className="content">
@@ -102,8 +126,8 @@ const Profile = ({refreshUser, userObj}) => {
                         return(
                             <>
                                 <div className="form-box border-bottom">
-                                    <form className="hover-style"><button onClick={togglepage1}>SNS 계정 정보<img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="바로가기"/></button></form>
-                                    <form className="hover-style"><button onClick={togglepage2}>개인 정보<img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="바로가기"/></button></form>
+                                    <form className="hover-style"><button onClick={() => togglepage(1)}>SNS 계정 정보<img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="바로가기"/></button></form>
+                                    <form className="hover-style"><button onClick={() => togglepage(2)}>개인 정보<img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="바로가기"/></button></form>
                                 </div>
                                 <div className="form-box">
                                     <form className="hover-style"><Popup
@@ -191,14 +215,14 @@ const Profile = ({refreshUser, userObj}) => {
                                     <div className="hover-style">
                                         <button>
                                             <span>생년월일</span>
-                                            <p className="user-birth">{birth}</p>
+                                            <p className="user-birth">{year + ". " + month + ". " + date}</p>
                                             <img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="수정하기" onClick={() => togglepage(4)}/>
                                         </button>
                                     </div>
                                     <div className="hover-style">
                                         <button>
                                             <span>성별</span>
-                                            <p className="user-gender">{gender ? "남성" : "여성"}</p>
+                                            <p className="user-gender">{gender == 2 ? "선택안함" : (gender == 0 ? "남성" : "여성")}</p>
                                             <img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="수정하기" onClick={() => togglepage(5)}/>
                                         </button>
                                     </div>
@@ -251,7 +275,7 @@ const Profile = ({refreshUser, userObj}) => {
                                         <div className="message">이름을 입력해주세요</div>
                                     </form>
                                 </div>
-                                <button className="btn-purple fix-bottom enable" onClick={() => togglepage(2)}>🔒저장하기</button>
+                                <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
                             </>
                         );
                     } else if(page === 4){
@@ -301,7 +325,7 @@ const Profile = ({refreshUser, userObj}) => {
                                         </form>
                                     </div>
                                 </div>
-                                <button className="btn-purple fix-bottom enable" onClick={() => togglepage(2)}>🔒저장하기</button>
+                                <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
                             </>
                         );
                     } else if(page === 5){
@@ -311,19 +335,19 @@ const Profile = ({refreshUser, userObj}) => {
                                 <p>성별</p>
                                 <div className="form-box hover-style">
                                     <form className="check-circle">
-                                        <input type="checkbox" id="male"/>
+                                        <input type="checkbox" id="male" value="0" onClick={selectgender} checked={gender == 0 && "checked"}/>
                                         <label for="male">남자</label>
                                     </form>
                                     <form className="check-circle">
-                                        <input type="checkbox" id="female"/>
+                                        <input type="checkbox" id="female" value="1" onClick={selectgender} checked={gender == 1 && "checked"}/>
                                         <label for="female">여자</label>
                                     </form>
                                     <form className="check-circle">
-                                        <input type="checkbox" id="none"/>
+                                        <input type="checkbox" id="none" value="2" onClick={selectgender} checked={gender == 2 && "checked"}/>
                                         <label for="none">선택안함</label>
                                     </form>
                                 </div>
-                                <button className="btn-purple fix-bottom enable" onClick={() => togglepage(2)}>🔒저장하기</button>
+                                <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
                             </>
                         );
                     } else if(page === 6){
@@ -356,7 +380,7 @@ const Profile = ({refreshUser, userObj}) => {
                                         <div className="message">상세 주소를 입력해주세요</div>
                                     </form>
                                 </div>
-                                <button className="btn-purple fix-bottom enable" onClick={() => togglepage(2)}>🔒저장하기</button>
+                                <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
                             </>
                         );
                     } else if(page === 7){
@@ -377,7 +401,7 @@ const Profile = ({refreshUser, userObj}) => {
                                         <div className="message">이메일 형식이 올바르지 않아요</div>
                                     </form>
                                 </div>
-                                <button className="btn-purple fix-bottom enable" onClick={() => togglepage(2)}>🔒저장하기</button>
+                                <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
                             </>
                         );
                     } else if(page === 8){
@@ -431,7 +455,7 @@ const Profile = ({refreshUser, userObj}) => {
                                         <div className="message">비밀번호가 일치하지 않아요</div>
                                     </form>
                                 </div>
-                                <button className="btn-purple fix-bottom enable" onClick={() => togglepage(2)}>🔒저장하기</button>
+                                <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
                             </>
                         );
                     }

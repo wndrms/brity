@@ -184,7 +184,7 @@ const Addcard = ({userObj}) => {
                                 </div>
                                 <div className="card-box">
                                     <p>카드 크기 예시</p>
-                                    <div className={"card-wrap" + (size ? " flex-column" : "")}>
+                                    <div className={"card-wrap" + (size ? "" : " flex-column")}>
                                         <div className="card">
                                             <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-arrows.svg"} alt="이동 화살표"/></button>
                                             <p>S</p>
@@ -195,7 +195,7 @@ const Addcard = ({userObj}) => {
                                         </div>
                                     </div>
                                 </div>
-                                {!size ? (
+                                {size ? (
                                     <button className="btn-purple-filled enable" onClick={toggleProcessing0}>카드 크기 적용하기</button>
                                 ) : (
                                     <button className="btn-purple-filled">카드 크기 적용하기</button>
@@ -295,7 +295,7 @@ const Addcard = ({userObj}) => {
                                                     onChange={onFileChange}
                                                     checked/>
                                                 <div className={"img-del-btn" + (attachment ? (" on") : (""))}>
-                                                    <button onClick={onClearAttachment}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="이미지 삭제하기"></img></button>
+                                                    <button onClick={onClearAttachment}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="이미지 삭제하기"/>삭제</button>
                                                 </div>
                                             </form>
                                         </div>

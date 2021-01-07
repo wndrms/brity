@@ -1,4 +1,5 @@
 @charset "UTF-8"; 
+
 *{list-style: none; margin: 0; padding: 0;}
 html{font-size: 10px;}
 a, p, div, li, span, h1, h2, h3, h4, h5, h6, label, button, input{
@@ -17,7 +18,26 @@ input{-webkit-appearance: none; background: none; border: none;}
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none; margin: 0;}
+textarea::-webkit-outer-spin-button,
+textarea::-webkit-inner-spin-button {
+    -webkit-appearance: none; margin: 0;}
 textarea{resize: none;}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+ transition: background-color 5000s ease-in-out 0s;
+ -webkit-transition: background-color 9999s ease-out;
+box-shadow: 0 0 0px 1000px white inset !important;
+}
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active {
+ transition: background-color 5000s ease-in-out 0s;
+ -webkit-transition: background-color 9999s ease-out;
+box-shadow: 0 0 0px 1000px white inset !important;
+}
 
 body{width: 100%;}
 
@@ -305,7 +325,7 @@ div.toggle-on .btn-toggle span{left: 18px;}
     width: 4%; height: 4px; background: #f5f5f5;}
 
 .exempli{margin-top: 24px;}
-.exempli h2{font-size: 1.2rem; color: #8b8b8b; font-weight: 500;}
+.exempli h2{font-size: 1.2rem; color: #8b8b8b; font-weight: 400;}
 .card{
     width: 100%; border-radius: 6px; position: relative;
     background-image: linear-gradient(116deg, #16222a, #3a6073 100%);
@@ -344,7 +364,7 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .ad-img-box ~.img-del-btn button{
     display: flex; align-items: center; justify-content: center;
     width: 61px; height: 34px; color: #8b8b8b; font-size: 1.2rem;}
-.ad-img-box ~.img-del-btn.on{display: flex;}
+.ad-img-box.on ~.img-del-btn{display: flex;}
 
 .card-size-box{margin-top: 40px;}
 .hover-style >*{
@@ -402,8 +422,8 @@ div.toggle-on .btn-toggle span{left: 18px;}
 
 /*login-pw*/
 .login-pw .content >form{position: static;} 
-.login-pw .content .user-id{margin-top: 32px; font-weight: 700;}
-.login-pw .btn-wrap{margin-top: 26px;}
+.login-pw .content .user-id{margin-top: 40px; font-weight: 700;}
+.login-pw .btn-wrap{margin-top: 24px;}
 .login-pw .logo-wrap h2{font-size: 2.4rem;}
 .login-pw .form-box form.btn-wrap{justify-content: space-between;}
 
@@ -551,24 +571,24 @@ div.toggle-on .btn-toggle span{left: 18px;}
     width: 100%; height: 168px; display: block; 
     background-image: linear-gradient(115deg, #c71d6f 2%, #d09693 100%);}
 .user-home-notice .menu-wrap.bg-img{
-    background-size: cover;
-    background: url(img/heart-4678021_1280.jpg) no-repeat center center;}
+    background-position: center center; background-size: cover;
+    background: url(img/heart-4678021_1280.jpg) no-repeat;}
 .user-home-notice .menu-wrap.bg-img::after{
     width: 100%; height: 100%; display: block; content:"";
     position: absolute; top: 0; left: 0;
-    background:rgba(0, 0, 0, 0.1)}
-.user-home-notice .menu-wrap.bg-img >*{z-index: 1;}
+    background:rgba(0, 0, 0, 0.1);}
+.user-home-notice .menu-wrap.bg-img >*{
+    position: absolute; left: 0; text-align: center; 
+    font-weight: 400; z-index: 1; margin: 0 auto; width: 100%;} 
 .user-home-notice .header .menu-wrap{position: static;}
 .user-home-notice .header.fix .menu-wrap{position: relative;}
-.user-home-notice .menu-wrap button{
-    position: absolute; top: 1px; left: 4px;
+.user-home-notice .header .menu-wrap button{
+    top: 1px; left: 4px; margin: 0;
     width: 48px; height: 48px; z-index: 1;}
 .user-home-notice header .menu-wrap button img{
     display: block; width: 24px; margin: 0 auto;}
-.user-home-notice header .menu-wrap h3{
-    color: #fff; text-align: center; padding: 90px 0 16px; font-weight: 400;}
-.user-home-notice header .menu-wrap p{
-    font-size: 1.2rem; color: #fff; text-align: center; width: 100%; font-weight: 400;}
+.user-home-notice header .menu-wrap h3{color: #fff; padding: 90px 0 16px;}
+.user-home-notice header .menu-wrap p{font-size: 1.2rem; color: #fff; bottom: 25px;}
 
 .user-home-notice header.fix{height: 50px;}
 .user-home-notice header.fix .menu-wrap{height: 50px;}
@@ -589,17 +609,17 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .user-home-notice .overflow-btn{font-size: 1.2rem; color:#8b8b8b; font-weight: 500;}
 .user-home-notice .state span{
     font-size: 1rem; color:#555; margin-bottom: 80px; 
-    display: inline-block; font-weight: 500;}
+    display: inline-block; font-weight: 400;}
 
 .user-home-notice .img-area{
-    width: 100%; margin: 8px 0; overflow: hidden;
-    display: flex; justify-content: center; align-items: center;}
-.user-home-notice .img-area img{display: block; width: 100%; height: auto; border-radius: 8px;}
-
+    width: 100%; margin: 8px 0; height: 100%; border-radius: 8px;
+    background: url(img/tree-3778173_640.jpg) no-repeat
+    no-repeat center center; background-size: cover;}
+.user-home-notice .img-area::after{display: block; content:""; padding-top: 100%}
+.user-home-notice .bg-opacity.on{display: flex; align-items: center; justify-content: center;}
 .user-home-notice .bg-opacity.on .img-area{
-    display: flex; align-items: center; justify-content: center; margin: 0;
-    min-width: 375px; max-width: 550px; margin: 0 auto;}
-.user-home-notice .bg-opacity.on .img-area img{width: 92%; border-radius: 0;}
+    width: 92%; min-width: 375px; max-width: 550px; margin: 0 auto; 
+    z-index: 3; border-radius: 0;}
 
 /*admin-home*/
 .admin-home .del-text-box{margin: 8px 0; width: 100%; height: 40%; text-align: right;}
@@ -730,12 +750,13 @@ div.toggle-on .btn-toggle span{left: 18px;}
 
 .ad-card-size .content .form-box form{margin: 0;}
 .ad-card-size .form-box form:first-child{border-bottom: 1px #ebebeb solid;}
-.ad-card-size .form-box form label{height: 50px; margin: 0; font-weight: 700;}
+.ad-card-size .form-box form label{height: 50px; margin: 0; font-weight: 700; color: #a5a5a5;}
+.ad-card-size .form-box form input:checked +label{color: #161616;}
 .ad-card-size .form-box form + p{color: #f9a825; margin-top: 16px; font-size: 1.2rem; display: none;}
 
 .ad-card-size .card-wrap{display: flex; flex-direction: column-reverse;}
 .ad-card-size .card-wrap.flex-column{flex-direction: column;}
-.ad-card-size .card-box >p{font-size: 1.2rem; color: #8b8b8b; margin-top: 24px;}
+.ad-card-size .card-box >p{font-size: 1.2rem; color: #8b8b8b; margin-top: 24px; font-weight: 400;}
 .ad-card-size .card-wrap .card{margin: 0; margin-top: 8px; background: #ebebeb;}
 .ad-card-size .card-wrap .card.checked{background: #a5a5a5;}
 .ad-card-size .card-wrap .card:first-child{width: 50%;}
@@ -775,6 +796,8 @@ div.toggle-on .btn-toggle span{left: 18px;}
 /* account */
 .account header button:last-child{justify-content: flex-end; margin-right: 12px;}
 .account .content form{margin: 0;}
+.account .content .input-basic{margin-top: 16px;}
+
 /* account-menu */
 .account-menu .form-box div{height: 50px; width: 100%; margin: 0;}
 .account-menu .form-box div button{font-weight: 500;}
@@ -795,12 +818,12 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .account-delete .check-circle input[type=checkbox] + label::before{min-width: 24px; margin-right: 8px;}
 .account-delete .check-circle input[type=checkbox] + label{
     width: calc(100% - 32px); word-break: keep-all;}
-.account-delete .btn-basic{width: 100%; margin-top:40px;}
+.account-delete .btn-basic{width: 100%; margin-top:40px; font-size: 1.6rem;}
 
 /* account-delete02 */
 .account-delete02 h2{margin-top: 30px;}
 .account-delete02 form{margin-top: 32px;}
-.account-delete02 form label{color: #8b8b8b; font-weight: 500;}
+.account-delete02 form label{color: #8b8b8b; font-weight: 400;}
 .account-delete02 .btn-basic{margin-top: 46px;}
 
 /* account-sns */
@@ -808,8 +831,9 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .account-sns .content{position: relative; height: calc(100vh - 74px);}
 .account-sns form{
     display: flex; align-items: center; position: relative; width: 100%; height: 50px;
-    border-bottom: 1px solid #ebebeb; box-sizing: border-box; margin-top: 8px;}
-.account-sns form:first-child{margin-top: 40px} 
+    border-bottom: 1px solid #ebebeb; box-sizing: border-box;}
+.account-sns .form-box form{margin-top: 8px;}
+.account-sns .form-box form:first-child{margin-top: 40px} 
 .account-sns form:hover >*{background: #f5f5f5;}
 .account-sns form:active >*{background: #ebebeb;}
 .account-sns form::after{
@@ -826,19 +850,20 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .account-sns form:active::before{display: block; background: #ebebeb;}
 .account-sns form >*{ height: 100%; display: block;}
 .account-sns form label{
-    width: 88px; line-height: 50px; color: #8b8b8b;}
+    width: 88px; line-height: 50px; color: #8b8b8b; font-weight: 400;}
 .account-sns form input{
     width: calc(100% - 88px); box-sizing: border-box; padding: 11px 16px;}
 .account-sns input::placeholder{color: #c1c1c1;}
 
 /* account-info */
+.account-info header{position: relative;}
 .account-info header button:first-child img{display: block;}
 .account-info .content{position: relative; height: calc(100vh - 74px);}
 .account-info .content h2{font-size: 2rem; font-weight: 700; margin: 24px 0 16px;}
-.account-info .content p{color: #555;}
+.account-info .content p{color: #555; font-weight: 400;}
 .account-info .form-box{margin-top: 56px;}
-.account-info .form-box label{color: #8b8b8b;}
-.account-info .form-box input{height: 42px;}
+.account-info .form-box label{color: #8b8b8b; font-weight: 400;}
+.account-info .form-box input{height: 42px; margin-top: 16px;}
 .account-info .form-box input::placeholder{color: #161616; font-size: 1.6rem; font-weight: 700;}
 
 /* account-info01 */
@@ -856,8 +881,9 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .account-info01 .form-box >div button >span{color:#8b8b8b; width: 88px; font-weight: 400;}
 .account-info01 .form-box >div button >p{
     width: calc(100% - 88px); box-sizing: border-box; padding: 11px 16px;
-    font-weight: 500;}
+    font-weight: 500; color: #161616;}
 .account-info01 .form-box >div button >p span{font-weight: 500;}
+.account-info01 .form-box:last-child >div{margin-top: 24px;}
 
 /* account-info03 */
 .account-info03 .birth{display: flex;}
@@ -867,19 +893,42 @@ div.toggle-on .btn-toggle span{left: 18px;}
 
 /* account-info04 */
 .account-info04 .content p{margin-top: 68px;}
-.account-info04 .content .form-box{margin-top: 0px;}
+.account-info04 .content .form-box{margin-top: 16px;}
 .account-info04 label{
     margin-top: 0px; height: 100%; width: 100%;
     flex-direction: row-reverse; justify-content: space-between;}
 .account-info04 .form-box form:first-child{margin-top: 16px;}
 .account-info04 form{height: 50px; border-bottom: 1px solid #ebebeb; box-sizing: border-box}
 .account-info04 form:last-child{border: none;}
-/*
-.account-info04 form:hover{background: #ebebeb;}
-.account-info04 form::after{
-    width: 4%; height: 50px; content:""; display: none;
-    background: #ebebeb; position: absolute; top: 0; right: -4%;}
-.account-info04 form::before{
-    width: 4%; height: 50px; content:""; display: none;
-    background: #ebebeb; position: absolute; top: 0; left: -4%;}
-    */
+.account-info04 .form-box form label{color: #a5a5a5; font-weight: 700;}
+.account-info04 .form-box form input:checked +label{color: #161616;}
+.account-info04 .check-circle input[type=checkbox] + label::before{
+    background: url(img/02-icon-01-outline-circle.svg)}
+.account-info04 .check-circle input[type=checkbox]:checked + label::before{
+    background: url(img/02-icon-02-solid-check-circle-color.svg)}
+
+/* account-info05 */
+.account-info05 form.serch-address button{
+    position: absolute; top: 37px; right: 1px; border-radius: 4px;
+    width: 40px; height: 40px; background: #fff;
+    display: flex; align-items: center; justify-content: center;}
+.account-info05 form.serch-address button img{width: 24px; height: 24px;}
+.account-info05 .form-box{margin-top: 32px;}
+.account-info05 .form-box form:last-child input{margin-top: 22px;}
+
+/* account-info06 */
+
+/* account-info07 */
+.account-info07 header button:last-child{display: none;}
+.account-info07 .content >div:last-child{
+    display: flex; justify-content: flex-end; width: 100%; margin-top: 46px;}
+.account-info07 .form-box{margin-top: 36px;}
+.account-info07 .content input::placeholder{
+    font-weight: 400; color: #6f6f6f; font-size: 1.4rem;}
+
+/* account-info08 */
+.account-info08 .form-box label span{color: #8b8b8b;}
+.account-info08 .content input::placeholder{
+    font-weight: 400; color: #6f6f6f; font-size: 1.4rem;}
+.account-info08 .content >*:nth-last-child(3){margin-top: 36px}
+.account-info08 .content >*:nth-last-child(2){margin-top: 30px}
