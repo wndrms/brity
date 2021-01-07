@@ -88,7 +88,7 @@ const Addcard = ({userObj}) => {
     const togglesize = () => setsize((prev) => !prev);
     const togglelinkopen = () => setlinkopen((prev) => !prev);
     return(
-        <div id="wrap" className={"ad-card" + (Processing>0 ? (Processing === 1 ? (" ad-card-size") : (" ad-card-cover")) : (""))}>
+        <div id="wrap" className={"ad-card" + (Processing>0 ? (Processing === 1 ? (" ad-card-size on") : (" ad-card-cover")) : (""))}>
             <header className={`header`} ref={ref}>
                 <div className="menu-wrap">
                     <button className="back" onClick={toggleProcessing0}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
@@ -179,8 +179,8 @@ const Addcard = ({userObj}) => {
                                         <input checked type="checkbox" name="checkbox" id="size-l" checked={size && "checked"} onClick={togglesize}/>
                                         <label for="size-l">L</label>
                                     </form>
-                                    <p className="size-s-error">📢 지금은 ‘L’ 사이즈 카드만 지원하고 있어요<br/>
-                                        이른 시일 안에 선택 할 수 있도록 노력하겠습니다 🙇‍♂️</p>
+                                    {!size && <p className="size-s-error" style={{display:"block"}}>📢 지금은 ‘L’ 사이즈 카드만 지원하고 있어요<br/>
+                                        이른 시일 안에 선택 할 수 있도록 노력하겠습니다 🙇‍♂️</p>}
                                 </div>
                                 <div className="card-box">
                                     <p>카드 크기 예시</p>
@@ -195,7 +195,11 @@ const Addcard = ({userObj}) => {
                                         </div>
                                     </div>
                                 </div>
-                                <button className="btn-purple-filled enable" onClick={toggleProcessing0}>카드 크기 적용하기</button>
+                                {!size ? (
+                                    <button className="btn-purple-filled enable" onClick={toggleProcessing0}>카드 크기 적용하기</button>
+                                ) : (
+                                    <button className="btn-purple-filled">카드 크기 적용하기</button>
+                                )}
                             </>
                         );
                     } else if (Processing === 2){

@@ -1,4 +1,4 @@
-import { authService } from "fbase";
+import { authService, dbService } from "fbase";
 import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
@@ -7,6 +7,14 @@ const Profile = ({refreshUser, userObj}) => {
     const history = useHistory();
     const [page, setpage] = useState(0);
     const [fix, setfix] = useState(false);
+    const [email, setemail] = useState();
+    const [name, setname] = useState();
+    const [birth, setbirth] = useState();
+    const [gender, setgender] = useState();
+    const [address, setaddress] = useState();
+    const [subadd, setsubadd] = useState();
+    const [newpw, setnewpw] = useState();
+    const [newpwre, setnewpwre] = useState();
     const ref = useRef(null);
     const handleScroll = () => {
         if(ref.current) {
@@ -14,12 +22,48 @@ const Profile = ({refreshUser, userObj}) => {
         }
     };
     useEffect(() => {
+        let userdata = dbService.collection("users").doc(authService.currentUser.email);
+        let getdoc = userdata.get()
+            .then(doc => {
+                if(!doc.exists) {
+                    console.log("NO!");
+                } else {
+                    console.log("DATA : ", doc.data());
+                    setemail(doc.data().email);
+                    setname(doc.data().name);
+                    setbirth(doc.data().birth);
+                    setgender(doc.data().gender);
+                    setaddress(doc.data().address);
+                    setsubadd(doc.data().subadd);
+                }
+            }).catch(err => {
+                console.log(err);
+            });
         window.addEventListener('scroll', handleScroll);
 
         return () => {
             window.removeEventListener('scroll', () => handleScroll);
         };
     }, []);
+    const onChange = (event) => {
+        const {target: {name, value}} = event;
+        if(name === "name"){
+            setname(value);
+        } else if(name === "user-email"){
+            setemail(value);
+        } else if(name === "year"){
+            let tbirth = Number(birth % 10000);
+            setbirth(value*10000 + tbirth);
+        } else if(name === "month"){
+            let tbirth = Number(birth/10000) + Number(birth % 100);
+            setbirth(value*100 + tbirth);
+        } else if(name === "date"){
+            let tbirth = Number(birth/100);
+            setbirth(value + tbirth);
+        } else if(name === "detail-address"){
+            setsubadd(value);
+        }
+    };
     const onLogOutClick = () => {
         authService.signOut();
         history.push("/");
@@ -140,21 +184,21 @@ const Profile = ({refreshUser, userObj}) => {
                                     <div className="hover-style">
                                         <button>
                                             <span>이름</span>
-                                            <p className="user-name"></p>
+                                            <p className="user-name">{name}</p>
                                             <img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="수정하기" onClick={() => togglepage(3)}/>
                                         </button>
                                     </div>
                                     <div className="hover-style">
                                         <button>
                                             <span>생년월일</span>
-                                            <p className="user-birth"></p>
+                                            <p className="user-birth">{birth}</p>
                                             <img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="수정하기" onClick={() => togglepage(4)}/>
                                         </button>
                                     </div>
                                     <div className="hover-style">
                                         <button>
                                             <span>성별</span>
-                                            <p className="user-gender">여성</p>
+                                            <p className="user-gender">{gender ? "남성" : "여성"}</p>
                                             <img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="수정하기" onClick={() => togglepage(5)}/>
                                         </button>
                                     </div>
@@ -162,8 +206,8 @@ const Profile = ({refreshUser, userObj}) => {
                                         <button>
                                             <span>주소</span>
                                             <p className="user-address">
-                                                <span>서울특별시 성북구 길음로 7길 20.</span>
-                                                <span>서울 미디어랩 밀레니즈 290동102호</span>
+                                                <span>{address}</span>
+                                                <span>{subadd}</span>
                                             </p>
                                             <img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="수정하기" onClick={() => togglepage(6)}/>
                                         </button>
@@ -173,7 +217,7 @@ const Profile = ({refreshUser, userObj}) => {
                                     <div className="hover-style">
                                         <button>
                                             <span>이메일 주소</span>
-                                            <p className="user-email">{authService.currentUser.email}</p>
+                                            <p className="user-email">{email}</p>
                                             <img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="수정하기" onClick={() => togglepage(7)}/>
                                         </button>
                                     </div>
@@ -199,13 +243,15 @@ const Profile = ({refreshUser, userObj}) => {
                                         <input
                                             type="text"
                                             id="user-name"
+                                            name="name"
                                             className="input-basic"
-                                            placeholder=""/>
+                                            placeholder={name}
+                                            onChange={onChange}/>
                                         <button></button>
                                         <div className="message">이름을 입력해주세요</div>
                                     </form>
                                 </div>
-                                <button className="btn-purple fix-bottom enable">🔒저장하기</button>
+                                <button className="btn-purple fix-bottom enable" onClick={() => togglepage(2)}>🔒저장하기</button>
                             </>
                         );
                     } else if(page === 4){
@@ -222,8 +268,10 @@ const Profile = ({refreshUser, userObj}) => {
                                             <input
                                                 type="number"
                                                 id="year"
+                                                name="year"
                                                 min="1900"
                                                 max="2020"
+                                                onChange={onChange}
                                                 className="input-basic"
                                                 placeholder="연도"/>
                                         </form>
@@ -232,8 +280,10 @@ const Profile = ({refreshUser, userObj}) => {
                                             <input
                                                 type="number"
                                                 id="month"
+                                                name="month"
                                                 min="1"
                                                 max="12"
+                                                onChange={onChange}
                                                 className="input-basic"
                                                 placeholder="월"/>
                                         </form>
@@ -242,14 +292,16 @@ const Profile = ({refreshUser, userObj}) => {
                                             <input
                                                 type="number"
                                                 id="date"
+                                                name="date"
                                                 min="1"
                                                 max="31"
+                                                onChange={onChange}
                                                 className="input-basic"
                                                 placeholder="일"/>
                                         </form>
                                     </div>
                                 </div>
-                                <button className="btn-purple fix-bottom enable">🔒저장하기</button>
+                                <button className="btn-purple fix-bottom enable" onClick={() => togglepage(2)}>🔒저장하기</button>
                             </>
                         );
                     } else if(page === 5){
@@ -271,7 +323,7 @@ const Profile = ({refreshUser, userObj}) => {
                                         <label for="none">선택안함</label>
                                     </form>
                                 </div>
-                                <button className="btn-purple fix-bottom enable">🔒저장하기</button>
+                                <button className="btn-purple fix-bottom enable" onClick={() => togglepage(2)}>🔒저장하기</button>
                             </>
                         );
                     } else if(page === 6){
@@ -297,12 +349,14 @@ const Profile = ({refreshUser, userObj}) => {
                                             type="text"
                                             className="input-basic"
                                             id="detail-address"
+                                            name="detail-address"
+                                            onChange={onChange}
                                             placeholder="상세주소를 입력하세요" />
                                         <button></button>
                                         <div className="message">상세 주소를 입력해주세요</div>
                                     </form>
                                 </div>
-                                <button className="btn-purple fix-bottom enable">🔒저장하기</button>
+                                <button className="btn-purple fix-bottom enable" onClick={() => togglepage(2)}>🔒저장하기</button>
                             </>
                         );
                     } else if(page === 7){
@@ -317,12 +371,13 @@ const Profile = ({refreshUser, userObj}) => {
                                             type="email"
                                             className="input-basic"
                                             id="user-email"
-                                            placeholder="" />
+                                            name="user-email"
+                                            placeholder={email} />
                                         <button></button>
                                         <div className="message">이메일 형식이 올바르지 않아요</div>
                                     </form>
                                 </div>
-                                <button className="btn-purple fix-bottom enable">🔒저장하기</button>
+                                <button className="btn-purple fix-bottom enable" onClick={() => togglepage(2)}>🔒저장하기</button>
                             </>
                         );
                     } else if(page === 8){
@@ -354,7 +409,7 @@ const Profile = ({refreshUser, userObj}) => {
                                     앞으로 로그인할 때 변경한 비밀번호를 입력해 주세요</p>
                                 <div className="form-box">
                                     <form>
-                                        <label for="new-user-pw">새 비밀번호<span class="required">*</span></label>
+                                        <label for="new-user-pw">새 비밀번호<span className="required">*</span></label>
                                         <input
                                             type="password"
                                             className="input-basic"
