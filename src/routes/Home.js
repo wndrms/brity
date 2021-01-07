@@ -162,13 +162,13 @@ const Home = ({refreshUser, userObj}) => {
                                     <CardDragList nweets={nweets}/>
                                 ) : (
                                     nweets.map((nweet) => (
-                                        <div className="card del">
+                                        <div className={"card" + (delcards.includes(nweet.id) ? " del" : "")}>
                                             <h3>{nweet.subtitle}</h3>
                                             <button onClick={() => adddelcard(nweet.id)}>
                                                 { delcards.includes(nweet.id) ? (
-                                                    <img src={process.env.PUBLIC_URL + "02-icon-01-outline-check-000.svg"} alt="삭제 체크" />
-                                                ) : (
                                                     <img src={process.env.PUBLIC_URL + "02-icon-02-solid-check-circle.svg"} alt="삭제 체크" />
+                                                ) : (
+                                                    <img src={process.env.PUBLIC_URL + "02-icon-01-outline-arrows.svg"} alt="이동 화살표" />
                                                 )}
                                                 </button>
                                             <p>{nweet.title}</p>

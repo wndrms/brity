@@ -184,7 +184,7 @@ const Addcard = ({userObj}) => {
                                 </div>
                                 <div className="card-box">
                                     <p>카드 크기 예시</p>
-                                    <div className="card-wrap">
+                                    <div className={"card-wrap" + (size ? " flex-column" : "")}>
                                         <div className="card">
                                             <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-arrows.svg"} alt="이동 화살표"/></button>
                                             <p>S</p>
@@ -288,7 +288,12 @@ const Addcard = ({userObj}) => {
                                                         </>
                                                     )}
                                                 </label>
-                                                <input type="file" id="card-img" className="input-basic" onChange={onFileChange}/>
+                                                <input 
+                                                    type="file" 
+                                                    id={"card-img" + (attachment ? " on" : "")} 
+                                                    className="input-basic" 
+                                                    onChange={onFileChange}
+                                                    checked/>
                                                 <div className={"img-del-btn" + (attachment ? (" on") : (""))}>
                                                     <button onClick={onClearAttachment}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="이미지 삭제하기"></img></button>
                                                 </div>
