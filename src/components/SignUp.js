@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {Link, useHistory} from "react-router-dom";
 import DaumPostcode from "react-daum-postcode";
-import { authService } from "fbase";
+import { authService, dbService } from "fbase";
 
 const SignUp = () => {
     const history = useHistory();
@@ -26,7 +26,9 @@ const SignUp = () => {
     const [focusdate, setfocusdate] = useState(false);
     const [focussubadd, setfocussubadd] = useState(false);
     const [pwshow, setpwshow] = useState(false);
-    const [all, setall] = useState(false);
+    const [check1, setcheck1] = useState(false);
+    const [check2, setcheck2] = useState(false);
+    const [check3, setcheck3] = useState(false);
     const onChange = (event) => {
         const {target: {name, value}} = event;
         if(name === "name"){
@@ -47,10 +49,6 @@ const SignUp = () => {
             setsubaddress(value);
         }
     };
-    const onDelete = (event) => {
-        setname("");
-        console.log(name);
-    }
     const onFocus = (event) => {
         const {target: {name}} = event;
         if(name === "name"){
@@ -99,6 +97,15 @@ const SignUp = () => {
                 password
             );
             console.log(data);
+            const userdata = {
+                email: userid,
+                name: name,
+                phnum: phnum,
+                birth: year*10000 + month*100 + date,
+                address: address,
+                subadd: subaddress,
+            }
+            await dbService.collection('users').doc(userid).set(userdata);
         } catch (err) {
             seterror(err.message);
         }
@@ -108,7 +115,17 @@ const SignUp = () => {
         event.preventDefault();
         setpwshow((prev) => !prev);
     }
-    const toggleall = () => setall((prev) => !prev);
+    const toggleall = () => {
+        if(check1 && check2 && check3){
+            setcheck1(false);
+            setcheck2(false);
+            setcheck3(false);
+        } else{
+            setcheck1(true);
+            setcheck2(true);
+            setcheck3(true);
+        }
+    }
     const gethome = () => history.push("/");
     return(
         <>
@@ -152,7 +169,10 @@ const SignUp = () => {
                                                 onBlur={onFocus}
                                                 onFocus={onFocus}
                                                 placeholder="본인이름을 입력하세요"/>
-                                            <button onClick={onDelete}></button>
+                                            <button onClick={(e) => {
+                                                e.preventDefault();
+                                                setname("");
+                                            }}></button>
                                             <div className="message">{error}</div>
                                         </form>
                                         <form className={(focusph ? "selected" : "") + (phnum ? " filled" : "")}>
@@ -168,7 +188,10 @@ const SignUp = () => {
                                                 onBlur={onFocus}
                                                 onFocus={onFocus}
                                                 placeholder="휴대폰 번호를 입력하세요"/>
-                                            <button></button>
+                                            <button onClick={(e) => {
+                                                e.preventDefault();
+                                                setphnum("");
+                                            }}></button>
                                         </form>
                                         <div className="btn-wrap">
                                             {name && phnum ? (
@@ -205,7 +228,10 @@ const SignUp = () => {
                                                 onBlur={onFocus}
                                                 onFocus={onFocus}
                                                 placeholder="아이디를 입력하세요"/>
-                                            <button></button>
+                                            <button onClick={(e) => {
+                                                e.preventDefault();
+                                                setuserid("");
+                                            }}></button>
                                             <div className="message">변경 불가 사항🔒</div>
                                         </form>
                                         <div className="btn-wrap">
@@ -230,7 +256,7 @@ const SignUp = () => {
                                         <form className={(focuspw ? "selected" : "") + (pwshow ? " pw-veiw" : " pw-hide")}>
                                             <label for="pw">비밀번호<span className="required">*</span></label>
                                             <input 
-                                                type="password" 
+                                                type={pwshow ? "text" : "password"} 
                                                 className="input-basic" 
                                                 name="pw"
                                                 value={password}
@@ -358,7 +384,10 @@ const SignUp = () => {
                                                 onBlur={onFocus}
                                                 onFocus={onFocus}
                                                 placeholder="상세주소를 입력하세요"/>
-                                            <button></button>
+                                            <button onClick={(e) => {
+                                                e.preventDefault();
+                                                setsubaddress("");
+                                            }}></button>
                                             <div className="message">상세주소를 입력해주세요</div>
                                         </form>
                                         <form className="btn-wrap">
@@ -384,38 +413,26 @@ const SignUp = () => {
                                         <form>
                                             <ul>
                                                 <li className="check-circle">
-                                                    {all ? (
-                                                        <input type="checkbox" id="survice-check" checked/>
-                                                    ) : (
-                                                        <input type="checkbox" id="survice-check"/>
-                                                    )}
+                                                    <input type="checkbox" id="survice-check" onClick={() => setcheck1((prev) => !prev)} checked={check1 && "checked"}/>
                                                     <label for="survice-check">서비스 이용 약관 운영 및 동의<span class="required">(필수)</span></label>
                                                 </li>
                                                 <li className="check-circle">
-                                                    {all ? (
-                                                        <input type="checkbox" id="info-check" checked/>
-                                                    ) : (
-                                                        <input type="checkbox" id="info-check"/>
-                                                    )}
+                                                    <input type="checkbox" id="info-check" onClick={() => setcheck2((prev) => !prev)} checked={check2 && "checked"}/>
                                                     <label for="info-check">개인정보 수집 및 이용 동의<span class="required">(필수)</span></label>
                                                 </li>
                                                 <li className="check-circle">
-                                                    {all ? (
-                                                        <input type="checkbox" id="ad-check" checked/>
-                                                    ) : (
-                                                        <input type="checkbox" id="ad-check"/>
-                                                    )}
+                                                    <input type="checkbox" id="ad-check" onClick={() => setcheck3((prev) => !prev)} checked={check3 && "checked"}/>
                                                     <label for="ad-check">마케팅 정보SMS, 이메일 수신 동의<span>(선택)</span></label>
                                                 </li>
                                                 <li className="check-circle all">
-                                                    <input type="checkbox" id="all" onChange={toggleall}/>
+                                                    <input type="checkbox" id="all" onChange={toggleall} checked={check1 && check2 && check3 && "checked"}/>
                                                     <label for="all">모두 동의하고 계속할래요</label>
                                                     <div className="message">{error}</div>
                                                 </li>
                                             </ul>
                                         </form>
                                         <form className="btn-wrap">
-                                            {(address && subaddress) ? (
+                                            {(check1 && check2) ? (
                                                 <button className="btn-basic next enable" onClick={incresProceeding}>계속</button>
                                             ) : (
                                                 <button className="btn-basic next">계속</button>

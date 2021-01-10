@@ -1,5 +1,6 @@
-import { authService, dbService } from "fbase";
+import { firebaseInstance, authService, dbService } from "fbase";
 import React, { useEffect, useRef, useState } from "react";
+import DaumPostcode from "react-daum-postcode";
 import { useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 
@@ -7,46 +8,87 @@ const Profile = ({refreshUser, userObj}) => {
     const history = useHistory();
     const [page, setpage] = useState(0);
     const [fix, setfix] = useState(false);
-    const [email, setemail] = useState();
+    const [instagram, setinstagram] = useState("");
+    const [facebook, setfacebook] = useState("");
+    const [youtube, setyoutube] = useState("");
+    const [tiktok, settiktok] = useState("");
+    const [twitter, settwitter] = useState("");
+    const [focusinstagram, setfocusinstagram] = useState(false);
+    const [focusfacebook, setfocusfacebook] = useState(false);
+    const [focusyoutube, setfocusyoutube] = useState(false);
+    const [focustiktok, setfocustiktok] = useState(false);
+    const [focustwitter, setfocustwitter] = useState(false);
+    const [email, setemail] = useState(authService.currentUser.email);
     const [name, setname] = useState("");
-    const [birth, setbirth] = useState("");
     const [year, setyear] = useState("");
     const [month, setmonth] = useState("");
     const [date, setdate] = useState("");
     const [gender, setgender] = useState("");
     const [address, setaddress] = useState("");
     const [subadd, setsubadd] = useState("");
-    const [newpw, setnewpw] = useState();
-    const [newpwre, setnewpwre] = useState();
-    const ref = useRef(null);
+    const [pw, setpw] = useState("");
+    const [newpw, setnewpw] = useState("");
+    const [newpwre, setnewpwre] = useState("");
+    const [search, setsearch] = useState(false);
+    const [focusname, setfocusname] = useState(false);
+    const [focusemail, setfocusemail] = useState(false);
+    const [focuspw, setfocuspw] = useState(false);
+    const [focusyear, setfocusyear] = useState(false);
+    const [focusmonth, setfocusmonth] = useState(false);
+    const [focusdate, setfocusdate] = useState(false);
+    const [focussubadd, setfocussubadd] = useState(false);
+    const [focusnewpw, setfocusnewpw] = useState(false);
+    const [focusnewpwre, setfocusnewpwre] = useState(false);
+    const [pwshow, setpwshow] = useState(false);
+    const [newpwshow, setnewpwshow] = useState(false);
+    const [newpwreshow, setnewpwreshow] = useState(false);
+    const [error, seterror] = useState(false);
+    const [btnover, setbtnover] = useState(false);
     const handleScroll = () => {
-        if(ref.current) {
-            setfix(ref.current.getBoundingClientRect().top <= 0);
-        }
+        const {pageYOffset} = window;
+        setfix(pageYOffset > 0);
     };
+
     useEffect(() => {
         let userdata = dbService.collection("users").doc(authService.currentUser.email);
         let getdoc = userdata.get()
             .then(doc => {
                 if(!doc.exists) {
-                    console.log("NO!");
+                    dbService.collection("users").doc(authService.currentUser.email).set({
+                        email: authService.currentUser.email,
+                    });
                 } else {
                     console.log("DATA : ", doc.data());
-                    setemail(doc.data().email);
-                    setname(doc.data().name);
-                    setbirth(doc.data().birth);
-                    setgender(doc.data().gender);
-                    setaddress(doc.data().address);
-                    setsubadd(doc.data().subadd);
+                    if(doc.data().email === undefined) setemail(authService.currentUser.email);
+                    else setemail(doc.data().email);
+                    if(doc.data().name === undefined) setname("");
+                    else setname(doc.data().name);
+                    if(doc.data().gender === undefined) setgender(2);
+                    else setgender(doc.data().gender);
+                    if(doc.data().address === undefined) setaddress("");
+                    else setaddress(doc.data().address);
+                    if(doc.data().subadd === undefined) setsubadd("");
+                    else setsubadd(doc.data().subadd);
+                    if(doc.data().birth === undefined){
+                        setyear("");
+                        setmonth("");
+                        setdate("");
+                    }
+                    else {
+                        setyear(Math.floor(Number(doc.data().birth) / 10000));
+                        setmonth(Math.floor((Number(doc.data().birth) % 10000) / 100));
+                        setdate(Math.floor(Number(doc.data().birth) % 100));
+                    }
+                    setinstagram(doc.data().instagram === undefined ? "" : doc.data().instagram);
+                    setfacebook(doc.data().facebook === undefined ? "" : doc.data().facebook);
+                    setyoutube(doc.data().youtube === undefined ? "" : doc.data().youtube);
+                    settiktok(doc.data().tiktok === undefined ? "" : doc.data().tiktok);
+                    settwitter(doc.data().twitter === undefined ? "" : doc.data().twitter);
                 }
             }).catch(err => {
                 console.log(err);
             });
         window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', () => handleScroll);
-        };
     }, []);
     const onChange = (event) => {
         const {target: {name, value}} = event;
@@ -62,17 +104,68 @@ const Profile = ({refreshUser, userObj}) => {
             setdate(value);
         } else if(name === "detail-address"){
             setsubadd(value);
+        } else if(name === "pw"){
+            setpw(value);
+        } else if(name === "new-pw"){
+            setnewpw(value);
+        } else if(name === "new-pw-re"){
+            setnewpwre(value);
+        } else if(name === "instagram"){
+            setinstagram(value);
+        } else if(name === "facebook"){
+            setfacebook(value);
+        } else if(name === "youtube"){
+            setyoutube(value);
+        } else if(name === "tiktok"){
+            settiktok(value);
+        } else if(name === "twitter"){
+            settwitter(value);
         }
     };
-    const onLogOutClick = () => {
+    const onFocus = (event) => {
+        const {target: {name}} = event;
+        if(name === "name"){
+            setfocusname((prev) => !prev);
+        } else if(name === "user-email"){
+            setfocusemail((prev) => !prev);
+        } else if(name === "year"){
+            setfocusyear((prev) => !prev);
+        } else if(name === "month"){
+            setfocusmonth((prev) => !prev);
+        } else if(name === "date"){
+            setfocusdate((prev) => !prev);
+        } else if(name === "detail-address"){
+            setfocussubadd((prev) => !prev);
+        } else if(name === "pw"){
+            setfocuspw((prev) => !prev);
+        } else if(name === "new-pw"){
+            setfocusnewpw((prev) => !prev);
+        } else if(name === "new-pw-re"){
+            setfocusnewpwre((prev) => !prev);
+        } else if(name === "instagram"){
+            setfocusinstagram((prev) => !prev);
+        } else if(name === "facebook"){
+            setfocusfacebook((prev) => !prev);
+        } else if(name === "youtube"){
+            setfocusyoutube((prev) => !prev);
+        } else if(name === "tiktok"){
+            setfocustiktok((prev) => !prev);
+        } else if(name === "twitter"){
+            setfocustwitter((prev) => !prev);
+        }
+    };
+    const onLogOutClick = (e) => {
+        e.preventDefault();
         authService.signOut();
         history.push("/");
         refreshUser();
     };
     const gethome = () => history.push("/");
     const getdelete =() => history.push("/delete");
-    const togglepage0 = () => setpage(0);
-    const togglepage = (num) => setpage(num);
+    const togglepage = (num) => {
+        setpage(num);
+        seterror(false);
+    }
     const toggleclassName = () => {
         if(page === 0) return "ad-card account-menu account"
         else if(page === 1) return "ad-card account-sns account"
@@ -96,18 +189,83 @@ const Profile = ({refreshUser, userObj}) => {
         const data = {
             email: email,
             name: name,
-            birth: year + month + date,
+            birth: year*10000 + month*100 + date,
             gender: gender,
             address: address,
             subadd: subadd,
         }
-        const res = await dbService.collection('users').doc(authService.currentUser.email).set(data);
-        console.log(res);
+        await dbService.collection('users').doc(authService.currentUser.email).update(data);
         setpage(2);
     };
+    const onSubmit2 = async (event) => {
+        const data = {
+            instagram: instagram,
+            facebook: facebook,
+            youtube: youtube,
+            tiktok: tiktok,
+            twitter: twitter,
+        }
+        await dbService.collection('users').doc(authService.currentUser.email).update(data);
+        setpage(0);
+    };
+    const togglesearch = () => setsearch((prev) => !prev);
+    const handleComplete = (data) => {
+        let fullAddress = data.address;
+        let extraAddress = '';
+
+        if (data.addressType === 'R') {
+            if (data.bname !== '') {
+                extraAddress += data.bname;
+            }
+            if (data.buildingName !== ''){
+                extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+            }
+            fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+        }
+        setaddress(fullAddress);
+        togglesearch();
+    };
+    const reauthenticate = async () => {
+        const user = authService.currentUser;
+        try{
+            let cred = await firebaseInstance.auth.EmailAuthProvider.credential(
+                email,
+                pw
+            );
+            let reauth = await user.reauthenticateWithCredential(
+                cred
+            );
+            if(reauth.message === undefined){
+                setpw("");
+                return true
+            } else{
+                setpw("");
+                return false
+            }
+        } catch (err){
+            console.log(err);
+        }
+    }
+    const updatepw = async () => {
+        let password = newpw;
+        authService.currentUser.updatePassword(password).then(function() {
+            setnewpw("");
+            setnewpwre("");
+            togglepage(2);
+        }).catch(function(err){
+            console.log(err);
+        });
+    };
+    const btnstyle1 = (over) => ({
+        borderRight: over ? "1px solid #fff" : "1px solid #ebebeb",
+        borderTop: over ? "1px solid #fff" : "1px solid #ebebeb",
+    });
+    const btnstyle2 = (over) => ({
+        borderTop: over ? "1px solid #fff" : "1px solid #ebebeb",
+    });
     return (
         <div id="wrap" className={toggleclassName()}>
-            <header className={`header${fix ? ' fix' : ''}`} ref={ref}>
+            <header className={`header${fix ? ' fix' : ''}`}>
                 <div className="menu-wrap">
                     <button className="back" onClick={() => togglepage(0)}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
                     <p>{togglemenuName()}</p>
@@ -130,7 +288,8 @@ const Profile = ({refreshUser, userObj}) => {
                                     <form className="hover-style"><button onClick={() => togglepage(2)}>개인 정보<img src={process.env.PUBLIC_URL + "02-icon-03-18-px-outline-chevron-right.svg"} alt="바로가기"/></button></form>
                                 </div>
                                 <div className="form-box">
-                                    <form className="hover-style"><Popup
+                                    <form className="hover-style">
+                                        <Popup
                                         trigger={<button>로그아웃</button>}
                                         modal>
                                         {close => (<div className="bg-opacity alert on">
@@ -142,8 +301,8 @@ const Profile = ({refreshUser, userObj}) => {
                                                             아쉽지만, 다음에 또 만나요 🙋‍♀️</p>
                                                     </div>
                                                     <div className="btn-box">
-                                                        <button onClick={close}>취소</button>
-                                                        <button onClick={onLogOutClick}>로그아웃</button>
+                                                        <button onClick={close} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle1(btnover)}>취소</button>
+                                                        <button onClick={onLogOutClick} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle2(btnover)}>로그아웃</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -158,31 +317,71 @@ const Profile = ({refreshUser, userObj}) => {
                         return(
                             <>
                                 <div className="form-box">
-                                    <form>
+                                    <form className={focusinstagram ? "selected" : ""}>
                                         <label for="insta-id">Instagram</label>
-                                        <input id="insta-id" type="text" placeholder="아이디를 입력해주세요"/>
+                                        <input 
+                                            id="insta-id" 
+                                            type="text" 
+                                            name="instagram"
+                                            value={instagram}
+                                            onChange={onChange}
+                                            onFocus={onFocus}
+                                            onBlur={onFocus}
+                                            placeholder="아이디를 입력해주세요"/>
                                     </form>
-                                    <form>
+                                    <form className={focusfacebook ? "selected" : ""}>
                                         <label for="facebook-id">Facebook</label>
-                                        <input id="facebook-id" type="text" placeholder="아이디를 입력해주세요"/>
+                                        <input 
+                                            id="facebook-id" 
+                                            type="text"  
+                                            name="facebook"
+                                            value={facebook}
+                                            onChange={onChange}
+                                            onFocus={onFocus}
+                                            onBlur={onFocus}
+                                            placeholder="아이디를 입력해주세요"/>
                                     </form>
-                                    <form>
+                                    <form className={focusyoutube ? "selected" : ""}>
                                         <label for="youtube-id">YouTube</label>
-                                        <input id="youtube-id" type="text" placeholder="채널 주소를 입력해주세요"/>
+                                        <input 
+                                            id="youtube-id" 
+                                            type="text"  
+                                            name="youtube"
+                                            value={youtube}
+                                            onChange={onChange}
+                                            onFocus={onFocus}
+                                            onBlur={onFocus}
+                                            placeholder="채널 주소를 입력해주세요"/>
                                     </form>
-                                    <form>
+                                    <form className={focustiktok ? "selected" : ""}>
                                         <label for="tiktok-id">TikTok</label>
-                                        <input id="tiktok-id" type="text" placeholder="아이디를 입력해주세요"/>
+                                        <input 
+                                            id="tiktok-id" 
+                                            type="text"  
+                                            name="tiktok"
+                                            value={tiktok}
+                                            onChange={onChange}
+                                            onFocus={onFocus}
+                                            onBlur={onFocus}
+                                            placeholder="아이디를 입력해주세요"/>
                                     </form>
-                                    <form>
+                                    <form className={focustwitter ? "selected" : ""}>
                                         <label for="twitter-id">Twitter</label>
-                                        <input id="twitter-id" type="text" placeholder="아이디를 입력해주세요"/>
+                                        <input 
+                                            id="twitter-id" 
+                                            type="text"  
+                                            name="twitter"
+                                            value={twitter}
+                                            onChange={onChange}
+                                            onFocus={onFocus}
+                                            onBlur={onFocus}
+                                            placeholder="아이디를 입력해주세요"/>
                                     </form>
                                 </div>
                                 <Popup
                                     trigger={<button className="btn-purple fix-bottom enable">🔒저장하기</button>}
                                     modal
-                                    onClose={togglepage0}>
+                                    onClose={onSubmit2}>
                                         {close => (
                                             <div className="bg-opacity alert on">
                                                 <div className="alert-wrap">
@@ -262,20 +461,34 @@ const Profile = ({refreshUser, userObj}) => {
                                 <h2>이름 수정하기</h2>
                                 <p>🖍 수정할 내용을 입력해 주세요</p>
                                 <div className="form-box">
-                                    <form>
+                                    <form className={(focusname ? "selected" : "") + (name ? " filled" : "") + (error ? " error" : "")}>
                                         <label for="user-name">이름</label>
                                         <input
                                             type="text"
                                             id="user-name"
                                             name="name"
                                             className="input-basic"
-                                            placeholder={name}
+                                            placeholder="이름을 입력해주세요"
+                                            value={name}
+                                            onFocus={onFocus}
+                                            onBlur={onFocus}
                                             onChange={onChange}/>
-                                        <button></button>
+                                        <button onClick={(e) => {
+                                            e.preventDefault();
+                                            name && setname("");
+                                        }}></button>
                                         <div className="message">이름을 입력해주세요</div>
                                     </form>
                                 </div>
-                                <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
+                                {name ? (
+                                    <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
+                                ) : (
+                                    <button className="btn-purple fix-bottom" onClick={(e) => {
+                                        e.preventDefault();
+                                        seterror(true);
+                                    }}>🔒저장하기</button>
+                                )}
+                                
                             </>
                         );
                     } else if(page === 4){
@@ -287,7 +500,7 @@ const Profile = ({refreshUser, userObj}) => {
                                 <div className="form-box">
                                     <p>생일</p>
                                     <div className="birth">
-                                        <form>
+                                        <form className={focusyear ? "selected" : ""}>
                                             <label for="year"></label>
                                             <input
                                                 type="number"
@@ -296,10 +509,12 @@ const Profile = ({refreshUser, userObj}) => {
                                                 min="1900"
                                                 max="2020"
                                                 onChange={onChange}
+                                                onFocus={onFocus}
+                                                onBlur={onFocus}
                                                 className="input-basic"
                                                 placeholder="연도"/>
                                         </form>
-                                        <form>
+                                        <form className={focusmonth ? "selected" : ""}>
                                             <label for="month"></label>
                                             <input
                                                 type="number"
@@ -308,10 +523,12 @@ const Profile = ({refreshUser, userObj}) => {
                                                 min="1"
                                                 max="12"
                                                 onChange={onChange}
+                                                onFocus={onFocus}
+                                                onBlur={onFocus}
                                                 className="input-basic"
                                                 placeholder="월"/>
                                         </form>
-                                        <form>
+                                        <form className={focusdate ? "selected" : ""}>
                                             <label for="date"></label>
                                             <input
                                                 type="number"
@@ -320,12 +537,19 @@ const Profile = ({refreshUser, userObj}) => {
                                                 min="1"
                                                 max="31"
                                                 onChange={onChange}
+                                                onFocus={onFocus}
+                                                onBlur={onFocus}
                                                 className="input-basic"
                                                 placeholder="일"/>
                                         </form>
                                     </div>
                                 </div>
-                                <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
+                                {year && month && date ? (
+                                    <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
+                                ) : (
+                                    <button className="btn-purple fix-bottom">🔒저장하기</button>
+                                )}
+                                
                             </>
                         );
                     } else if(page === 5){
@@ -358,16 +582,24 @@ const Profile = ({refreshUser, userObj}) => {
                                     🖍 수정할 내용을 입력해 주세요</p>
                                 <div className="form-box">
                                     <form className="search-address">
-                                        <label for="address">주소</label>
-                                        <input
-                                            type="text"
-                                            className="input-basic"
-                                            id="address"
-                                            placeholder="우편번호를 입력하세요"/>
-                                        <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-search.svg"} alt="검색"/></button>
+                                        { !search ? (
+                                            <>
+                                                <label for="address">주소</label>
+                                                <input 
+                                                    type="text" 
+                                                    className="input-basic" 
+                                                    id="address" 
+                                                    value={address}
+                                                    placeholder="우편번호를 입력하세요"/>
+                                                <button onClick={togglesearch}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-search.svg'} alt="검색"/></button>
+                                            </>
+                                        ) : (
+                                            <DaumPostcode 
+                                                onComplete={handleComplete}/>
+                                        )}
                                         <div className="message">우편번호를 입력해주세요</div>
                                     </form>
-                                    <form>
+                                    <form className={(focussubadd ? "selected" : "") + (subadd ? " filled" : "")}>
                                         <label for="detail-address"></label>
                                         <input
                                             type="text"
@@ -375,12 +607,20 @@ const Profile = ({refreshUser, userObj}) => {
                                             id="detail-address"
                                             name="detail-address"
                                             onChange={onChange}
+                                            onFocus={onFocus}
+                                            onBlur={onFocus}
                                             placeholder="상세주소를 입력하세요" />
-                                        <button></button>
+                                        <button onClick={() => {
+                                            subadd && setsubadd("");
+                                        }}></button>
                                         <div className="message">상세 주소를 입력해주세요</div>
                                     </form>
                                 </div>
-                                <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
+                                { address && subadd ? (
+                                    <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
+                                ) : (
+                                    <button className="btn-purple fix-bottom">🔒저장하기</button>
+                                )}
                             </>
                         );
                     } else if(page === 7){
@@ -389,19 +629,30 @@ const Profile = ({refreshUser, userObj}) => {
                                 <h2>이메일 수정하기</h2>
                                 <p>🖍 수정할 내용을 입력해 주세요</p>
                                 <div className="form-box">
-                                    <form>
+                                    <form className={(focusemail ? "selected" : "") + (email ? " filled" : "")}>
                                         <label for="user-email">이메일</label>
                                         <input
                                             type="email"
                                             className="input-basic"
                                             id="user-email"
                                             name="user-email"
-                                            placeholder={email} />
-                                        <button></button>
+                                            onFocus={onFocus}
+                                            onBlur={onFocus}
+                                            onChange={onChange}
+                                            value={email} />
+                                        <button onClick={(e) => {
+                                            e.preventDefault();
+                                            email && setemail("");
+                                        }}></button>
                                         <div className="message">이메일 형식이 올바르지 않아요</div>
                                     </form>
                                 </div>
-                                <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
+                                { email ? (
+                                    <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
+                                ) : (
+                                    <button className="btn-purple fix-bottom">🔒저장하기</button>
+                                )}
+                                
                             </>
                         );
                     } else if(page === 8){
@@ -411,18 +662,30 @@ const Profile = ({refreshUser, userObj}) => {
                                 <p>정보를 안전하게 보호하기 위해<br/>
                                     본인임을 인증해 주세요</p>
                                 <div className="form-box">
-                                    <form>
+                                    <form className={(focuspw ? "selected" : "") + (pwshow ? " pw-veiw" : " pw-hide") + (error ? " error" : "")}>
                                         <label for="user-pw">비밀번호</label>
                                         <input
-                                            type="password"
+                                            type={pwshow ? "text" : "password"}
                                             className="input-basic"
                                             id="user-email"
+                                            name="pw"
+                                            onChange={onChange}
+                                            onFocus={onFocus}
+                                            onBlur={onFocus}
                                             placeholder="" />
-                                        <button></button>
+                                        <button onClick={(e) => {
+                                            e.preventDefault()
+                                            setpwshow((prev) => !prev);
+                                        }}></button>
                                         <div className="message">비밀번호가 일치하지 않아요</div>
                                     </form>
                                 </div>
-                                <button className="btn-basic next" onClick={() => togglepage(9)}>계속</button>
+                                {pw.length>0 ? (
+                                    <button className="btn-basic next enable" onClick={async () => {(await reauthenticate() ? togglepage(9) : seterror(true))}}>계속</button>
+                                ) : (
+                                    <button className="btn-basic next">계속</button>
+                                )}
+                                
                             </>
                         );
                     } else if(page === 9){
@@ -432,30 +695,51 @@ const Profile = ({refreshUser, userObj}) => {
                                 <p>새로운 비밀번호로 변경하겠습니다 🤓<br/>
                                     앞으로 로그인할 때 변경한 비밀번호를 입력해 주세요</p>
                                 <div className="form-box">
-                                    <form>
+                                    <form className={(focusnewpw ? "selected" : "") + (newpwshow ? " pw-veiw" : " pw-hide")}>
                                         <label for="new-user-pw">새 비밀번호<span className="required">*</span></label>
                                         <input
-                                            type="password"
+                                            type={newpwshow ? "text" : "password"}
                                             className="input-basic"
                                             id="new-user-pw"
+                                            name="new-pw"
+                                            value={newpw}
+                                            onChange={onChange}
+                                            onFocus={onFocus}
+                                            onBlur={onFocus}
                                             placeholder="새롭게 설정할 비밀번호를 입력하세요" />
-                                        <button></button>
+                                        <button onClick={(e) => {
+                                            e.preventDefault();
+                                            setnewpwshow((prev) => !prev);
+                                        }}></button>
                                         <div className="message">8자 이상, 소문자 숫자가 포함되어야 합니다</div>
                                     </form>
                                 </div>
                                 <div className="form-box">
-                                    <form>
+                                    <form className={(focusnewpwre ? "selected" : "") + (newpwreshow ? " pw-veiw" : " pw-hide") + (newpw !== newpwre ? " error" : "")}>
                                         <label for="new-user-pw-re">새 비밀번호 확인<span class="required">*</span></label>
                                         <input
-                                            type="password"
+                                            type={newpwreshow ? "text" : "password"}
                                             className="input-basic"
                                             id="new-user-pw-re"
+                                            name="new-pw-re"
+                                            value={newpwre}
+                                            onChange={onChange}
+                                            onFocus={onFocus}
+                                            onBlur={onFocus}
                                             placeholder="새 비밀번호를 확인해주세요" />
-                                        <button></button>
+                                        <button onClick={(e) => {
+                                            e.preventDefault();
+                                            setnewpwreshow((prev) => !prev);
+                                        }}></button>
                                         <div className="message">비밀번호가 일치하지 않아요</div>
                                     </form>
                                 </div>
-                                <button className="btn-purple fix-bottom enable" onClick={onSubmit}>🔒저장하기</button>
+                                { (newpw === newpwre) && newpw ? (
+                                    <button className="btn-purple fix-bottom enable" onClick={updatepw}>🔒저장하기</button>
+                                ) : (
+                                    <button className="btn-purple fix-bottom">🔒저장하기</button>
+                                )}
+                                
                             </>
                         );
                     }

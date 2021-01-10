@@ -1,5 +1,5 @@
 import { dbService, storageService } from "fbase";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import {v4 as uuidv4} from "uuid";
 
@@ -17,7 +17,6 @@ const Addnotice = (userObj) => {
     const [fix, setfix] = useState(false);
     const [open, setopen] = useState(true);
     const [linkopen, setlinkopen] = useState(true);
-    const ref = useRef(null);
     const gradientcolor = ["linear-gradient(136deg, #d4b2da 1%, #9cd6e0)", 
                             "linear-gradient(136deg, #86c9ae 1%, #704ddf)",
                             "linear-gradient(136deg, #4590e1 1%, #de72b2)",
@@ -33,16 +32,11 @@ const Addnotice = (userObj) => {
     const pastelcolor = ["#e3b5b7", "#ddb5cb", "#c8bbdb", "#b5cbdc", "#b7d0cb", "#e4d8b9", "#e1c6b3", "#cebdb3", "#988585", " #644d56", "#353240"];
 
     const handleScroll = () => {
-        if(ref.current) {
-            setfix(ref.current.getBoundingClientRect().top <= 0);
-        }
+        const {pageYOffset} = window;
+        setfix(pageYOffset > 0);
     };
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', () => handleScroll);
-        };
     }, []);
     const onChange = (event) => {
         const {target: {name, value}} = event;
@@ -116,7 +110,7 @@ const Addnotice = (userObj) => {
     const toggleProceeding = (num) => setProcessing(num);
     return(
         <div id="wrap" className="ad-card ad-card-notice">
-            <header className={`header${fix ? ' fix' : ''}`} ref={ref}>
+            <header className={`header${fix ? ' fix' : ''}`}>
                 <div className="menu-wrap">
                     <button className="back" onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
                     <p>📢 공지 카드 만들기</p>

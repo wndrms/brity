@@ -1,11 +1,13 @@
 import { dbService } from "fbase";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Popup from "reactjs-popup";
 
 const Addcard = ({userObj}) => {
     const history = useHistory();
     const [name, setname] = useState("");
     const [sub, setsub] = useState("");
+    const [link, setlink] = useState("");
     const [Processing, setProcessing] = useState(0);
     const [Color, setColor] = useState("");
     const [select, setselect] = useState(true);
@@ -13,19 +15,16 @@ const Addcard = ({userObj}) => {
     const [fix, setfix] = useState(false);
     const [linkopen, setlinkopen] = useState(true);
     const [attachment, setAttachment] = useState("");
-
-    const ref = useRef(null);
+    const [focusname, setfocusname] = useState(false);
+    const [focussub, setfocussub] = useState(false);
+    const [focuslink, setfocuslink] = useState(false);
+    const [btnover, setbtnover] = useState(false);
     const handleScroll = () => {
-        if(ref.current) {
-            setfix(ref.current.getBoundingClientRect().top <= 0);
-        }
+        const {pageYOffset} = window;
+        setfix(pageYOffset > 0);
     };
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', () => handleScroll);
-        };
     }, []);
     const gradientcolor = ["linear-gradient(136deg, #d4b2da 1%, #9cd6e0)", 
                             "linear-gradient(136deg, #86c9ae 1%, #704ddf)",
@@ -46,6 +45,18 @@ const Addcard = ({userObj}) => {
             setname(value);
         } else if(name === "sub"){
             setsub(value);
+        } else if(name === "link"){
+            setlink(value);
+        }
+    }
+    const onFocus = (event) => {
+        const {target: {name}} = event;
+        if(name === "name"){
+            setfocusname((prev) => !prev);
+        } else if(name === "sub"){
+            setfocussub((prev) => !prev);
+        } else if(name === "link"){
+            setfocuslink((prev) => !prev);
         }
     }
     const onClickColor = (event, colorname) => {
@@ -87,13 +98,43 @@ const Addcard = ({userObj}) => {
     const toggleselect = () => setselect((prev) => !prev);
     const togglesize = () => setsize((prev) => !prev);
     const togglelinkopen = () => setlinkopen((prev) => !prev);
+    const btnstyle1 = (over) => ({
+        borderRight: over ? "1px solid #fff" : "1px solid #ebebeb",
+        borderTop: over ? "1px solid #fff" : "1px solid #ebebeb",
+    });
+    const btnstyle2 = (over) => ({
+        borderTop: over ? "1px solid #fff" : "1px solid #ebebeb",
+    });
     return(
         <div id="wrap" className={"ad-card" + (Processing>0 ? (Processing === 1 ? (" ad-card-size on") : (" ad-card-cover")) : (""))}>
-            <header className={`header`} ref={ref}>
+            <header className={"header" + (fix ? " fix" : "")}>
                 <div className="menu-wrap">
                     <button className="back" onClick={toggleProcessing0}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
                     <p>{(Processing>0 ? (Processing === 1 ? ("카드 크기 선택") : ("카드 커버 선택")) : ("🔗 링크 카드 만들기"))}</p>
-                    <button className="close" onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>
+                    <Popup
+                        trigger={<button className="close"><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>}
+                        modal>
+                        {close => (
+                            <div className="bg-opacity alert on">
+                                <div className="alert-wrap">
+                                    <div className="alert-box">
+                                        <div className="text-box">
+                                            <p className="p-header">🖐 잠깐만요</p>
+                                            <p className="p-text">입력한 정보가<br/>
+                                                아직 저장되지 않았어요!</p>
+                                        </div>
+                                        <div className="btn-box">
+                                            <button onClick={() => {
+                                                close();
+                                                gethome();
+                                            }} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle1(btnover)}>모두 취소하기</button>
+                                            <button onClick={close} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle1(btnover)}>계속 입력하기</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </Popup>
                 </div>
             </header>
             <div className="content">
@@ -109,7 +150,7 @@ const Addcard = ({userObj}) => {
                                     </div>
                                 </div>
                                 <div className="form-box border-bottom">
-                                    <form>
+                                    <form className={focusname ? "selected" : ""}>
                                         <label for="card-name">A. 어떤 이름의 링크 카드를 만들어 볼까요?<span className="required">*</span></label>
                                         <input 
                                             type="text" 
@@ -118,10 +159,12 @@ const Addcard = ({userObj}) => {
                                             name="name"
                                             value={name}
                                             onChange={onChange}
+                                            onFocus={onFocus}
+                                            onBlur={onFocus}
                                             placeholder="카드에 보여질 이름을 적어주세요  ex. 카카오톡 문의"/>
                                         <div className="message">카드 이름을 적어주세요</div>
                                     </form>
-                                    <form>
+                                    <form className={focussub ? "selected" : ""}>
                                         <label for="sub-card-name">B. 어떤 서브 타이틀을 적어 놓을까요?</label>
                                         <input 
                                             type="text" 
@@ -130,15 +173,22 @@ const Addcard = ({userObj}) => {
                                             name="sub"
                                             value={sub}
                                             onChange={onChange}
+                                            onFocus={onFocus}
+                                            onBlur={onFocus}
                                             placeholder="서브 타이틀 내용을 적어주세요  ex. 🛍"/>
                                         <div className="message">서브 타이틀 입력, 최대 16자</div>
                                     </form>
-                                    <form>
+                                    <form className={focuslink ? "selected" : ""}>
                                         <label for="card-index">C. 연결 할 링크 주소를 적어주세요<span class="required">*</span></label>
                                         <input
                                             type="text"
                                             id="card-index"
                                             className="input-basic"
+                                            name="link"
+                                            value={link}
+                                            onChange={onChange}
+                                            onFocus={onFocus}
+                                            onBlur={onFocus}
                                             placeholder="연결 할 링크 주소 전체를 입력해주세요"/>
                                         <div className="message">정확한 링크 주소를 입력해주세요</div>
                                     </form>

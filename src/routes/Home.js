@@ -1,5 +1,5 @@
 import { dbService } from "fbase";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Popup from 'reactjs-popup';
 import CardDragList from "components/CardDragList";
 import { useHistory } from "react-router-dom";
@@ -10,11 +10,10 @@ const Home = ({refreshUser, userObj}) => {
     const [isDelete ,setisDelete] = useState(false);
     const [fix, setfix] = useState(false);
     const [delcards, setdelcards] = useState([]); 
-    const ref = useRef(null);
+    const [btnover, setbtnover] = useState(false);
     const handleScroll = () => {
-        if(ref.current) {
-            setfix(ref.current.getBoundingClientRect().top <= 0);
-        }
+        const {pageYOffset} = window;
+        setfix(pageYOffset > 0);
     };
     useEffect(() => {
         dbService.collection("nweets").onSnapshot(snapshot => {
@@ -26,9 +25,6 @@ const Home = ({refreshUser, userObj}) => {
         });
         window.addEventListener('scroll', handleScroll);
 
-        return () => {
-            window.removeEventListener('scroll', () => handleScroll);
-        };
     }, []);
     const toggleaddcard1 = () => history.push("/addcard");
     const toggleaddcard2 = () => history.push("/addnotice");
@@ -65,9 +61,16 @@ const Home = ({refreshUser, userObj}) => {
         setdelcards([]);
         history.push("/");
     }
+    const btnstyle1 = (over) => ({
+        borderRight: over ? "1px solid #fff" : "1px solid #ebebeb",
+        borderTop: over ? "1px solid #fff" : "1px solid #ebebeb",
+    });
+    const btnstyle2 = (over) => ({
+        borderTop: over ? "1px solid #fff" : "1px solid #ebebeb",
+    });
     return (
         <div id="wrap" className="admin-home">
-            <header className={`header${fix ? ' fix' : ''}`} ref={ref}>
+            <header className={`header${fix ? ' fix' : ''}`}>
                 <div className="menu-wrap home-menu-btn">
                     <Popup
                         trigger={<p className="user-name">{userObj.displayName}</p>}
@@ -82,8 +85,8 @@ const Home = ({refreshUser, userObj}) => {
                                                 바로 이동할까요?</p>
                                         </div>
                                         <div className="btn-box">
-                                            <button onClick={close}>닫기</button>
-                                            <button onClick={toggleuser}>바로이동👉</button>
+                                            <button onClick={close} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle1(btnover)}>닫기</button>
+                                            <button onClick={toggleuser} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle2(btnover)}>바로이동👉</button>
                                         </div>
                                     </div>
                                 </div>
@@ -135,7 +138,7 @@ const Home = ({refreshUser, userObj}) => {
                                                     <p className="del-message "><span className="count"></span>삭제할 카드를 선택하세요</p>
                                                 )}
                                                 <form className="check-circle-all-del">
-                                                    <input type="checkbox" id="all-del" onClick={alldelcard}/>
+                                                    <input type="checkbox" id="all-del" onClick={alldelcard} checked={delcards.length === nweets.length && "checked"}/>
                                                     <label for="all-del" className="all-del" >전체 선택</label>
                                                 </form>
                                                 <div className="btn-wrap">
@@ -202,11 +205,11 @@ const Home = ({refreshUser, userObj}) => {
                                         <button className="drag-btn"><span></span></button>
                                         <div className="sheet-name">메뉴</div>
                                         <ul className="sheet-list">
-                                            <li><button onClick={event => {
+                                            <li><button onClick={() => {
                                                 close();
                                                 toggleaddcard1();
                                                 }}>🔗 링크 카드 만들기</button></li>
-                                            <li><button onClick={event => {
+                                            <li><button onClick={() => {
                                                 close();
                                                 toggleaddcard2();
                                                 }}>📢 공지 카드 만들기</button></li>
