@@ -99,7 +99,7 @@ const Home = ({refreshUser, userObj}) => {
                             trigger={<img src={process.env.PUBLIC_URL + "02-icon-01-outline-bars.svg"} alt="menu"/>}
                             modal
                             closeOnDocumentClick>
-                            <nav className="bg-opacity on" style={{height: "calc(100% - 200px)"}}>
+                            <nav className="bg-opacity on" style={{height: "calc(100% - 186px)"}}>
                                 <div className="sheet-wrap nav-sheet">
                                     <div className="sheet-box">
                                         <button className="drag-btn"><span></span></button>
@@ -199,7 +199,7 @@ const Home = ({refreshUser, userObj}) => {
                         modal
                         >
                         { close => (
-                            <div className="bg-opacity on" style={{height: "calc(100% - 200px)"}}>
+                            <div className="bg-opacity on" style={{height: "calc(100% - 186px)"}}>
                                 <div className="sheet-wrap ad-card">
                                     <div className="sheet-box">
                                         <button className="drag-btn"><span></span></button>

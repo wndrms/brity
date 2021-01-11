@@ -1,6 +1,7 @@
 import { dbService, storageService } from "fbase";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Popup from "reactjs-popup";
 import {v4 as uuidv4} from "uuid";
 
 const Addnotice = (userObj) => {
@@ -16,7 +17,7 @@ const Addnotice = (userObj) => {
     const [attachment2, setAttachment2] = useState("");
     const [fix, setfix] = useState(false);
     const [open, setopen] = useState(true);
-    const [linkopen, setlinkopen] = useState(true);
+    const [btnover, setbtnover] = useState(false);
     const gradientcolor = ["linear-gradient(136deg, #d4b2da 1%, #9cd6e0)", 
                             "linear-gradient(136deg, #86c9ae 1%, #704ddf)",
                             "linear-gradient(136deg, #4590e1 1%, #de72b2)",
@@ -101,19 +102,49 @@ const Addnotice = (userObj) => {
     };
     const gethome = () => history.push("/");
     const toggleopen = () => setopen((prev) => !prev);
-    const togglelinkopen = () => setlinkopen((prev) => !prev);
     const toggleselect = () => setselect((prev) => !prev);
     const togglesize = () => setsize((prev) => !prev);
     const onClickColor = (event, colorname) => {
         setColor(colorname);
     }
     const toggleProceeding = (num) => setProcessing(num);
+    const btnstyle1 = (over) => ({
+        borderRight: over ? "1px solid #fff" : "1px solid #ebebeb",
+        borderTop: over ? "1px solid #fff" : "1px solid #ebebeb",
+    });
+    const btnstyle2 = (over) => ({
+        borderTop: over ? "1px solid #fff" : "1px solid #ebebeb",
+    });
     return(
         <div id="wrap" className="ad-card ad-card-notice">
             <header className={`header${fix ? ' fix' : ''}`}>
                 <div className="menu-wrap">
                     <button className="back" onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
                     <p>📢 공지 카드 만들기</p>
+                    <Popup
+                        trigger={<button className="close"><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>}
+                        modal>
+                        {close => (
+                            <div className="bg-opacity alert on">
+                                <div className="alert-wrap">
+                                    <div className="alert-box">
+                                        <div className="text-box">
+                                            <p className="p-header">🖐 잠깐만요</p>
+                                            <p className="p-text">입력한 정보가<br/>
+                                                아직 저장되지 않았어요!</p>
+                                        </div>
+                                        <div className="btn-box">
+                                            <button onClick={() => {
+                                                close();
+                                                gethome();
+                                            }} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle1(btnover)}>모두 취소하기</button>
+                                            <button onClick={close} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle2(btnover)}>계속 입력하기</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </Popup>
                     <button className="close" onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>
                 </div>
             </header>
@@ -124,10 +155,21 @@ const Addnotice = (userObj) => {
                                 <>
                                     <div className="exempli border-bottom">
                                         <h2>카드 예시</h2>
-                                        <div className="card">
-                                            <h3><span>🛍</span> {sub? sub : " |  B. (서브 타이틀)"}</h3>
-                                            <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
-                                        </div>
+                                        {attachment2 ? (
+                                            <div className="card" style={{
+                                                background: `url(${attachment2})`,
+                                                backgroundSize: "cover",
+                                                backgroundRepeat: "no-repeat",
+                                                backgroundPosition: "center center",}}>
+                                                <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
+                                                <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
+                                            </div>
+                                        ) : (
+                                            <div className="card">
+                                                <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
+                                                <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="form-box border-bottom">
                                         <form>
@@ -151,7 +193,7 @@ const Addnotice = (userObj) => {
                                                 name="sub"
                                                 value={sub}
                                                 onChange={onChange}
-                                                placeholder="서브 타이틀 내용을 적어주세요  ex. 🛍"/>
+                                                placeholder="서브 타이틀 내용을 적어주세요  ex. B. 🤙🏻🤙🏽🤙🏿"/>
                                             <div className="message">정확한 링크 주소를 입력해주세요</div>
                                         </form>
                                         <form>
@@ -215,12 +257,6 @@ const Addnotice = (userObj) => {
                                             <button className="btn-toggle"><span></span></button>
                                         </div>
                                         <p>📢 지금은 댓글 기능을 지원하지 않고 있어요 😢</p>
-                                    </div>
-                                    <div className="toggle-box">
-                                        <div className={linkopen ? "toggle-on" : ""}>
-                                            <p>링크 공개 여부<span>{linkopen ? "ON" : "OFF"}</span></p>
-                                            <button className="btn-toggle" onClick={togglelinkopen}><span></span></button>
-                                        </div>
                                     </div>
                                     <div className="card-size-box hover-style">
                                         <button className="select" onClick={() => toggleProceeding(1)}>

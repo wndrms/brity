@@ -336,10 +336,9 @@ div.toggle-on .btn-toggle span{left: 18px;}
     opacity: .8;}
 .card >*{position: absolute;}
 .card h3{font-size: 1.4rem; letter-spacing: .5px; color: #fff; top: 16px; left: 16px; font-weight: 400;}
-.card h3 span{font-size: 2.4rem;}
 .card p{color: #fff; left: 16px; bottom: 16px; font-weight: 700;}
 .card button{top: 8px; right: 8px;}
-.card button:active .card{box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.3);}
+.card button:active .card{box-shadow: 0 8px 15px 0 rgba(85, 78, 78, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.3);}
 
 .ad-img-box{
     width: 100%; border-radius: 4px;
@@ -505,27 +504,6 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .reset-pw03 .form-box .btn-wrap{margin-top: 0;}
 .reset-pw03 .form-box button{margin-top: 0;}
 
-/*admin-home*/
-.admin-home .del-text-box{margin: 8px 0; width: 100%; height: 40%; text-align: right;}
-.admin-home .del-text-box button{
-    color: #555; font-weight: 500; font-size: 1.2rem; width: 123px; height: 40px;
-    padding-right: 8px; text-align: right; position: relative;}
-.admin-home .del-text-box img{display: block; position: absolute; top: 13px; left: 8px;}
-.admin-home .header .menu-wrap{position: relative;}
-.admin-home .header.fix p.user-name{padding-left: 4%;}
-.admin-home .header.fix button.menu{margin-right: 4%;}
-.admin-home .menu-wrap p.user-name{font-size: 2rem; font-weight: 700; letter-spacing: .43px; width: auto;}
-.admin-home .menu-wrap p:nth-child(2){
-    font-size: 1.2rem; font-weight: 700; color: #543dab; margin-top: 5px; width: auto;}
-.admin-home .menu-wrap p >span{color: #e94757; margin: 0 4px 0 8px;}
-.card:last-child{margin-bottom: 16px;}
-.admin-home .card:nth-child(2){background-image: linear-gradient(to right, #3a6186, #89253e);}
-.admin-home .card:nth-child(3){background-image: linear-gradient(to right, #3494e6, #ec6ead);}
-.admin-home .card:nth-child(4){background-image: linear-gradient(104deg, #dd3e54 5%, #6be585 100%);}
-
-.admin-home .all-del{justify-content: center;}
-.admin-home .card.del button{z-index: 1;}
-
 /*user-home*/
 .user-home .menu-wrap p.user-name{
     max-width: calc(100% - 113px); text-align: left;
@@ -620,13 +598,14 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .user-home-notice .bg-opacity.on .img-area{
     width: 92%; min-width: 375px; max-width: 550px; margin: 0 auto; 
     z-index: 3; border-radius: 0;}
-
 /*admin-home*/
-.admin-home .del-text-box{margin: 8px 0; width: 100%; height: 40%; text-align: right;}
+.admin-home .del-text-box{
+    position: static; background: #fff;
+    margin: 8px 0; width: 100%; height: 40%; text-align: right;}
 .admin-home .del-text-box button{
     color: #555; font-weight: 500; font-size: 1.2rem; width: 123px; height: 40px;
     padding-right: 8px; text-align: right; position: relative;}
-.admin-home .del-text-box img{display: block; position: absolute; top: 13px; left: 8px;}
+.admin-home .del-text-box button img{position: absolute; left: 8px;}
 .admin-home .header .menu-wrap{position: relative;}
 .admin-home .header.fix p.user-name{padding-left: 4%;}
 .admin-home .header.fix button.menu{margin-right: 4%;}
@@ -641,6 +620,17 @@ div.toggle-on .btn-toggle span{left: 18px;}
 
 .admin-home .all-del{justify-content: center;}
 .admin-home .card.del button{z-index: 1;}
+
+.admin-home .header .del-wrap{display: none;}
+.admin-home .header.fix .del-wrap{
+    display: flex; justify-content: flex-end;
+    max-width: 600px; min-width: 375px; margin: 0 auto; position: relative;}
+.admin-home .header.fix .del-wrap .del-text-box{
+   width: 123px; height: 32px; background: rgba(225, 225, 225, .8);
+   position: absolute; right: 4%; border-radius: 20px 0 0px 20px; 
+   margin: 0; margin-top: 12px;}
+.admin-home .header.fix .del-wrap .del-text-box button{
+    height: 32px; padding: 0 0 1px 20px; box-sizing: border-box;}
 
 /*admin-home empty*/
 .admin-home-empty .content{height: 100vh;}
@@ -660,7 +650,6 @@ div.toggle-on .btn-toggle span{left: 18px;}
 
 .ad-card .form-box form:nth-child(3) textarea{height: 400px;}
 .ad-card .form-box form:last-child{margin-bottom: 0;}
-.ad-card .form-box form:last-child label div{height: 400px;}
 
 .ad-card .check-circle input[type=checkbox] + label::after{
     background: url(img/02-icon-01-outline-circle.svg)}
@@ -669,8 +658,12 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .ad-card .input-basic{height: 46px;}
 
 /*ad-card-notice*/
-.ad-card-notice .toggle-box >p{color: #f9a825; font-size: 1.2rem; font-weight: 500;}
-.ad-card-notice .toggle-box >p{color: #f9a825; font-size: 1.2rem; font-weight: 500;}
+.ad-card-notice .toggle-box >p{
+    display: block; height: auto;
+    color: #f9a825; font-size: 1.2rem; font-weight: 500;}
+.ad-card-notice .toggle-box >p:hover, .ad-card-notice .toggle-box >p:active{background: #fff;}
+.ad-card-notice .toggle-box >p:hover::after, .ad-card-notice .toggle-box >p:hover::before{background: #fff;}
+.ad-card-notice .toggle-box >p:active::after, .ad-card-notice .toggle-box >p:active::before{background: #fff;}
 .ad-card-notice .card{margin-bottom: 0;}
 
 /*ad-card-cover*/
@@ -795,6 +788,7 @@ div.toggle-on .btn-toggle span{left: 18px;}
 
 /* account */
 .account header button:last-child{justify-content: flex-end; margin-right: 12px;}
+.account header button:last-child.btn-purple-light{margin: 0; justify-content: center;}
 .account .content form{margin: 0;}
 .account .content .input-basic{margin-top: 16px;}
 
@@ -828,7 +822,7 @@ div.toggle-on .btn-toggle span{left: 18px;}
 
 /* account-sns */
 .account-sns .header .menu-wrap button img{display: block;}
-.account-sns .content{position: relative; height: calc(100vh - 74px);}
+.account-sns .content{position: relative; height: calc(100vh - 90px);}
 .account-sns form{
     display: flex; align-items: center; position: relative; width: 100%; height: 50px;
     border-bottom: 1px solid #ebebeb; box-sizing: border-box;}
@@ -883,7 +877,7 @@ div.toggle-on .btn-toggle span{left: 18px;}
     width: calc(100% - 88px); box-sizing: border-box; padding: 11px 16px;
     font-weight: 500; color: #161616;}
 .account-info01 .form-box >div button >p span{font-weight: 500;}
-.account-info01 .form-box:last-child >div{margin-top: 24px;}
+.account-info01 .form-box:last-child{margin-top: 24px;}
 
 /* account-info03 */
 .account-info03 .birth{display: flex;}

@@ -128,7 +128,7 @@ const Addcard = ({userObj}) => {
                                                 close();
                                                 gethome();
                                             }} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle1(btnover)}>모두 취소하기</button>
-                                            <button onClick={close} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle1(btnover)}>계속 입력하기</button>
+                                            <button onClick={close} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle2(btnover)}>계속 입력하기</button>
                                         </div>
                                     </div>
                                 </div>
@@ -144,10 +144,21 @@ const Addcard = ({userObj}) => {
                             <>
                                 <div className="exempli border-bottom">
                                     <h2>카드 예시</h2>
-                                    <div className="card">
-                                        <h3><span>🛍</span>{sub? sub : "  |  B. (서브 타이틀)"}</h3>
-                                        <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
-                                    </div>
+                                    {attachment ? (
+                                        <div className="card" style={{
+                                            background: `url(${attachment})`,
+                                            backgroundSize: "cover",
+                                            backgroundRepeat: "no-repeat",
+                                            backgroundPosition: "center center",}}>
+                                            <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
+                                            <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
+                                        </div>
+                                    ) : (
+                                        <div className="card">
+                                            <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
+                                            <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="form-box border-bottom">
                                     <form className={focusname ? "selected" : ""}>
@@ -175,7 +186,7 @@ const Addcard = ({userObj}) => {
                                             onChange={onChange}
                                             onFocus={onFocus}
                                             onBlur={onFocus}
-                                            placeholder="서브 타이틀 내용을 적어주세요  ex. 🛍"/>
+                                            placeholder="서브 타이틀 내용을 적어주세요  ex. B. 🤙🏻🤙🏽🤙🏿"/>
                                         <div className="message">서브 타이틀 입력, 최대 16자</div>
                                     </form>
                                     <form className={focuslink ? "selected" : ""}>
