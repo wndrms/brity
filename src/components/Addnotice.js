@@ -155,21 +155,37 @@ const Addnotice = (userObj) => {
                                 <>
                                     <div className="exempli border-bottom">
                                         <h2>카드 예시</h2>
-                                        {attachment2 ? (
+                                        {(Color || attachment) ? (
+                                        select ? (
+                                            Color.includes("linear-gradient") ? (
+                                                <div className="card" style={{
+                                                    backgroundImage: Color}}>
+                                                    <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
+                                                    <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
+                                                </div> 
+                                            ) : (
+                                                <div className="card" style={{
+                                                    background: Color}}>
+                                                    <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
+                                                    <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
+                                                </div> 
+                                            )
+                                        ) : (
                                             <div className="card" style={{
-                                                background: `url(${attachment2})`,
+                                                background: `url(${attachment})`,
                                                 backgroundSize: "cover",
                                                 backgroundRepeat: "no-repeat",
                                                 backgroundPosition: "center center",}}>
                                                 <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
                                                 <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
-                                            </div>
-                                        ) : (
-                                            <div className="card">
-                                                <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
-                                                <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
-                                            </div>
-                                        )}
+                                            </div> 
+                                        )
+                                    ) : (
+                                        <div className="card">
+                                            <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
+                                            <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
+                                        </div>
+                                    )}
                                     </div>
                                     <div className="form-box border-bottom">
                                         <form>

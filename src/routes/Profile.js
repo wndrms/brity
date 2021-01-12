@@ -13,11 +13,6 @@ const Profile = ({refreshUser, userObj}) => {
     const [youtube, setyoutube] = useState("");
     const [tiktok, settiktok] = useState("");
     const [twitter, settwitter] = useState("");
-    const [focusinstagram, setfocusinstagram] = useState(false);
-    const [focusfacebook, setfocusfacebook] = useState(false);
-    const [focusyoutube, setfocusyoutube] = useState(false);
-    const [focustiktok, setfocustiktok] = useState(false);
-    const [focustwitter, setfocustwitter] = useState(false);
     const [email, setemail] = useState(authService.currentUser.email);
     const [name, setname] = useState("");
     const [year, setyear] = useState("");
@@ -142,16 +137,6 @@ const Profile = ({refreshUser, userObj}) => {
             setfocusnewpw((prev) => !prev);
         } else if(name === "new-pw-re"){
             setfocusnewpwre((prev) => !prev);
-        } else if(name === "instagram"){
-            setfocusinstagram((prev) => !prev);
-        } else if(name === "facebook"){
-            setfocusfacebook((prev) => !prev);
-        } else if(name === "youtube"){
-            setfocusyoutube((prev) => !prev);
-        } else if(name === "tiktok"){
-            setfocustiktok((prev) => !prev);
-        } else if(name === "twitter"){
-            setfocustwitter((prev) => !prev);
         }
     };
     const onLogOutClick = (e) => {
@@ -317,7 +302,7 @@ const Profile = ({refreshUser, userObj}) => {
                         return(
                             <>
                                 <div className="form-box">
-                                    <form className={focusinstagram ? "selected" : ""}>
+                                    <form>
                                         <label for="insta-id">Instagram</label>
                                         <input 
                                             id="insta-id" 
@@ -325,11 +310,9 @@ const Profile = ({refreshUser, userObj}) => {
                                             name="instagram"
                                             value={instagram}
                                             onChange={onChange}
-                                            onFocus={onFocus}
-                                            onBlur={onFocus}
                                             placeholder="아이디를 입력해주세요"/>
                                     </form>
-                                    <form className={focusfacebook ? "selected" : ""}>
+                                    <form>
                                         <label for="facebook-id">Facebook</label>
                                         <input 
                                             id="facebook-id" 
@@ -337,11 +320,9 @@ const Profile = ({refreshUser, userObj}) => {
                                             name="facebook"
                                             value={facebook}
                                             onChange={onChange}
-                                            onFocus={onFocus}
-                                            onBlur={onFocus}
                                             placeholder="아이디를 입력해주세요"/>
                                     </form>
-                                    <form className={focusyoutube ? "selected" : ""}>
+                                    <form>
                                         <label for="youtube-id">YouTube</label>
                                         <input 
                                             id="youtube-id" 
@@ -349,11 +330,9 @@ const Profile = ({refreshUser, userObj}) => {
                                             name="youtube"
                                             value={youtube}
                                             onChange={onChange}
-                                            onFocus={onFocus}
-                                            onBlur={onFocus}
                                             placeholder="채널 주소를 입력해주세요"/>
                                     </form>
-                                    <form className={focustiktok ? "selected" : ""}>
+                                    <form>
                                         <label for="tiktok-id">TikTok</label>
                                         <input 
                                             id="tiktok-id" 
@@ -361,11 +340,9 @@ const Profile = ({refreshUser, userObj}) => {
                                             name="tiktok"
                                             value={tiktok}
                                             onChange={onChange}
-                                            onFocus={onFocus}
-                                            onBlur={onFocus}
                                             placeholder="아이디를 입력해주세요"/>
                                     </form>
-                                    <form className={focustwitter ? "selected" : ""}>
+                                    <form>
                                         <label for="twitter-id">Twitter</label>
                                         <input 
                                             id="twitter-id" 
@@ -373,8 +350,6 @@ const Profile = ({refreshUser, userObj}) => {
                                             name="twitter"
                                             value={twitter}
                                             onChange={onChange}
-                                            onFocus={onFocus}
-                                            onBlur={onFocus}
                                             placeholder="아이디를 입력해주세요"/>
                                     </form>
                                 </div>
