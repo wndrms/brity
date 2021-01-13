@@ -55,10 +55,6 @@ const AuthForm = () => {
         event.preventDefault();
         setpwshow((prev) => !prev);
     }
-    const onDelete = (event) => {
-        event.preventDefault();
-        setEmail("");
-    }
     return(
         <>
             <div id="wrap" className={Proceeding ? "login-pw join" : "login-email join"}>
@@ -88,7 +84,7 @@ const AuthForm = () => {
                                         onFocus={onFocus}
                                         onBlur={onFocus}
                                         onChange={onChange}/>
-                                    <button onClick={onDelete}></button>
+                                    <button onClick={() => {setEmail("")}}></button>
                                     <div className="message">{error}</div>
                                 </form>
                                 <div className="btn-wrap">

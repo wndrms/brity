@@ -22,7 +22,7 @@ const Findpw = () => {
 
     return(
         <>
-            <div id="wrap" className={"reset-pw0" + Proceeding + " reset-pw"}>
+            <div id="wrap" className={"reset-pw0" + (Proceeding + 1) + " reset-pw join"}>
                 <header id="header">
                     { Proceeding > 0 ? (
                         <button onClick={onDecrease}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-chevron-left.svg'} alt="이전"></img></button>
@@ -91,7 +91,7 @@ const Findpw = () => {
                                                 <div className="message">새롭게 설정할 비밀번호를 적어주세요</div>
                                             </form>
                                             <form>
-                                                <label for="new-pw">새 비밀번호 확인</label>
+                                                <label for="new-pw">새 비밀번호 확인<span className="required">*</span></label>
                                                 <input 
                                                     type="password" 
                                                     className="input-basic" 
@@ -105,9 +105,9 @@ const Findpw = () => {
                                         </div>
                                         <form className="btn-wrap">
                                             {newpw && newpw2 ? (
-                                                <button className="btn-basic next enable" onClick={onIncrease}>다음</button>
+                                                <button className="btn-basic next enable" onClick={onIncrease}>비밀번호 변경하기</button>
                                             ) : (
-                                                <button className="btn-basic next">다음</button>
+                                                <button className="btn-basic next">비밀번호 변경하기</button>
                                             )}
                                         </form>
                                     </div>

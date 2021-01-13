@@ -129,7 +129,7 @@ const SignUp = () => {
     const gethome = () => history.push("/");
     return(
         <>
-            <div id="wrap" className={"sign-up-0" + (Proceeding+1) + " sign-up"}>
+            <div id="wrap" className={"sign-up-0" + (Proceeding+1) + " sign-up join"}>
                 <header id="header">
                     { Proceeding > 0 ? ( Proceeding === 6 ? (
                         <button onClick={gethome}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-times.svg'} alt="닫기"></img></button>
