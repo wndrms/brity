@@ -90,6 +90,7 @@ const Addnotice = (userObj) => {
             title: name,
             subtitle: sub,
             text: text,
+            cardcolor: Color,
             createdAt: Date.now(),
             creatorId: userObj.uid,
             attachmentUrl

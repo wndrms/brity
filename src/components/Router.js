@@ -12,14 +12,14 @@ import Customerhelp from "./Customerhelp";
 import AccountDelete from "routes/AccountDelete";
 import UserHome from "routes/UserHome";
 
-const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
+const AppRouter = ({refreshUser, isLoggedIn, userObj, nweets}) => {
     return (
         <Router>
             <Switch>
                 {isLoggedIn ? (
                     <>
                         <Route exact path="/">
-                            <Home refreshUser={refreshUser} userObj={userObj}/>
+                            <Home refreshUser={refreshUser} userObj={userObj} nweets={nweets}/>
                         </Route>
                         <Route exact path="/user">
                             <UserHome userObj={userObj}/>

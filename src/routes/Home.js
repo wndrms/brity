@@ -4,9 +4,8 @@ import Popup from 'reactjs-popup';
 import CardDragList from "components/CardDragList";
 import { useHistory } from "react-router-dom";
 
-const Home = ({refreshUser, userObj}) => {
+const Home = ({refreshUser, userObj, nweets}) => {
     const history = useHistory();
-    const [nweets, setNweets] = useState([]);
     const [isDelete ,setisDelete] = useState(false);
     const [fix, setfix] = useState(false);
     const [delcards, setdelcards] = useState([]); 
@@ -16,13 +15,7 @@ const Home = ({refreshUser, userObj}) => {
         setfix(pageYOffset > 0);
     };
     useEffect(() => {
-        dbService.collection("nweets").onSnapshot(snapshot => {
-            const nweetArray = snapshot.docs.map((doc) => ({
-                id:doc.id, 
-                ...doc.data(),
-            }));
-            setNweets(nweetArray);
-        });
+        
         window.addEventListener('scroll', handleScroll);
 
     }, []);

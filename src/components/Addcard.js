@@ -70,6 +70,7 @@ const Addcard = ({userObj}) => {
         const cardObj = {
             title: name,
             subtitle: sub,
+            link: link,
             cardcolor: Color,
             createdAt: Date.now(),
             creatorId: userObj.uid,

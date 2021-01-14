@@ -14,10 +14,10 @@ const CardDragList = ({nweets, isDelete}) => {
         return result;
     };
 
-    const getItemStyle = (isDragging, draggableStyle) => ({
+    const getItemStyle = (isDragging, draggableStyle, color) => ({
         userSelect: "none",
         boxShadow: isDragging ? "0 8px 15px 0 rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.3)" : "",
-        background: isDragging && "rgba(52, 52, 52, 0.8)",
+        background: isDragging ? "rgba(52, 52, 52, 0.8)" : color,
 
         ...draggableStyle
     });
@@ -56,8 +56,10 @@ const CardDragList = ({nweets, isDelete}) => {
                                         {...provided.dragHandleProps}
                                         style={getItemStyle(
                                             snapshot.isDragging,
-                                            provided.draggableProps.style
-                                        )}>
+                                            provided.draggableProps.style,
+                                            nweet.cardcolor
+                                        )}
+                                        onClick={() => {window.location.href=nweet.link}}>
                                         <h3>{nweet.subtitle}</h3>
                                         {isDelete ? (
                                             <button><img src={process.env.PUBLIC_URL + "02-icon-02-solid-check-circle.svg"} alt="삭제 체크"></img></button>
