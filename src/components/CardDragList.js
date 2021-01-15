@@ -82,10 +82,15 @@ const CardDragList = ({nweets, isDelete}) => {
                                             let link
                                             if(nweet.link){
                                                 link = nweet.link;
-                                                if(!link.indexOf('https://')) link = "https://" + link
+                                                
+                                                if(link.indexOf('https://') === -1){
+                                                    link = "https://" + link;
+                                                    console.log(link);
+                                                } 
+                                                
                                                 window.location.href=link;
                                             } else {
-                                                link = nweet.num;
+                                                link = nweet.id;
                                                 history.push("/notice/" + link);
                                             }
                                         }}>

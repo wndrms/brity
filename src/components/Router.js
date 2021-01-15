@@ -11,6 +11,7 @@ import AuthForm from "./AuthForm";
 import Customerhelp from "./Customerhelp";
 import AccountDelete from "routes/AccountDelete";
 import UserHome from "routes/UserHome";
+import Notice from "./Notice";
 
 const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
     return (
@@ -24,6 +25,7 @@ const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
                         <Route exact path="/user">
                             <UserHome userObj={userObj}/>
                         </Route>
+                        <Route path="/notice/:number" component={Notice}/>
                         <Route exact path="/addcard">
                             <Addcard userObj={userObj}/>
                         </Route>
