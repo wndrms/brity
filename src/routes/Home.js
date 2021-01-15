@@ -4,8 +4,10 @@ import Popup from 'reactjs-popup';
 import CardDragList from "components/CardDragList";
 import { useHistory } from "react-router-dom";
 
-const Home = ({refreshUser, userObj, nweets}) => {
+const Home = ({refreshUser, userObj}) => {
     const history = useHistory();
+    const [nweets, setNweets] = useState([]);
+    const [init, setinit] = useState(false);
     const [isDelete ,setisDelete] = useState(false);
     const [fix, setfix] = useState(false);
     const [delcards, setdelcards] = useState([]); 
@@ -14,10 +16,16 @@ const Home = ({refreshUser, userObj, nweets}) => {
         const {pageYOffset} = window;
         setfix(pageYOffset > 0);
     };
-    useEffect(() => {
-        
+    useEffect(async () => {
+        await dbService.collection("nweets").onSnapshot(snapshot => {
+            const nweetArray = snapshot.docs.map((doc) => ({
+                id:doc.id, 
+                ...doc.data(),
+            }));
+            setNweets(nweetArray);
+        });
         window.addEventListener('scroll', handleScroll);
-
+        setinit(true);
     }, []);
     const toggleaddcard1 = () => history.push("/addcard");
     const toggleaddcard2 = () => history.push("/addnotice");
@@ -109,83 +117,91 @@ const Home = ({refreshUser, userObj, nweets}) => {
                 </div>
             </header>
             <div className="content">
-                {
-                    (nweets.length > 0 ? (
-                        <>
-                            <div className="del-text-box">
-                                <Popup
-                                    trigger={<button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-check-000.svg"} alt="체크"/>카드선택 및 삭제</button>}
-                                    closeOnDocumentClick={false}
-                                    onOpen={toggleisDelete}
-                                    onClose={() => {
-                                        toggleisDelete();
-                                        emptydelcard();
-                                    }}>
-                                    { close => (
-                                        <div className="card-del-wrap on">
-                                            <div className="card-del-box">
-                                                <button onClick={close}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>
-                                                {delcards.length > 0 ? (
-                                                    <p className="del-message "><span className="count">{delcards.length}</span>개의 카드가 선택 되었어요</p>
-                                                ) : (
-                                                    <p className="del-message "><span className="count"></span>삭제할 카드를 선택하세요</p>
-                                                )}
-                                                <form className="check-circle-all-del">
-                                                    <input type="checkbox" id="all-del" onClick={alldelcard} checked={delcards.length === nweets.length && "checked"}/>
-                                                    <label for="all-del" className="all-del" >전체 선택</label>
-                                                </form>
-                                                <div className="btn-wrap">
-                                                    { delcards.length > 0 ? (
-                                                        <>
-                                                            <button className="btn-purple enable" onClick={emptydelcard}>선택 해제</button>
-                                                            <button className="btn-purple-filled enable" onClick={deletecards}>선택 삭제하기</button>
-                                                        </>
+                {(init ? (
+                    <>
+                        {(nweets.length > 0 ? (
+                            <>
+                                <div className="del-text-box">
+                                    <Popup
+                                        trigger={<button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-check-000.svg"} alt="체크"/>카드선택 및 삭제</button>}
+                                        closeOnDocumentClick={false}
+                                        onOpen={toggleisDelete}
+                                        onClose={() => {
+                                            toggleisDelete();
+                                            emptydelcard();
+                                        }}>
+                                        { close => (
+                                            <div className="card-del-wrap on">
+                                                <div className="card-del-box">
+                                                    <button onClick={close}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>
+                                                    {delcards.length > 0 ? (
+                                                        <p className="del-message "><span className="count">{delcards.length}</span>개의 카드가 선택 되었어요</p>
                                                     ) : (
-                                                        <>
-                                                            <button className="btn-purple">선택 해제</button>
-                                                            <button className="btn-purple-filled">선택 삭제하기</button>
-                                                        </>
+                                                        <p className="del-message "><span className="count"></span>삭제할 카드를 선택하세요</p>
                                                     )}
+                                                    <form className="check-circle-all-del">
+                                                        <input type="checkbox" id="all-del" onClick={alldelcard} checked={delcards.length === nweets.length && "checked"}/>
+                                                        <label for="all-del" className="all-del" >전체 선택</label>
+                                                    </form>
+                                                    <div className="btn-wrap">
+                                                        { delcards.length > 0 ? (
+                                                            <>
+                                                                <button className="btn-purple enable" onClick={emptydelcard}>선택 해제</button>
+                                                                <button className="btn-purple-filled enable" onClick={deletecards}>선택 삭제하기</button>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <button className="btn-purple">선택 해제</button>
+                                                                <button className="btn-purple-filled">선택 삭제하기</button>
+                                                            </>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        )}
+                                    </Popup>
+                                </div>
+                                <div className="card-wrap">
+                                    {!isDelete ? (
+                                        <CardDragList nweets={nweets}/>
+                                    ) : (
+                                        nweets.map((nweet) => (
+                                            <div 
+                                                className={"card" + (delcards.includes(nweet.id) ? " del" : "")} 
+                                                style={nweet.cardcolor ? (
+                                                    {background:nweet.cardcolor}
+                                                ) : ({
+                                                        background: `url(${nweet.cardImage})`,
+                                                        backgroundSize: "cover",
+                                                        backgroundRepeat: "no-repeat",
+                                                        backgroundPosition: "center center",
+                                                    })}>
+                                                <h3>{nweet.subtitle}</h3>
+                                                <button onClick={() => adddelcard(nweet.id)}>
+                                                    { delcards.includes(nweet.id) ? (
+                                                        <img src={process.env.PUBLIC_URL + "02-icon-02-solid-check-circle.svg"} alt="삭제 체크" />
+                                                    ) : (
+                                                        <img src={process.env.PUBLIC_URL + "02-icon-01-outline-arrows.svg"} alt="이동 화살표" />
+                                                    )}
+                                                    </button>
+                                                <p>{nweet.title}</p>
+                                            </div>
+                                        ))
                                     )}
-                                </Popup>
-                                
-                            </div>
-                            <div className="card-wrap">
-                                {!isDelete ? (
-                                    <CardDragList nweets={nweets}/>
-                                ) : (
-                                    nweets.map((nweet) => (
-                                        <div className={"card" + (delcards.includes(nweet.id) ? " del" : "")}>
-                                            <h3>{nweet.subtitle}</h3>
-                                            <button onClick={() => adddelcard(nweet.id)}>
-                                                { delcards.includes(nweet.id) ? (
-                                                    <img src={process.env.PUBLIC_URL + "02-icon-02-solid-check-circle.svg"} alt="삭제 체크" />
-                                                ) : (
-                                                    <img src={process.env.PUBLIC_URL + "02-icon-01-outline-arrows.svg"} alt="이동 화살표" />
-                                                )}
-                                                </button>
-                                            <p>{nweet.title}</p>
-                                        </div>
-                                    ))
-                                )}
-                                
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <div className="empty-box">
-                                <p>💁</p>
-                                <p>생성된 카드가 아직 없어요</p>
-                                <p>버튼을 눌러 새로운 카드를<br/>
-                                    만들어 볼까요?</p>
-                            </div>
-                        </>
-                    ))
-                }
-                <div className={"ad-card-btn" + (!nweets.length ? " emrty-ani" : "")}>
+                                    
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="empty-box">
+                                    <p>💁</p>
+                                    <p>생성된 카드가 아직 없어요</p>
+                                    <p>버튼을 눌러 새로운 카드를<br/>
+                                        만들어 볼까요?</p>
+                                </div>
+                            </>
+                        ))}
+                    <div className={"ad-card-btn" + (!nweets.length ? " emrty-ani" : "")}>
                     <img src={process.env.PUBLIC_URL + "02-icon-01-outline-plus.svg"} alt="카드만들기"/>
                     <Popup
                         trigger={<p>카드만들기</p>}
@@ -213,6 +229,12 @@ const Home = ({refreshUser, userObj, nweets}) => {
                         )}
                     </Popup>
                 </div>
+                </>
+                ) : (
+                    "로딩중 입니다..."
+                ))    
+                }
+                
             </div>
         </div>
     );

@@ -84,16 +84,36 @@ const Addnotice = (userObj) => {
         if(attachment !== ""){
             const attachmentRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
             const response = await attachmentRef.putString(attachment, "data_url");
-            const attachmentUrl = await response.ref.getDownloadURL();
+            attachmentUrl = await response.ref.getDownloadURL();
         }
-        const cardObj = {
-            title: name,
-            subtitle: sub,
-            text: text,
-            cardcolor: Color,
-            createdAt: Date.now(),
-            creatorId: userObj.uid,
-            attachmentUrl
+        let cardObj;
+        if(select === true){
+            cardObj = {
+                title: name,
+                subtitle: sub,
+                text: text,
+                cardcolor: Color,
+                createdAt: Date.now(),
+                creatorId: userObj.uid,
+                attachment: attachmentUrl
+            }
+        } else {
+            let attachmentUrl2 = "";
+            if(attachment2 !== ""){
+                const attachmentRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
+                const response = await attachmentRef.putString(attachment2, "data_url");
+                attachmentUrl2 = await response.ref.getDownloadURL();
+            }
+            console.log(attachmentUrl);
+            cardObj = {
+                title: name,
+                subtitle: sub,
+                text: text,
+                cardImage: attachmentUrl2,
+                createdAt: Date.now(),
+                creatorId: userObj.uid,
+                attachment: attachmentUrl
+            }
         }
         await dbService.collection("nweets").add(cardObj);
         setname("");
@@ -158,19 +178,11 @@ const Addnotice = (userObj) => {
                                         <h2>카드 예시</h2>
                                         {(Color || attachment) ? (
                                         select ? (
-                                            Color.includes("linear-gradient") ? (
-                                                <div className="card" style={{
-                                                    backgroundImage: Color}}>
-                                                    <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
-                                                    <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
-                                                </div> 
-                                            ) : (
-                                                <div className="card" style={{
-                                                    background: Color}}>
-                                                    <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
-                                                    <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
-                                                </div> 
-                                            )
+                                            <div className="card" style={{
+                                                background: Color}}>
+                                                <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
+                                                <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
+                                            </div> 
                                         ) : (
                                             <div className="card" style={{
                                                 background: `url(${attachment})`,

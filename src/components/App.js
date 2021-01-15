@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
 import AppRouter from "components/Router";
-import { authService, dbService } from "fbase";
+import { authService } from "fbase";
 
 
 function App() {
   const [init, setInit] = useState(false);
   const [userObj, setUserObj] = useState(null);
-  const [nweets, setNweets] = useState([]);
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if(user){
@@ -15,13 +14,7 @@ function App() {
           uid: user.uid,
           updateProfile: (args) => user.updateProfile(args),
         });
-        dbService.collection("nweets").onSnapshot(snapshot => {
-          const nweetArray = snapshot.docs.map((doc) => ({
-              id:doc.id, 
-              ...doc.data(),
-          }));
-          setNweets(nweetArray);
-      });
+        
       } else {
         setUserObj(null);
       }
@@ -42,8 +35,7 @@ function App() {
         <AppRouter 
           refreshUser={refreshUser}
           isLoggedIn={Boolean(userObj)} 
-          userObj={userObj}
-          nweets={nweets}/>
+          userObj={userObj}/>
        ) : ("Initialization...")}
     </>
   );

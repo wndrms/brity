@@ -1,7 +1,8 @@
-import { dbService } from "fbase";
+import { dbService, storageService } from "fbase";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
+import {v4 as uuidv4} from"uuid";
 
 const Addcard = ({userObj}) => {
     const history = useHistory();
@@ -63,17 +64,37 @@ const Addcard = ({userObj}) => {
         setColor(colorname);
     }
     const onSubmit = async (event) => {
-        if (name === "" || sub === "") {
+        if (name === "" || sub === "" || link === "") {
             return;
         }
         event.preventDefault();
-        const cardObj = {
-            title: name,
-            subtitle: sub,
-            link: link,
-            cardcolor: Color,
-            createdAt: Date.now(),
-            creatorId: userObj.uid,
+        let cardObj = ""
+        
+        if(select === true){
+            cardObj = {
+                title: name,
+                subtitle: sub,
+                link: link,
+                cardcolor: Color,
+                createdAt: Date.now(),
+                creatorId: userObj.uid,
+            }
+        } else {
+            let attachmentUrl = "";
+            if(attachment !== ""){
+                const attachmentRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
+                const response = await attachmentRef.putString(attachment, "data_url");
+                attachmentUrl = await response.ref.getDownloadURL();
+            }
+            console.log(attachmentUrl);
+            cardObj = {
+                title: name,
+                subtitle: sub,
+                link: link,
+                cardImage: attachmentUrl,
+                createdAt: Date.now(),
+                creatorId: userObj.uid,
+            }
         }
         await dbService.collection("nweets").add(cardObj);
         setname("");
@@ -147,19 +168,11 @@ const Addcard = ({userObj}) => {
                                     <h2>카드 예시</h2>
                                     {(Color || attachment) ? (
                                         select ? (
-                                            Color.includes("linear-gradient") ? (
-                                                <div className="card" style={{
-                                                    backgroundImage: Color}}>
-                                                    <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
-                                                    <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
-                                                </div> 
-                                            ) : (
-                                                <div className="card" style={{
-                                                    background: Color}}>
-                                                    <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
-                                                    <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
-                                                </div> 
-                                            )
+                                            <div className="card" style={{
+                                                background: Color}}>
+                                                <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
+                                                <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
+                                            </div> 
                                         ) : (
                                             <div className="card" style={{
                                                 background: `url(${attachment})`,
