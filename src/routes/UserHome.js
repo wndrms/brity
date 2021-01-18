@@ -1,8 +1,10 @@
 import { dbService } from "fbase";
 import React, { useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 
 const UserHome = ({userObj}) => {
+    const history = useHistory();
     const [nweets, setNweets] = useState([]);
     const [fix, setfix] = useState(false);
     const [check, setcheck] = useState(false);
@@ -105,7 +107,32 @@ const UserHome = ({userObj}) => {
                 {
                     (nweets.length > 0 ? (
                         nweets.map((nweet) => (
-                            <div className="card">
+                            <div className="card"
+                                style={nweet.cardcolor ? (
+                                    {background:nweet.cardcolor}
+                                ) : ({
+                                        background: `url(${nweet.cardImage})`,
+                                        backgroundSize: "cover",
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "center center",
+                                })}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    let link
+                                    if(nweet.link){
+                                        link = nweet.link;
+                                        
+                                        if(link.indexOf('https://') === -1){
+                                            link = "https://" + link;
+                                            console.log(link);
+                                        } 
+                                        
+                                        window.location.href=link;
+                                    } else {
+                                        link = nweet.id;
+                                        history.push("/notice/" + link);
+                                    }
+                                }}>
                                 <h3>{nweet.subtitle}</h3>
                                 <p>{nweet.title}</p>
                             </div>
