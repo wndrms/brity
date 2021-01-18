@@ -12,7 +12,7 @@ const Notice = ({match}) => {
     const [month, setmonth] = useState();
     const [date, setdate] = useState();
     const [background, setbackground] = useState();
-    const [atttachment, setAttachment] = useState();
+    const [attachment, setAttachment] = useState();
     const [more, setmore] = useState(false);
     const [image, setimage] = useState(false);
 
@@ -29,10 +29,11 @@ const Notice = ({match}) => {
             setdate(date.getDate());
             if(doc.data().cardcolor) setbackground(doc.data().cardcolor)
             else setbackground(doc.data().cardImage)
-            setAttachment(doc.data().atttachment);
+            setAttachment(doc.data().attachment);
         });
     }, []);
     const gethome = () => history.goBack();
+    console.log(attachment);
     return(
         <div id="wrap" className="admin-home user-home-notice">
             <header className="header">
@@ -49,9 +50,15 @@ const Notice = ({match}) => {
                     {text}
                 </div>
                 <button className="overflow-btn" onClick={() => setmore((prev) => !prev)}>{!more ? "더 보기" : "간략히 보기"}</button>
-                {atttachment && (
+                {attachment && (
                     <div className={"bg-opacity" + (image ? " on" : "")}>
-                        <div className="img-area" style={{backgroundImage:`url${atttachment}`}} onClick={() => setimage((prev) => !prev)}></div>
+                        <div className="img-area" 
+                        style={{
+                        background: `url(${attachment})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center center",}}
+                        onClick={() => setimage((prev) => !prev)}></div>
                     </div>
                 )}
                 

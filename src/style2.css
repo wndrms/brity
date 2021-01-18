@@ -590,9 +590,7 @@ div.toggle-on .btn-toggle span{left: 18px;}
     display: inline-block; font-weight: 400;}
 
 .user-home-notice .img-area{
-    width: 100%; margin: 8px 0; height: 100%; border-radius: 8px;
-    background: url(img/tree-3778173_640.jpg) no-repeat
-    no-repeat center center; background-size: cover;}
+    width: 100%; margin: 8px 0; height: 100%; border-radius: 8px;}
 .user-home-notice .img-area::after{display: block; content:""; padding-top: 100%}
 .user-home-notice .bg-opacity.on{display: flex; align-items: center; justify-content: center;}
 .user-home-notice .bg-opacity.on .img-area{

@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 import {v4 as uuidv4} from "uuid";
 
-const Addnotice = (userObj) => {
+const Addnotice = ({userObj}) => {
     const history = useHistory();
     const [name, setname] = useState("");
     const [sub, setsub] = useState("");
@@ -97,6 +97,7 @@ const Addnotice = (userObj) => {
                 creatorId: userObj.uid,
                 attachment: attachmentUrl
             }
+            console.log(cardObj);
         } else {
             let attachmentUrl2 = "";
             if(attachment2 !== ""){
