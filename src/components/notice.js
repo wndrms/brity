@@ -13,6 +13,8 @@ const Notice = ({match}) => {
     const [date, setdate] = useState();
     const [background, setbackground] = useState();
     const [atttachment, setAttachment] = useState();
+    const [more, setmore] = useState(false);
+    const [image, setimage] = useState(false);
 
     useEffect(async() => {
         await dbService.collection('nweets').doc(number)
@@ -43,18 +45,18 @@ const Notice = ({match}) => {
             <div className="content">
                 <div className="main-title"><p>{title}</p></div>
                 <div className="user-name">test</div>
-                <div className="text-area">
+                <div className={"text-area" + (more ? " more" : "")}>
                     {text}
                 </div>
-                <button className="overflow-btn">더 보기</button>
+                <button className="overflow-btn" onClick={() => setmore((prev) => !prev)}>{!more ? "더 보기" : "간략히 보기"}</button>
                 {atttachment && (
-                    <div className="bg-opacity">
-                        <div className="img-area" style={{backgroundImage:`url${atttachment}`}}></div>
+                    <div className={"bg-opacity" + (image ? " on" : "")}>
+                        <div className="img-area" style={{backgroundImage:`url${atttachment}`}} onClick={() => setimage((prev) => !prev)}></div>
                     </div>
                 )}
                 
                 <p className="state">
-                    <span>수정됨 .</span>
+                    <span>작성됨 .</span>
                     <span> 14시간 전</span>
                 </p>
             </div>
