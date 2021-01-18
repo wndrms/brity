@@ -7,7 +7,7 @@ const UserHome = ({userObj}) => {
     const history = useHistory();
     const [nweets, setNweets] = useState([]);
     const [fix, setfix] = useState(false);
-    const [check, setcheck] = useState(false);
+    const [check, setcheck] = useState(true);
     const ref = useRef(null);
     const handleScroll = () => {
         if(ref.current) {
@@ -68,26 +68,31 @@ const UserHome = ({userObj}) => {
                                                     <li>
                                                         <button>
                                                             <img src={process.env.PUBLIC_URL + "instagram-icon.svg"} alt="instagram"/>
+                                                            <p>Instagram</p>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button>
                                                             <img src={process.env.PUBLIC_URL + "facebook-icon.svg"} alt="facebook"/>
+                                                            <p>facebook</p>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button>
                                                             <img src={process.env.PUBLIC_URL + "youtube-icon.svg"} alt="youtube"/>
+                                                            <p>youtube</p>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button>
                                                             <img src={process.env.PUBLIC_URL + "tiktok-icon.svg"} alt="Tiktok"/>
+                                                            <p>tiktok</p>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button>
                                                             <img src={process.env.PUBLIC_URL + "twitter-icon.svg"} alt="twitter"/>
+                                                            <p>twitter</p>
                                                         </button>
                                                     </li>
                                                 </>
