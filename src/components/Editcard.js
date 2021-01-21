@@ -4,8 +4,9 @@ import { useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 import {v4 as uuidv4} from"uuid";
 
-const Addcard = ({userObj}) => {
+const Editcard = ({userObj, match}) => {
     const history = useHistory();
+    const id = match.params.id;
     const [title, settitle] = useState("");
     const [sub, setsub] = useState("");
     const [link, setlink] = useState("");
@@ -24,7 +25,21 @@ const Addcard = ({userObj}) => {
         const {pageYOffset} = window;
         setfix(pageYOffset > 0);
     };
-    useEffect(() => {
+    useEffect(async() => {
+        await dbService.collection('nweets').doc(id)
+        .onSnapshot(doc => {
+            settitle(doc.data().title);
+            setsub(doc.data().subtitle);
+            setlink(doc.data().link);
+            if(doc.data().cardcolor){
+                setColor(doc.data().cardcolor);
+                setselect(true);
+            }
+            else {
+                setAttachment(doc.data().cardImage);
+                setselect(false);
+            }
+        });
         window.addEventListener('scroll', handleScroll);
     }, []);
     const gradientcolor = ["linear-gradient(136deg, #d4b2da 1%, #9cd6e0)", 
@@ -96,7 +111,7 @@ const Addcard = ({userObj}) => {
                 creatorId: userObj.uid,
             }
         }
-        await dbService.collection("nweets").add(cardObj);
+        await dbService.collection('nweets').doc(id).update(cardObj);
         settitle("");
         setsub("");
         history.push("/");
@@ -128,11 +143,11 @@ const Addcard = ({userObj}) => {
         borderTop: over ? "1px solid #fff" : "1px solid #ebebeb",
     });
     return(
-        <div id="wrap" className={"ad-card" + (Processing>0 ? (Processing === 1 ? (" ad-card-size") : (" ad-card-cover")) : (""))}>
+        <div id="wrap" className={"ad-card" + (Processing>0 ? (Processing === 1 ? (" ad-card-size") : (" ad-card-cover")) : ("retouch"))}>
             <header className={"header" + (fix ? " fix" : "")}>
                 <div className="menu-wrap">
                     <button className="back" onClick={toggleProcessing0}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
-                    <p>{(Processing>0 ? (Processing === 1 ? ("카드 크기 선택") : ("카드 커버 선택")) : ("🔗 링크 카드 만들기"))}</p>
+                    <p>{(Processing>0 ? (Processing === 1 ? ("카드 크기 선택") : ("카드 커버 선택")) : ("🔧 카드 수정하기"))}</p>
                     <Popup
                         trigger={<button className="close"><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>}
                         modal>
@@ -165,13 +180,13 @@ const Addcard = ({userObj}) => {
                         return(
                             <>
                                 <div className="exempli border-bottom">
-                                    <h2>카드 예시</h2>
+                                    <h2>수정 예시</h2>
                                     {(Color || attachment) ? (
                                         select ? (
                                             <div className="card" style={{
                                                 background: Color}}>
-                                                <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
-                                                <p>{title ? title : "A. 카카오톡 문의"}</p>
+                                                <h3>{sub}</h3>
+                                                <p>{title}</p>
                                             </div> 
                                         ) : (
                                             <div className="card" style={{
@@ -179,20 +194,21 @@ const Addcard = ({userObj}) => {
                                                 backgroundSize: "cover",
                                                 backgroundRepeat: "no-repeat",
                                                 backgroundPosition: "center center",}}>
-                                                <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
-                                                <p>{title ? title : "A. 카카오톡 문의"}</p>
+                                                <h3>{sub}</h3>
+                                                <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-arrows.svg"} alt="이동 화살표"/></button>
+                                                <p>{title}</p>
                                             </div> 
                                         )
                                     ) : (
                                         <div className="card">
-                                            <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
-                                            <p>{title ? title : "A. 카카오톡 문의"}</p>
+                                            <h3>{sub}</h3>
+                                            <p>{title}</p>
                                         </div>
                                     )}
                                 </div>
                                 <div className="form-box border-bottom">
                                     <form className={focustitle ? "selected" : ""}>
-                                        <label for="card-name">A. 어떤 이름의 링크 카드를 만들어 볼까요?<span className="required">*</span></label>
+                                        <label for="card-name">A. 카드 메인 타이틀<span className="required">*</span></label>
                                         <input 
                                             type="text" 
                                             id="card-name" 
@@ -206,7 +222,7 @@ const Addcard = ({userObj}) => {
                                         <div className="message">카드 이름을 적어주세요</div>
                                     </form>
                                     <form className={focussub ? "selected" : ""}>
-                                        <label for="sub-card-name">B. 어떤 서브 타이틀을 적어 놓을까요?</label>
+                                        <label for="sub-card-name">B. 카드 서브 타이틀</label>
                                         <input 
                                             type="text" 
                                             id="sub-card-name" 
@@ -234,7 +250,7 @@ const Addcard = ({userObj}) => {
                                         <div className="message">정확한 링크 주소를 입력해주세요</div>
                                     </form>
                                 </div>
-                                <div className="toggle-box">
+                                <div className="toggle-box hover-style">
                                     <div className={linkopen ? "toggle-on" : ""}>
                                         <p>링크 공개 여부<span>{linkopen ? "ON" : "OFF"}</span></p>
                                         <button className="btn-toggle" onClick={togglelinkopen}><span></span></button>
@@ -250,10 +266,10 @@ const Addcard = ({userObj}) => {
                                         <img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-right.svg"} alt="선택"/>
                                     </button>
                                 </div>
-                                { (title && sub) ? (
-                                    <button className="btn-purple-filled enable" onClick={onSubmit}>링크 만들기 완료</button>
+                                { (title && sub && link) ? (
+                                    <button className="btn-purple-filled enable" onClick={onSubmit}>카드 수정 완료</button>
                                 ) : (
-                                    <button className="btn-purple-filled">링크 만들기 완료</button>
+                                    <button className="btn-purple-filled">카드 수정 완료</button>
                                 )}
                             </>
                         );
@@ -403,4 +419,4 @@ const Addcard = ({userObj}) => {
     );
 }
 
-export default Addcard;
+export default Editcard;

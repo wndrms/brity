@@ -45,7 +45,7 @@ const Addnotice = ({userObj}) => {
             setname(value);
         } else if(name === "sub"){
             setsub(value);
-        } else if(name === "text"){
+        } else if(name === "card-index"){
             settext(value);
         }
     }
@@ -138,7 +138,7 @@ const Addnotice = ({userObj}) => {
         borderTop: over ? "1px solid #fff" : "1px solid #ebebeb",
     });
     return(
-        <div id="wrap" className="ad-card ad-card-notice">
+        <div id="wrap" className={"ad-card" + (Processing === 0 ? " ad-card-notice" : (Processing === 1 ? " ad-card-size" : " ad-card-covor"))}>
             <header className={`header${fix ? ' fix' : ''}`}>
                 <div className="menu-wrap">
                     <button className="back" onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
@@ -167,7 +167,6 @@ const Addnotice = ({userObj}) => {
                             </div>
                         )}
                     </Popup>
-                    <button className="close" onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>
                 </div>
             </header>
             <div className="content">
@@ -182,7 +181,7 @@ const Addnotice = ({userObj}) => {
                                             <div className="card" style={{
                                                 background: Color}}>
                                                 <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
-                                                <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
+                                                <p>{name ? name : "A. 카카오톡 문의"}</p>
                                             </div> 
                                         ) : (
                                             <div className="card" style={{
@@ -191,13 +190,13 @@ const Addnotice = ({userObj}) => {
                                                 backgroundRepeat: "no-repeat",
                                                 backgroundPosition: "center center",}}>
                                                 <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
-                                                <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
+                                                <p>{name ? name : "A. 카카오톡 문의"}</p>
                                             </div> 
                                         )
                                     ) : (
                                         <div className="card">
                                             <h3>{sub? sub : "B. 🤙🏻🤙🏽🤙🏿"}</h3>
-                                            <p>{name ? name : "카카오톡 문의  |  A. (카드 이름)"}</p>
+                                            <p>{name ? name : "A. 카카오톡 문의"}</p>
                                         </div>
                                     )}
                                     </div>
@@ -234,7 +233,6 @@ const Addnotice = ({userObj}) => {
                                                 cols="30"
                                                 rows="10"
                                                 className="input-basic"
-                                                name="text"
                                                 value={text}
                                                 onChange={onChange}
                                                 placeholder="공지할 내용을 입력해주세요"></textarea>

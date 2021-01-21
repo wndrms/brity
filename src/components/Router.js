@@ -12,6 +12,8 @@ import Customerhelp from "./Customerhelp";
 import AccountDelete from "routes/AccountDelete";
 import UserHome from "routes/UserHome";
 import Notice from "./Notice";
+import Editcard from "./Editcard";
+import Editnotice from "./Editnotice";
 
 const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
     return (
@@ -25,6 +27,10 @@ const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
                         <Route exact path="/user">
                             <UserHome userObj={userObj}/>
                         </Route>
+                        <Route path="/edit/:id" 
+                            render={(props) => <Editcard userObj={userObj} {...props}/>}/>
+                        <Route path="/edit2/:id" 
+                            render={(props) => <Editnotice userObj={userObj} {...props}/>}/>
                         <Route path="/notice/:number" component={Notice}/>
                         <Route exact path="/addcard">
                             <Addcard userObj={userObj}/>

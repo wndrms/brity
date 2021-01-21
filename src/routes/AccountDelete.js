@@ -118,7 +118,8 @@ const AccountDelete = ({refreshUser}) => {
                         {password ? (
                             <Popup
                             trigger={<button className="btn-basic enable">완료하기</button>}
-                            modal>
+                            modal
+                            onClose={() => history.push("/profile")}>
                                 { close => (
                                     <div className="bg-opacity alert on">
                                         <div className="alert-wrap">

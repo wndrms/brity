@@ -98,7 +98,7 @@ const AuthForm = () => {
                                     )}
                                 </div>
                             </div>
-                            <a onClick={onSocialClick} name="google" className="login-google btn-purple enable">Continue with &nbsp;<img src={process.env.PUBLIC_URL + 'google.svg'} alt="google"/></a>         
+                            <a onClick={onSocialClick} name="google" className="login-google btn-purple enable">Continue with&nbsp;<img src={process.env.PUBLIC_URL + 'google.svg'} alt="google"/></a>         
                         </>
                         ) : (
                         <>
@@ -140,9 +140,11 @@ const AuthForm = () => {
                             </div>
                         </>
                     )}
+                    
                     <Link to="/SignUp">
                         <button className="btn-purple fix-bottom enable">Brity 계정 만들기</button>
-                    </Link>   
+                    </Link>
+                    
                 </div>
             </div>
             <footer id="footer"></footer>

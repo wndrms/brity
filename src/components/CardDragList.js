@@ -79,20 +79,8 @@ const CardDragList = ({nweets, isDelete}) => {
                                         )}
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            let link
-                                            if(nweet.link){
-                                                link = nweet.link;
-                                                
-                                                if(link.indexOf('https://') === -1){
-                                                    link = "https://" + link;
-                                                    console.log(link);
-                                                } 
-                                                
-                                                window.location.href=link;
-                                            } else {
-                                                link = nweet.id;
-                                                history.push("/notice/" + link);
-                                            }
+                                            if(nweet.link) history.push("/edit/" + nweet.id);
+                                            else history.push("/edit2/" + nweet.id);
                                         }}>
                                         <h3>{nweet.subtitle}</h3>
                                         {isDelete ? (

@@ -70,7 +70,7 @@ const Home = ({refreshUser, userObj}) => {
         borderTop: over ? "1px solid #fff" : "1px solid #ebebeb",
     });
     return (
-        <div id="wrap" className="admin-home">
+        <div id="wrap" className={"admin-home" + (!nweets.length ? " admin-home-empty" : "")}>
             <header className={`header${fix ? ' fix' : ''}`}>
                 <div className="menu-wrap home-menu-btn">
                     <Popup
@@ -115,6 +115,11 @@ const Home = ({refreshUser, userObj}) => {
                         </Popup>
                     </button>
                 </div>
+                <div className="del-wrap">
+                    <div className="del-text-box">
+                        <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-check-000.svg"} alt="체크"/>카드선택 및 삭제</button>
+                    </div>
+                </div>
             </header>
             <div className="content">
                 {(init ? (
@@ -135,7 +140,7 @@ const Home = ({refreshUser, userObj}) => {
                                                 <div className="card-del-box">
                                                     <button onClick={close}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>
                                                     {delcards.length > 0 ? (
-                                                        <p className="del-message "><span className="count">{delcards.length}</span>개의 카드가 선택 되었어요</p>
+                                                        <p className="del-message on"><span className="count">{delcards.length}</span>개의 카드가 선택 되었어요</p>
                                                     ) : (
                                                         <p className="del-message "><span className="count"></span>삭제할 카드를 선택하세요</p>
                                                     )}
