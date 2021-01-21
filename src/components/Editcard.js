@@ -143,7 +143,7 @@ const Editcard = ({userObj, match}) => {
         borderTop: over ? "1px solid #fff" : "1px solid #ebebeb",
     });
     return(
-        <div id="wrap" className={"ad-card" + (Processing>0 ? (Processing === 1 ? (" ad-card-size") : (" ad-card-cover")) : ("retouch"))}>
+        <div id="wrap" className={"ad-card" + (Processing>0 ? (Processing === 1 ? (" ad-card-size") : (" ad-card-cover")) : (" retouch"))}>
             <header className={"header" + (fix ? " fix" : "")}>
                 <div className="menu-wrap">
                     <button className="back" onClick={toggleProcessing0}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>

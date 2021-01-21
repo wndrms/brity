@@ -145,7 +145,7 @@ const Editnotice = ({userObj, match}) => {
         borderTop: over ? "1px solid #fff" : "1px solid #ebebeb",
     });
     return(
-        <div id="wrap" className={"ad-card" + (Processing>0 ? (Processing === 1 ? (" ad-card-size") : (" ad-card-cover")) : ("retouch ad-card-notice"))}>
+        <div id="wrap" className={"ad-card" + (Processing>0 ? (Processing === 1 ? (" ad-card-size") : (" ad-card-cover")) : (" retouch ad-card-notice"))}>
             <header className={"header" + (fix ? " fix" : "")}>
                 <div className="menu-wrap">
                     <button className="back" onClick={toggleProcessing0}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
@@ -285,7 +285,10 @@ const Editnotice = ({userObj, match}) => {
                                             className="input-basic"
                                             onChange={onFileChange}/>
                                         <div className={"img-del-btn" + (attachment2 ? " on" : "")}>
-                                            <button onClick={onClearAttachment}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="삭제"/>삭제</button>
+                                            <button onClick={(e) => {
+                                                e.preventDefault();
+                                                setAttachment2("");
+                                            }}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-trash.svg"} alt="삭제"/>삭제</button>
                                         </div>
                                     </form>
                                 </div>
