@@ -635,6 +635,9 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .admin-home .header.fix .del-wrap .del-text-box button{
     height: 32px; padding: 0 0 1px 20px; box-sizing: border-box;}
 
+.admin-home .card+.style-box{width: 100%; height: 16px;}
+.admin-home .card+.style-box.on{width: 100%; height: 216px;}
+    
 /*admin-home empty*/
 .admin-home-empty .content{height: 100vh;}
 .admin-home-empty .empty-box{

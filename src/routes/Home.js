@@ -188,7 +188,7 @@ const Home = ({refreshUser, userObj}) => {
                                             </div>
                                         ))
                                     )}
-                                    
+                                    <div className={"style-box" + (isDelete ? " on" : "")}></div>
                                 </div>
                             </>
                         ) : (
