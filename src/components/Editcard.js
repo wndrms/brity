@@ -195,7 +195,6 @@ const Editcard = ({userObj, match}) => {
                                                 backgroundRepeat: "no-repeat",
                                                 backgroundPosition: "center center",}}>
                                                 <h3>{sub}</h3>
-                                                <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-arrows.svg"} alt="이동 화살표"/></button>
                                                 <p>{title}</p>
                                             </div> 
                                         )

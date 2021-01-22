@@ -2,7 +2,7 @@
 
 *{list-style: none; margin: 0; padding: 0;}
 html{font-size: 10px;}
-a, p, div, li, span, h1, h2, h3, h4, h5, h6, label, button, input{
+a, p, div, li, span, h1, h2, h3, h4, h5, h6, label, button, input, .text-area{
     font-family: 'Montserrat','Noto Sans KR', sans-serif; letter-spacing: .3px;
     color: #161616; font-size: 1.4rem; font-weight: 700;}
 p, label{font-weight: 500;}
@@ -338,17 +338,15 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .card h3{font-size: 1.4rem; letter-spacing: .5px; color: #fff; top: 16px; left: 16px; font-weight: 400;}
 .card p{color: #fff; left: 16px; bottom: 16px; font-weight: 700;}
 .card button{top: 8px; right: 8px;}
-.card button:active .card{box-shadow: 0 8px 15px 0 rgba(85, 78, 78, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.3);}
+.card button:active .card{box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.3);}
 
 .ad-img-box{
     width: 100%; border-radius: 4px;
     box-sizing: border-box; overflow: hidden;}
 .content .ad-img-box{display: block;}
 .ad-img-box >div{
-    width: 100%; height: 400px;
-    display: flex; flex-direction: column; justify-content: center;
-    background: url(img/noname.png) no-repeat center center;
-    background-size: cover;}
+    width: 100%; height: 400px; background: #ebebeb;
+    display: flex; flex-direction: column; justify-content: center;}
 .ad-img-box.on >div{position: relative;}
 .ad-img-box.on >div::before{
     display: block; content:""; width: 100%; height: 100%;
@@ -424,7 +422,8 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .login-pw .content .user-id{margin-top: 40px; font-weight: 700;}
 .login-pw .btn-wrap{margin-top: 24px;}
 .login-pw .logo-wrap h2{font-size: 2.4rem;}
-.login-pw .form-box form.btn-wrap{justify-content: space-between;}
+.login-pw .form-box div.btn-wrap{justify-content: space-between;}
+.login-pw .check-circle label{color: #555;}
 
 /* sign-up */
 .sign-up .content{height: calc(100vh - 59px); position: relative;}
@@ -503,6 +502,7 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .reset-pw03 .form-box{margin-top: 66px;}
 .reset-pw03 .form-box .btn-wrap{margin-top: 0;}
 .reset-pw03 .form-box button{margin-top: 0;}
+.reset-pw03 .form-box form.btn-wrap >a{width: 100%;}
 
 /*user-home*/
 .user-home .menu-wrap p.user-name{
@@ -562,7 +562,7 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .user-home-notice .header.fix .menu-wrap{position: relative;}
 .user-home-notice .header .menu-wrap button{
     top: 1px; left: 4px; margin: 0;
-    width: 48px; height: 48px; z-index: 2;}
+    width: 48px; height: 48px; z-index: 1;}
 .user-home-notice header .menu-wrap button img{
     display: block; width: 24px; margin: 0 auto;}
 .user-home-notice header .menu-wrap h3{color: #fff; padding: 90px 0 16px;}
@@ -616,12 +616,11 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .admin-home .menu-wrap p:nth-child(2){
     font-size: 1.2rem; font-weight: 700; color: #543dab; margin-top: 5px; width: auto;}
 .admin-home .menu-wrap p >span{color: #e94757; margin: 0 4px 0 8px;}
-.card:last-child{margin-bottom: 16px;}
 .admin-home .card:nth-child(2){background-image: linear-gradient(to right, #3a6186, #89253e);}
 .admin-home .card:nth-child(3){background-image: linear-gradient(to right, #3494e6, #ec6ead);}
 .admin-home .card:nth-child(4){background-image: linear-gradient(104deg, #dd3e54 5%, #6be585 100%);}
 
-.admin-home .all-del{justify-content: center;}
+.admin-home .all-del{justify-content: center; flex-direction: row-reverse;}
 .admin-home .card.del button{z-index: 1;}
 
 .admin-home .header .del-wrap{display: none;}
@@ -634,10 +633,12 @@ div.toggle-on .btn-toggle span{left: 18px;}
    margin: 0; margin-top: 12px;}
 .admin-home .header.fix .del-wrap .del-text-box button{
     height: 32px; padding: 0 0 1px 20px; box-sizing: border-box;}
-
+    
 .admin-home .card+.style-box{width: 100%; height: 16px;}
 .admin-home .card+.style-box.on{width: 100%; height: 216px;}
-    
+
+.admin-home p.del-message.on{color: #161616;}
+
 /*admin-home empty*/
 .admin-home-empty .content{height: 100vh;}
 .admin-home-empty .empty-box{
@@ -649,6 +650,7 @@ div.toggle-on .btn-toggle span{left: 18px;}
 
 /*ad-card*/
 .ad-card header .menu-wrap{position: relative;}
+.ad-card header.header-style .close{justify-content: flex-end; margin-right: 16px;}
 .ad-card .input-basic{margin-top: 16px;}
 .ad-card .card{background: #555;}
 .ad-card .form-box form:last-child{margin-bottom: 14px}
@@ -916,6 +918,10 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .account-info05 form.serch-address button img{width: 24px; height: 24px;}
 .account-info05 .form-box{margin-top: 32px;}
 .account-info05 .form-box form:last-child input{margin-top: 22px;}
+.account-info05 .form-box .search-address button{
+    position: absolute; top: 37px; right: 1px; 
+    width: 40px; height: 40px; background: #fff; border-radius: 4px;
+    display: flex; justify-content: center; align-items: center;}
 
 /* account-info06 */
 
@@ -933,3 +939,7 @@ div.toggle-on .btn-toggle span{left: 18px;}
     font-weight: 400; color: #6f6f6f; font-size: 1.4rem;}
 .account-info08 .content >*:nth-last-child(3){margin-top: 36px}
 .account-info08 .content >*:nth-last-child(2){margin-top: 30px}
+
+/* retouch */
+.retouch .form-box label span.required{font-size: 1.4rem; padding: 0;}
+.retouch .form-box label span{font-size: 1rem; line-height: 2rem; padding: 4px 0 0 2px;}
