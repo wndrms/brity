@@ -15,7 +15,12 @@ const Notice = ({match}) => {
     const [attachment, setAttachment] = useState();
     const [more, setmore] = useState(false);
     const [image, setimage] = useState(false);
+    const [fix, setfix] = useState(false);
 
+    const handleScroll = () => {
+        const {pageYOffset} = window;
+        setfix(pageYOffset > 0);
+    };
     useEffect(async() => {
         await dbService.collection('nweets').doc(number)
         .onSnapshot(doc => {
@@ -31,12 +36,13 @@ const Notice = ({match}) => {
             else setbackground(doc.data().cardImage)
             setAttachment(doc.data().attachment);
         });
+        window.addEventListener('scroll', handleScroll);
     }, []);
     const gethome = () => history.goBack();
     console.log(attachment);
     return(
         <div id="wrap" className="admin-home user-home-notice">
-            <header className="header">
+            <header className={"header" + (fix ? " fix" : "")}>
                 <div className="menu-wrap bg-img" style={{background: background}}>
                     <button onClick={gethome}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left-fff.svg"} alt="이전으로"/></button>
                     <h3 className="sub-title">{subtitle}</h3>

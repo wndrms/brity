@@ -22,9 +22,9 @@ const AppRouter = ({refreshUser, isLoggedIn, userObj}) => {
                 {isLoggedIn ? (
                     <>
                         <Route exact path="/">
-                            <Home refreshUser={refreshUser} userObj={userObj}/>
+                            <Home userObj={userObj}/>
                         </Route>
-                        <Route exact path="/user">
+                        <Route exact path="/user" >
                             <UserHome userObj={userObj}/>
                         </Route>
                         <Route path="/edit/:id" 

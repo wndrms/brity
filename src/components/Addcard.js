@@ -25,6 +25,7 @@ const Addcard = ({userObj}) => {
         setfix(pageYOffset > 0);
     };
     useEffect(() => {
+        window.scrollTo(0, 0);
         window.addEventListener('scroll', handleScroll);
     }, []);
     const gradientcolor = ["linear-gradient(136deg, #d4b2da 1%, #9cd6e0)", 
@@ -113,9 +114,10 @@ const Addcard = ({userObj}) => {
         reader.readAsDataURL(theFile);
     };
     const onClearAttachment = () => setAttachment("");
-    const toggleProcessing0 = () => setProcessing(0);
-    const toggleProcessing1 = () => setProcessing(1);
-    const toggleProcessing2 = () => setProcessing(2);
+    const toggleProcessing = (num) => {
+        setProcessing(num);
+        window.scrollTo(0,0);
+    }
     const gethome = () => history.push("/");
     const toggleselect = () => setselect((prev) => !prev);
     const togglesize = () => setsize((prev) => !prev);
@@ -131,32 +133,37 @@ const Addcard = ({userObj}) => {
         <div id="wrap" className={"ad-card" + (Processing>0 ? (Processing === 1 ? (" ad-card-size") : (" ad-card-cover")) : (""))}>
             <header className={"header" + (fix ? " fix" : "")}>
                 <div className="menu-wrap">
-                    <button className="back" onClick={toggleProcessing0}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
+                    <button className="back" onClick={() => toggleProcessing(0)}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-left.svg"} alt="이전으로"/></button>
                     <p>{(Processing>0 ? (Processing === 1 ? ("카드 크기 선택") : ("카드 커버 선택")) : ("🔗 링크 카드 만들기"))}</p>
-                    <Popup
-                        trigger={<button className="close"><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>}
-                        modal>
-                        {close => (
-                            <div className="bg-opacity alert on">
-                                <div className="alert-wrap">
-                                    <div className="alert-box">
-                                        <div className="text-box">
-                                            <p className="p-header">🖐 잠깐만요</p>
-                                            <p className="p-text">입력한 정보가<br/>
-                                                아직 저장되지 않았어요!</p>
-                                        </div>
-                                        <div className="btn-box">
-                                            <button onClick={() => {
-                                                close();
-                                                gethome();
-                                            }} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle1(btnover)}>모두 취소하기</button>
-                                            <button onClick={close} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle2(btnover)}>계속 입력하기</button>
+                    {Processing === 0 ? (
+                        <Popup
+                            trigger={<button className="close"><img src={process.env.PUBLIC_URL + "02-icon-01-outline-times.svg"} alt="닫기"/></button>}
+                            modal>
+                            {close => (
+                                <div className="bg-opacity alert on">
+                                    <div className="alert-wrap">
+                                        <div className="alert-box">
+                                            <div className="text-box">
+                                                <p className="p-header">🖐 잠깐만요</p>
+                                                <p className="p-text">입력한 정보가<br/>
+                                                    아직 저장되지 않았어요!</p>
+                                            </div>
+                                            <div className="btn-box">
+                                                <button onClick={() => {
+                                                    close();
+                                                    gethome();
+                                                }} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle1(btnover)}>모두 취소하기</button>
+                                                <button onClick={close} onMouseEnter={() => setbtnover(true)} onMouseOut={() => setbtnover(false)} style={btnstyle2(btnover)}>계속 입력하기</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
-                    </Popup>
+                            )}
+                        </Popup>
+                    ) : (
+                        <button className={"complete btn-purple-light enable"} onClick={() => toggleProcessing(0)}>완료</button>
+                    )}
+                    
                 </div>
             </header>
             <div className="content">
@@ -241,11 +248,11 @@ const Addcard = ({userObj}) => {
                                     </div>
                                 </div>
                                 <div className="card-size-box hover-style">
-                                    <button className="select" onClick={toggleProcessing1}>
+                                    <button className="select" onClick={() => toggleProcessing(1)}>
                                         <p>카드 크기 선택<span>LARGE</span></p>
                                         <img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-right.svg"} alt="선택"/>
                                     </button>
-                                    <button onClick={toggleProcessing2}>
+                                    <button onClick={() => toggleProcessing(2)}>
                                         <p>카드 커버 선택<span>미선택</span></p>
                                         <img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-right.svg"} alt="선택"/>
                                     </button>
@@ -287,7 +294,7 @@ const Addcard = ({userObj}) => {
                                     </div>
                                 </div>
                                 {size ? (
-                                    <button className="btn-purple-filled enable" onClick={toggleProcessing0}>카드 크기 적용하기</button>
+                                    <button className="btn-purple-filled enable" onClick={() => toggleProcessing(0)}>카드 크기 적용하기</button>
                                 ) : (
                                     <button className="btn-purple-filled">카드 크기 적용하기</button>
                                 )}
@@ -296,7 +303,7 @@ const Addcard = ({userObj}) => {
                     } else if (Processing === 2){
                         return(
                             <>
-                                <h2>원하는 카드 색상을 선택해주세요</h2>
+                                <h2>홈 카드에 보여질 이미지나 색상을 선택해주세요</h2>
                                 <div className="form-box border-bottom">
                                     <form className="check-circle">
                                         <input type="checkbox" name="checkbox" id="bd-check-color" checked={select && "checked"} onClick={toggleselect}/>
@@ -392,7 +399,7 @@ const Addcard = ({userObj}) => {
                                         </div>
                                     </div>
                                 )}
-                                <button className="btn-purple-filled enable" onClick={toggleProcessing0}>카드 커버 적용하기</button>
+                                <button className="btn-purple-filled enable" onClick={() => toggleProcessing(0)}>카드 커버 적용하기</button>
                             </>
                         );
                     } 

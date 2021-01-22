@@ -109,50 +109,37 @@ const UserHome = ({userObj}) => {
                 </div>
             </header>
             <div className="content">
-                {
-                    (nweets.length > 0 ? (
-                        nweets.map((nweet) => (
-                            <div className="card"
-                                style={nweet.cardcolor ? (
-                                    {background:nweet.cardcolor}
-                                ) : ({
-                                        background: `url(${nweet.cardImage})`,
-                                        backgroundSize: "cover",
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center center",
-                                })}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    let link
-                                    if(nweet.link){
-                                        link = nweet.link;
-                                        
-                                        if(link.indexOf('https://') === -1){
-                                            link = "https://" + link;
-                                            console.log(link);
-                                        } 
-                                        
-                                        window.location.href=link;
-                                    } else {
-                                        link = nweet.id;
-                                        history.push("/notice/" + link);
-                                    }
-                                }}>
-                                <h3>{nweet.subtitle}</h3>
-                                <p>{nweet.title}</p>
-                            </div>
-                        ))
-                    ) : (
-                        <>
-                            <div className="empty-box">
-                                <p>💁</p>
-                                <p>생성된 카드가 아직 없어요</p>
-                                <p>버튼을 눌러 새로운 카드를<br/>
-                                    만들어 볼까요?</p>
-                            </div>
-                        </>
-                    ))
-                }
+                {nweets.map((nweet) => (
+                    <div className="card"
+                        style={nweet.cardcolor ? (
+                            {background:nweet.cardcolor}
+                        ) : ({
+                                background: `url(${nweet.cardImage})`,
+                                backgroundSize: "cover",
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center center",
+                        })}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            let link
+                            if(nweet.link){
+                                link = nweet.link;
+                                
+                                if(link.indexOf('https://') === -1){
+                                    link = "https://" + link;
+                                    console.log(link);
+                                } 
+                                
+                                window.location.href=link;
+                            } else {
+                                link = nweet.id;
+                                history.push("/notice/" + link);
+                            }
+                        }}>
+                        <h3>{nweet.subtitle}</h3>
+                        <p>{nweet.title}</p>
+                    </div>
+                ))}
             </div>
         </div>
     );

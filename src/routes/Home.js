@@ -4,7 +4,7 @@ import Popup from 'reactjs-popup';
 import CardDragList from "components/CardDragList";
 import { useHistory } from "react-router-dom";
 
-const Home = ({refreshUser, userObj}) => {
+const Home = ({userObj}) => {
     const history = useHistory();
     const [nweets, setNweets] = useState([]);
     const [init, setinit] = useState(false);
@@ -17,6 +17,7 @@ const Home = ({refreshUser, userObj}) => {
         setfix(pageYOffset > 0);
     };
     useEffect(async () => {
+        window.scrollTo(0, 0);
         await dbService.collection("nweets").onSnapshot(snapshot => {
             const nweetArray = snapshot.docs.map((doc) => ({
                 id:doc.id, 
@@ -117,7 +118,7 @@ const Home = ({refreshUser, userObj}) => {
                 </div>
                 <div className="del-wrap">
                     <div className="del-text-box">
-                        <button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-check-000.svg"} alt="체크"/>카드선택 및 삭제</button>
+                        <button onClick={toggleisDelete}><img src={process.env.PUBLIC_URL + "02-icon-01-outline-check-000.svg"} alt="체크"/>카드선택 및 삭제</button>
                     </div>
                 </div>
             </header>
@@ -130,7 +131,8 @@ const Home = ({refreshUser, userObj}) => {
                                     <Popup
                                         trigger={<button><img src={process.env.PUBLIC_URL + "02-icon-01-outline-check-000.svg"} alt="체크"/>카드선택 및 삭제</button>}
                                         closeOnDocumentClick={false}
-                                        onOpen={toggleisDelete}
+                                        open={isDelete}
+                                        onOpen={() => setisDelete(true)}
                                         onClose={() => {
                                             toggleisDelete();
                                             emptydelcard();
