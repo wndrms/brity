@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {Link, useHistory} from "react-router-dom";
 import DaumPostcode from "react-daum-postcode";
 import { authService, dbService } from "fbase";
+import { isChrome, isSafari } from "react-device-detect";
 
 const SignUp = () => {
     const history = useHistory();
@@ -126,6 +127,9 @@ const SignUp = () => {
             setcheck3(true);
         }
     }
+    const SafariStyle = (check) => ({
+        top: check ? "1px" : "9px"
+    });
     const gethome = () => history.push("/");
     return(
         <>
@@ -367,7 +371,7 @@ const SignUp = () => {
                                                         id="address" 
                                                         value={address}
                                                         placeholder="우편번호를 입력하세요"/>
-                                                    <button onClick={togglesearch}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-search.svg'} alt="검색"/></button>
+                                                    <button onClick={togglesearch} style={SafariStyle(isSafari)}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-search.svg'} alt="검색"/></button>
                                                 </>
                                             ) : (
                                                 <DaumPostcode 
