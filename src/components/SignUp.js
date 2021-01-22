@@ -6,7 +6,7 @@ import { isChrome, isSafari } from "react-device-detect";
 
 const SignUp = () => {
     const history = useHistory();
-    const [Proceeding, setProceeding] = useState(0);
+    const [Proceeding, setProceeding] = useState(-1);
     const [name, setname] = useState("");
     const [phnum, setphnum] = useState();
     const [userid, setuserid] = useState("");
@@ -131,11 +131,15 @@ const SignUp = () => {
         top: check ? "1px" : "9px"
     });
     const gethome = () => history.push("/");
+    const wrapclass = () => {
+        const num = (Proceeding === -1 ? 1 : Proceeding + 1);
+        return "sign-up-0" + String(num) + " sign-up join"
+    }
     return(
         <>
-            <div id="wrap" className={"sign-up-0" + (Proceeding+1) + " sign-up join"}>
+            <div id="wrap" className={wrapclass()}>
                 <header id="header">
-                    { Proceeding > 0 ? ( Proceeding === 6 ? (
+                    { Proceeding > -1 ? ( Proceeding === 6 ? (
                         <button onClick={gethome}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-times.svg'} alt="닫기"></img></button>
                     ) : (
                         <button onClick={decresProceeding}><img src={process.env.PUBLIC_URL + '02-icon-01-outline-chevron-left.svg'} alt="이전"></img></button>
@@ -151,7 +155,32 @@ const SignUp = () => {
                 <div id="content" className="content">
                 {
                     (() => {
-                        if(Proceeding === 0) {
+                        if(Proceeding === -1) {
+                            return(
+                                <>
+                                    <div className="logo-wrap">
+                                        <h2>Brity</h2>
+                                        <p>admin</p>
+                                    </div>
+                                    <p>브리티 계정 만들기를 시작합니다.<br/>
+                                        로그인에 필요한 이메일을 입력해주세요.</p>
+                                    <div className="form-box">
+                                        <form>
+                                            <label htmlFor="user-email">이메일<span className="required">*</span></label>
+                                            <input type="text"
+                                                className="input-basic"
+                                                id="user-email"
+                                                placeholder="이메일을 입력하세요."/>
+                                            <button></button>
+                                            <div className="message">이메일을 입력해주세요</div>
+                                        </form>
+                                        <div className="btn-wrap">
+                                            <button className="btn-basic next" onClick={incresProceeding}>다음</button>
+                                        </div>
+                                    </div>
+                                </>
+                            )
+                        } else if(Proceeding === 0) {
                             return(
                                 <>
                                     <div className="logo-wrap">
@@ -205,9 +234,6 @@ const SignUp = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <Link to="/">
-                                        <button className="btn-purple fix-bottom enable">로그인 하기</button>
-                                    </Link>
                                 </>
                             );
                         }
