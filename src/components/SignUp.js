@@ -299,6 +299,7 @@ const SignUp = () => {
                                                     max="2020" 
                                                     className="input-basic" 
                                                     name="year"
+                                                    pattern="[0-9]*"
                                                     onChange={onChange}
                                                     onBlur={onFocus}
                                                     onFocus={onFocus}
@@ -313,6 +314,7 @@ const SignUp = () => {
                                                     max="12" 
                                                     className="input-basic" 
                                                     name="month"
+                                                    pattern="[0-9]*"
                                                     onChange={onChange}
                                                     onBlur={onFocus}
                                                     onFocus={onFocus}
@@ -327,6 +329,7 @@ const SignUp = () => {
                                                     max="31" 
                                                     className="input-basic"
                                                     name="date"
+                                                    pattern="[0-9]*"
                                                     onChange={onChange}
                                                     onBlur={onFocus}
                                                     onFocus={onFocus}

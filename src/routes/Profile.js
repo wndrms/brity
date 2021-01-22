@@ -483,6 +483,7 @@ const Profile = ({refreshUser, userObj}) => {
                                                 name="year"
                                                 min="1900"
                                                 max="2020"
+                                                pattern="[0-9]*"
                                                 onChange={onChange}
                                                 onFocus={onFocus}
                                                 onBlur={onFocus}
@@ -497,6 +498,7 @@ const Profile = ({refreshUser, userObj}) => {
                                                 name="month"
                                                 min="1"
                                                 max="12"
+                                                pattern="[0-9]*"
                                                 onChange={onChange}
                                                 onFocus={onFocus}
                                                 onBlur={onFocus}
@@ -511,6 +513,7 @@ const Profile = ({refreshUser, userObj}) => {
                                                 name="date"
                                                 min="1"
                                                 max="31"
+                                                pattern="[0-9]*"
                                                 onChange={onChange}
                                                 onFocus={onFocus}
                                                 onBlur={onFocus}
