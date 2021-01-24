@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {Link, useHistory} from "react-router-dom";
 import DaumPostcode from "react-daum-postcode";
 import { authService, dbService } from "fbase";
-import { isChrome, isSafari } from "react-device-detect";
+import { isSafari } from "react-device-detect";
 
 const SignUp = () => {
     const history = useHistory();
     const [Proceeding, setProceeding] = useState(-1);
+    const [email, setemail] = useState("");
     const [name, setname] = useState("");
     const [phnum, setphnum] = useState();
     const [userid, setuserid] = useState("");
@@ -18,6 +19,7 @@ const SignUp = () => {
     const [address, setaddress] = useState();
     const [subaddress, setsubaddress] = useState();
     const [error, seterror] = useState();
+    const [focusemail, setfocusemail] = useState(false);
     const [focusname, setfocusname] = useState(false);
     const [focusph, setfocusph] = useState(false);
     const [focusid, setfocusid] = useState(false);
@@ -32,7 +34,9 @@ const SignUp = () => {
     const [check3, setcheck3] = useState(false);
     const onChange = (event) => {
         const {target: {name, value}} = event;
-        if(name === "name"){
+        if(name === "email"){
+            setemail(value);
+        } else if(name === "name"){
             setname(value);
         } else if(name === "ph-number"){
             setphnum(value);
@@ -52,7 +56,9 @@ const SignUp = () => {
     };
     const onFocus = (event) => {
         const {target: {name}} = event;
-        if(name === "name"){
+        if(name === "email"){
+            setfocusemail((prev) => !prev);
+        } else if(name === "name"){
             setfocusname((prev) => !prev);
         } else if(name === "ph-number"){
             setfocusph((prev) => !prev);
@@ -94,12 +100,12 @@ const SignUp = () => {
         try {
             let data;
             data = await authService.createUserWithEmailAndPassword(
-                userid,
+                email,
                 password
             );
             console.log(data);
             const userdata = {
-                email: userid,
+                email: email,
                 name: name,
                 phnum: phnum,
                 birth: year*10000 + month*100 + date,
@@ -165,17 +171,31 @@ const SignUp = () => {
                                     <p>브리티 계정 만들기를 시작합니다.<br/>
                                         로그인에 필요한 이메일을 입력해주세요.</p>
                                     <div className="form-box">
-                                        <form>
+                                        <form className={(focusemail ? "selected" : "") + (email ? " filled" : "")}>
                                             <label htmlFor="user-email">이메일<span className="required">*</span></label>
-                                            <input type="text"
+                                            <input 
+                                                type="text"
                                                 className="input-basic"
                                                 id="user-email"
+                                                name="email"
+                                                value={email}
+                                                onChange={onChange}
+                                                onFocus={onFocus}
+                                                onBlur={onFocus}
                                                 placeholder="이메일을 입력하세요."/>
-                                            <button></button>
+                                            <button onClick={(e) => {
+                                                e.preventDefault();
+                                                setemail("");
+                                            }}></button>
                                             <div className="message">이메일을 입력해주세요</div>
                                         </form>
                                         <div className="btn-wrap">
-                                            <button className="btn-basic next" onClick={incresProceeding}>다음</button>
+                                            {email ? (
+                                                <button className="btn-basic next enable" onClick={incresProceeding}>다음</button>
+                                            ) : (
+                                                <button className="btn-basic next">다음</button>
+                                            )}
+                                            
                                         </div>
                                     </div>
                                 </>
@@ -191,7 +211,7 @@ const SignUp = () => {
                                         바로 계정 만들기를 시작하겠습니다 😉</p>
                                     <div className="form-box">
                                         <form className={(focusname ? "selected" : "") + (name ? " filled" : "")}>
-                                            <label for="user-name">이름<span className="required">*</span></label>
+                                            <label htmlFor="user-name">이름<span className="required">*</span></label>
                                             <input 
                                                 type="text"
                                                 className="input-basic" 
@@ -484,7 +504,7 @@ const SignUp = () => {
                                     <p>다음 정보로 회원가입이 완료되었습니다 🤩</p>
                                     <div className="text-box">
                                         <p>e-mail</p>
-                                        <p>{userid}</p>
+                                        <p>{email}</p>
                                         <p>link / ID</p>
                                         <p>link.milleniz.com/{userid}</p>
                                     </div>
