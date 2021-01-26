@@ -40,7 +40,7 @@ const UserHome = ({userObj}) => {
                                 <div className="alert-wrap">
                                     <div className="alert-box small">
                                         <div className="text-box">
-                                            <p className="p-header">@{userObj.displayName}</p>
+                                            <p className="p-header">{userObj.displayName}</p>
                                             <p className="p-text">링크 주소가 복사되었어요</p>
                                         </div>
                                         <div className="btn-box">
