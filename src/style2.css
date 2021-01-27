@@ -13,14 +13,14 @@ h2{letter-spacing: .43px;}
 input, a{font-weight: normal;}
 a{text-decoration: none;}
 *:focus{outline: none;}
-button, textarea{border: none; background: none;}
-input{-webkit-appearance: none; background: none; border: none;}
+button, textarea{border: none; background: none; border-radius: 0;}
+input{-webkit-appearance: none; background: none; border: none; border-radius: 0;}
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none; margin: 0;}
+    -webkit-appearance: none; margin: 0; border-radius: 0;}
 textarea::-webkit-outer-spin-button,
 textarea::-webkit-inner-spin-button {
-    -webkit-appearance: none; margin: 0;}
+    -webkit-appearance: none; margin: 0; border-radius: 0;}
 textarea{resize: none;}
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -28,7 +28,7 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
  transition: background-color 5000s ease-in-out 0s;
  -webkit-transition: background-color 9999s ease-out;
-box-shadow: 0 0 0px 1000px white inset !important;
+box-shadow: 0 0 0px 1000px white inset !important; border-radius: 0;
 }
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
@@ -65,6 +65,7 @@ header .menu-wrap button:first-child img{display: none; margin-left: 16px;}
     display: flex; justify-content: center; align-items: center;}
 .header .home-menu-btn button:last-child{right: -13px; width: 48px;}
 
+header.fix +.content{padding-top: 50px;}
 .content{width: 92%; margin: 0 auto;}
 
 /* 컴포넌트가이드 */
@@ -591,8 +592,8 @@ div.toggle-on .btn-toggle span{left: 18px;}
 
 .user-home-notice .img-area{
     width: 100%; margin: 8px 0; height: 100%; border-radius: 8px;
-    background: url(img/tree-3778173_640.jpg) no-repeat
-    no-repeat center center; background-size: cover;}
+    background: url(img/noname.png) no-repeat center center; 
+    background-size: contain;}
 .user-home-notice .img-area::after{display: block; content:""; padding-top: 100%}
 .user-home-notice .bg-opacity.on{display: flex; align-items: center; justify-content: center;}
 .user-home-notice .bg-opacity.on .img-area{
@@ -944,5 +945,5 @@ div.toggle-on .btn-toggle span{left: 18px;}
 .retouch .form-box label span.required{font-size: 1.4rem; padding: 0;}
 .retouch .form-box label span{font-size: 1rem; line-height: 2rem; padding: 4px 0 0 2px;}
 
-.sign-up-05 form.ico-serch button{top: 0;} 
+.sign-up-06 form.ico-serch button{top: 0;}
 .user-home-notice .header .menu-wrap button{z-index: 2;}
