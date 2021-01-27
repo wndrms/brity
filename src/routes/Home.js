@@ -172,30 +172,33 @@ const Home = ({userObj}) => {
                                     {!isDelete ? (
                                         <CardDragList nweets={nweets}/>
                                     ) : (
-                                        nweets.map((nweet) => (
-                                            <div 
-                                                className={"card" + (delcards.includes(nweet.id) ? " del" : "")} 
-                                                style={nweet.cardcolor ? (
-                                                    {background:nweet.cardcolor}
-                                                ) : ({
-                                                        background: `url(${nweet.cardImage})`,
-                                                        backgroundSize: "cover",
-                                                        backgroundRepeat: "no-repeat",
-                                                        backgroundPosition: "center center",
-                                                    })}>
-                                                <h3>{nweet.subtitle}</h3>
-                                                <button onClick={() => adddelcard(nweet.id)}>
-                                                    { delcards.includes(nweet.id) ? (
-                                                        <img src={process.env.PUBLIC_URL + "02-icon-02-solid-check-circle.svg"} alt="삭제 체크" />
-                                                    ) : (
-                                                        <img src={process.env.PUBLIC_URL + "02-icon-01-outline-arrows.svg"} alt="이동 화살표" />
-                                                    )}
-                                                    </button>
-                                                <p>{nweet.title}</p>
-                                            </div>
-                                        ))
+                                        <>
+                                            {nweets.map((nweet) => (
+                                                <div 
+                                                    className={"card" + (delcards.includes(nweet.id) ? " del" : "")} 
+                                                    style={nweet.cardcolor ? (
+                                                        {background:nweet.cardcolor}
+                                                    ) : ({
+                                                            background: `url(${nweet.cardImage})`,
+                                                            backgroundSize: "cover",
+                                                            backgroundRepeat: "no-repeat",
+                                                            backgroundPosition: "center center",
+                                                        })}>
+                                                    <h3>{nweet.subtitle}</h3>
+                                                    <button onClick={() => adddelcard(nweet.id)}>
+                                                        { delcards.includes(nweet.id) ? (
+                                                            <img src={process.env.PUBLIC_URL + "02-icon-02-solid-check-circle.svg"} alt="삭제 체크" />
+                                                        ) : (
+                                                            <img src={process.env.PUBLIC_URL + "02-icon-01-outline-arrows.svg"} alt="이동 화살표" />
+                                                        )}
+                                                        </button>
+                                                    <p>{nweet.title}</p>
+                                                </div>
+                                            ))}
+                                            <div className="style-box on"></div>
+                                        </>
                                     )}
-                                    <div className={"style-box" + (isDelete ? " on" : "")}></div>
+                                    
                                 </div>
                             </>
                         ) : (

@@ -91,6 +91,7 @@ const CardDragList = ({nweets, isDelete}) => {
                                         <p>{nweet.title}</p>
                                     </div>
                                 )}
+                                <div className="style-box"></div>
                             </Draggable>
                         ))}
                         {provided.placeholder}
