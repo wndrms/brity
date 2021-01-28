@@ -91,10 +91,11 @@ const CardDragList = ({nweets, isDelete}) => {
                                         <p>{nweet.title}</p>
                                     </div>
                                 )}
-                                <div className="style-box"></div>
-                            </Draggable>
+                                
+                            </Draggable> 
                         ))}
                         {provided.placeholder}
+                        <div className="style-box"></div>
                     </div>
                 )}
             </Droppable>
