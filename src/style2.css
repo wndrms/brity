@@ -947,3 +947,4 @@ div.toggle-on .btn-toggle span{left: 18px;}
 
 .sign-up-06 form.ico-serch button{top: 0;}
 .user-home-notice .header .menu-wrap button{z-index: 2;}
+.admin-home .header.fix p.user-name{max-width: calc(100% - 223px)}

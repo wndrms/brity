@@ -57,53 +57,55 @@ const UserHome = ({userObj}) => {
                             trigger={<img src={process.env.PUBLIC_URL + "02-icon-01-outline-bars.svg"} alt="menu"/>}
                             modal
                             closeOnDocumentClick>
-                            <nav className="bg-opacity on" style={{height: "calc(100% - 200px)"}}>
-                                <div className="sheet-wrap sns-sheet">
-                                    <div className="sheet-box">
-                                        <button className="drag-btn"><span></span></button>
-                                        <div className="sheet-name">SNS</div>
-                                        <ul className="sheet-list">
-                                            { check ? (
-                                                <>
-                                                    <li>
-                                                        <button>
-                                                            <img src={process.env.PUBLIC_URL + "instagram-icon.svg"} alt="instagram"/>
-                                                            <p>Instagram</p>
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button>
-                                                            <img src={process.env.PUBLIC_URL + "facebook-icon.svg"} alt="facebook"/>
-                                                            <p>facebook</p>
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button>
-                                                            <img src={process.env.PUBLIC_URL + "youtube-icon.svg"} alt="youtube"/>
-                                                            <p>youtube</p>
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button>
-                                                            <img src={process.env.PUBLIC_URL + "tiktok-icon.svg"} alt="Tiktok"/>
-                                                            <p>tiktok</p>
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button>
-                                                            <img src={process.env.PUBLIC_URL + "twitter-icon.svg"} alt="twitter"/>
-                                                            <p>twitter</p>
-                                                        </button>
-                                                    </li>
-                                                </>
-                                            ) : (
-                                                <li className="none-sns-message">현재 등록된 SNS 주소가 없어요😯</li>
-                                            )}
-                                        </ul>
-                                        <p>go to. <u>Brity</u></p>
+                            <div className="user-home">
+                                <nav className="bg-opacity on" style={{height: "calc(100% - 200px)"}}>
+                                    <div className="sheet-wrap sns-sheet">
+                                        <div className="sheet-box">
+                                            <button className="drag-btn"><span></span></button>
+                                            <div className="sheet-name">SNS</div>
+                                            <ul className="sheet-list">
+                                                { check ? (
+                                                    <>
+                                                        <li>
+                                                            <button>
+                                                                <img src={process.env.PUBLIC_URL + "instagram-icon.svg"} alt="instagram"/>
+                                                                <p>Instagram</p>
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button>
+                                                                <img src={process.env.PUBLIC_URL + "facebook-icon.svg"} alt="facebook"/>
+                                                                <p>facebook</p>
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button>
+                                                                <img src={process.env.PUBLIC_URL + "youtube-icon.svg"} alt="youtube"/>
+                                                                <p>youtube</p>
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button>
+                                                                <img src={process.env.PUBLIC_URL + "tiktok-icon.svg"} alt="Tiktok"/>
+                                                                <p>tiktok</p>
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button>
+                                                                <img src={process.env.PUBLIC_URL + "twitter-icon.svg"} alt="twitter"/>
+                                                                <p>twitter</p>
+                                                            </button>
+                                                        </li>
+                                                    </>
+                                                ) : (
+                                                    <li className="none-sns-message">현재 등록된 SNS 주소가 없어요😯</li>
+                                                )}
+                                            </ul>
+                                            <p>go to. <u>Brity</u></p>
+                                        </div>
                                     </div>
-                                </div>
-                            </nav>
+                                </nav>
+                            </div>
                         </Popup>
                     </button>
                 </div>

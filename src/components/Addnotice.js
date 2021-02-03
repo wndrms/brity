@@ -284,10 +284,10 @@ const Addnotice = ({userObj}) => {
                                             </div>
                                         </form>
                                     </div>
-                                    <div className="toggle-box">
+                                    <div className="toggle-box" onClick={toggleopen}>
                                         <div className={open ? "toggle-on" : ""}>
                                             <p>공지 공개 여부<span>{open ? "ON" : "OFF"}</span></p>
-                                            <button className="btn-toggle" onClick={toggleopen}><span></span></button>
+                                            <button className="btn-toggle"><span></span></button>
                                         </div>
                                         <div>
                                             <p>댓글 허용<span>OFF</span></p>
@@ -300,8 +300,8 @@ const Addnotice = ({userObj}) => {
                                             <p>카드 크기 선택<span>LARGE</span></p>
                                             <img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-right.svg"} alt="선택"/>
                                         </button>
-                                        <button onClick={() => toggleProceeding(2)}>
-                                            <p>카드 커버 선택<span>미선택</span></p>
+                                        <button className={(Color || attachment2) ? "select" : ""} onClick={() => toggleProceeding(2)}>
+                                            <p>카드 커버 선택<span>{select ? (Color ? "Color" : "미선택") : "Image"}</span></p>
                                             <img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-right.svg"} alt="선택"/>
                                         </button>
                                     </div>

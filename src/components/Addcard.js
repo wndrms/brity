@@ -241,10 +241,10 @@ const Addcard = ({userObj}) => {
                                         <div className="message">정확한 링크 주소를 입력해주세요</div>
                                     </form>
                                 </div>
-                                <div className="toggle-box">
+                                <div className="toggle-box" onClick={togglelinkopen}>
                                     <div className={linkopen ? "toggle-on" : ""}>
                                         <p>링크 공개 여부<span>{linkopen ? "ON" : "OFF"}</span></p>
-                                        <button className="btn-toggle" onClick={togglelinkopen}><span></span></button>
+                                        <button className="btn-toggle"><span></span></button>
                                     </div>
                                 </div>
                                 <div className="card-size-box hover-style">
@@ -252,8 +252,8 @@ const Addcard = ({userObj}) => {
                                         <p>카드 크기 선택<span>LARGE</span></p>
                                         <img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-right.svg"} alt="선택"/>
                                     </button>
-                                    <button onClick={() => toggleProcessing(2)}>
-                                        <p>카드 커버 선택<span>미선택</span></p>
+                                    <button className={(Color || attachment) ? "select" : ""} onClick={() => toggleProcessing(2)}>
+                                        <p>카드 커버 선택<span>{select ? (Color ? "Color" : "미선택") : "Image"}</span></p>
                                         <img src={process.env.PUBLIC_URL + "02-icon-01-outline-chevron-right.svg"} alt="선택"/>
                                     </button>
                                 </div>
